@@ -1,0 +1,315 @@
+/*
+ * Material 3 components for the WebUI.
+ *
+ * Everything a Material component is made of lives in this directory: material/*.js owns the DOM a
+ * component renders and the numbers CSS cannot read off an element, this file owns what those
+ * components look like and how they move. A page rule in style.css may still place a component or
+ * give one a contextual color, but the component itself has exactly one owner here.
+ *
+ * Load order: after style.css (so a moved rule keeps the precedence it had at the end of that file)
+ * and before /theme.css, which carries the app's live colors and font.
+ */
+
+/* ---- Ripple: the Material 3 indication every clickable control shows -------------------------- */
+/* One owner for the hover and press feedback every clickable control shows: the Web equivalent of
+ * the Material 3 indication Compose applies by default. Both parts are painted inside the control's
+ * own background - a state layer for hover and focus, and a wave for the press. Registered
+ * properties are what make the wave animatable, and because nothing is inserted into the control, no
+ * control needs a wrapper, a stacking context, a containing block or overflow clipping. Material 3
+ * tints both with contentColor, which is currentColor here. material/ripple.js supplies the wave's
+ * geometry and ends it when the press does, so keep the two lists in step. The state layer fades in
+ * and out rather than switching, because a hover that arrives on a single frame is not a fade, and
+ * the wave's play state rides a data attribute, because every control renders its own `class` and a
+ * control that gains a selected class would otherwise wipe a wave already running underneath it. */
+@property --md-state { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --md-field-width { syntax: "<length>"; inherits: false; initial-value: 1px; }
+/* The wave's single clock: RippleShader's `in_progress`. RippleAnimationSession drives it from 0 to
+ * 0.5 on a press and from 0.5 to 1 on a release; every other quantity of the wave is a function of
+ * it, exactly as in the shader, so the wave needs one animatable property and no other. */
+@property --md-wave-p { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+/* The press geometry inside the control's own box, set by material/ripple.js: the press point, the
+ * control's centre, and RippleShader's in_maxRadius. The state layer rides this transition and fades
+ * in and out over 150ms, the duration this frame already spends on a hover reveal; the 15ms it used
+ * was a single frame, so a hover arrived as a snap. */
+:is(.shell, .sign-in-page) :is(button, [role="button"], [role="menuitem"], .conversation-row,
+    .info-item.sheet-item, .info-group-header, .queued-message, .tool-search-result,
+    .interaction-option, .prompt-option, .prompt-radio, .interaction-trust):not(:disabled):not([aria-disabled="true"]):not(:has(input:disabled)) {
+  transition: --md-state var(--md-state-duration, 150ms) linear, var(--md-component-transition, color 0s);
+  --md-wave-ox: 50%;
+  --md-wave-oy: 50%;
+  --md-wave-cx: 50%;
+  --md-wave-cy: 50%;
+  --md-wave-max: 0px;
+  /* RippleShader main(): fade = min(subProgress(0, 0.13), 1 - subProgress(0.4, 1)), times the
+   * ripple colour's alpha, which is RippleDefaults' pressedAlpha (StateTokens 0.1). */
+  --md-wave-a: calc(0.1 * min(clamp(0, var(--md-wave-p) / 0.13, 1), 1 - clamp(0, (var(--md-wave-p) - 0.4) / 0.6, 1)));
+  /* center = mix(in_touch, in_origin, saturate(in_progress * 2)). */
+  --md-wave-m: min(var(--md-wave-p) * 2, 1);
+  /* softCircle(p, center, in_maxRadius * progress, 1.0) is 1 - smoothstep(0.5, 1.5, d / r): full
+   * inside half the radius and gone at one and a half radii. The gradient ends at 1.5r, so 0.5r is
+   * its 33.333% stop, and the stops between sample that smoothstep at every eighth of a radius. */
+  background-image:
+    radial-gradient(
+      circle calc(var(--md-wave-max) * 1.5 * var(--md-wave-p))
+      at calc(var(--md-wave-ox) + (var(--md-wave-cx) - var(--md-wave-ox)) * var(--md-wave-m))
+        calc(var(--md-wave-oy) + (var(--md-wave-cy) - var(--md-wave-oy)) * var(--md-wave-m)),
+      rgb(from currentColor r g b / var(--md-wave-a)) 0 33.333%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.95703)) 41.667%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.84375)) 50%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.68359)) 58.333%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.5)) 66.667%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.31641)) 75%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.15625)) 83.333%,
+      rgb(from currentColor r g b / calc(var(--md-wave-a) * 0.04297)) 91.667%,
+      transparent 100%),
+    linear-gradient(rgb(from currentColor r g b / var(--md-state)), rgb(from currentColor r g b / var(--md-state)));
+}
+/* Image children cover a host background, so the same indication paints above media content. */
+:is(.shell, .sign-in-page) button:has(> img) { position: relative; }
+:is(.shell, .sign-in-page) button:has(> img)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: inherit;
+  pointer-events: none;
+}
+/* On Android, Compose's ripple() draws through RippleHostView into the framework RippleDrawable,
+ * which is always STYLE_PATTERNED, so this copies RippleAnimationSession rather than Compose's
+ * common RippleAnimation.kt. The sparkle layer is left out by owner decision (2026-10-12).
+ * Enter: progress 0 -> 0.5 over 450ms FastOutSlowIn, then hold while pressed. A release during the
+ * enter keeps the same clock (`released` shares the declaration, so the animation does not restart). */
+:is(.shell, .sign-in-page) :is([data-md-wave="in"], [data-md-wave="released"]) {
+  animation: md-wave-enter 450ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* Exit: starts once the enter has finished (computeDelay), progress 0.5 -> 1 over 375ms linear. */
+:is(.shell, .sign-in-page) [data-md-wave="out"] {
+  --md-wave-p: 0.5;
+  animation: md-wave-exit 375ms linear forwards;
+}
+@keyframes md-wave-enter { from { --md-wave-p: 0; } to { --md-wave-p: 0.5; } }
+@keyframes md-wave-exit { from { --md-wave-p: 0.5; } to { --md-wave-p: 1; } }
+/* StateTokens (material3 1.4.0): 8% under the pointer, 10% while focused. A press never tints the
+ * whole control, because Compose expresses a press with the wave alone. And hover is a mouse state:
+ * under no pointer of its own a touch device shows none and keeps none after a tap. */
+@media (hover: hover) {
+  :is(.shell, .sign-in-page) :is(button, [role="button"], [role="menuitem"], .conversation-row,
+      .info-item.sheet-item, .info-group-header, .queued-message, .tool-search-result,
+      .interaction-option, .prompt-option, .prompt-radio, .interaction-trust):not(:disabled):not([aria-disabled="true"]):not(:has(input:disabled)):hover {
+    --md-state: 0.08;
+  }
+}
+:is(.shell, .sign-in-page) :is(button, [role="button"], [role="menuitem"], .conversation-row,
+    .info-item.sheet-item, .info-group-header, .queued-message, .tool-search-result,
+    .interaction-option, .prompt-option, .prompt-radio, .interaction-trust):not(:disabled):not([aria-disabled="true"]):not(:has(input:disabled)):focus-visible {
+  --md-state: 0.1;
+  --md-state-duration: 45ms;
+}
+.shell[data-reduce-motion="true"] { --md-state-duration: 0ms; }
+.shell[data-reduce-motion="true"] :focus-visible { --md-state-duration: 0ms !important; }
+/* App Reduce Motion stops the wave; material/ripple.js never starts one there either. */
+.shell[data-reduce-motion="true"] [data-md-wave] { animation: none; }
+
+/* ---- Progress: one circular indicator, one rotation ----------------------------------------- */
+/* material/progress.js renders this and nothing else draws a circular indicator, so the phone's
+ * CircularProgressIndicator is the only shape and the only speed in the WebUI. */
+.circular-progress { display: inline-flex; flex: none; color: var(--md-primary); vertical-align: middle; }
+.circular-progress svg { width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
+.circular-progress g { transform-box: view-box; transform-origin: 50% 50%; }
+/* The determinate track is ProgressIndicatorDefaults.circularDeterminateTrackColor; the
+ * indeterminate one has no track at all (circularIndeterminateTrackColor is transparent). */
+.circular-progress .track { stroke: var(--md-secondary-container); }
+/* A determinate ring paints its own dashes inline, so this only settles what an indeterminate ring
+ * shows before its animation starts and while motion is turned off. */
+.circular-progress .arc { stroke-dasharray: 75 100; }
+/* Match the pinned Material3 keyframe intervals, including the clockwise start at 3 o'clock. */
+.circular-progress:not(.determinate) svg { animation: md-progress-turn 6000ms linear infinite; }
+.circular-progress:not(.determinate) g { animation: md-progress-step 6000ms linear infinite; }
+.circular-progress:not(.determinate) .arc { animation: md-progress-arc 6000ms linear infinite; }
+@keyframes md-progress-turn { from { transform: rotate(0deg); } to { transform: rotate(1080deg); } }
+@keyframes md-progress-step {
+  0% { transform: rotate(0deg); }
+  5%, 25% { transform: rotate(90deg); }
+  30%, 50% { transform: rotate(180deg); }
+  55%, 75% { transform: rotate(270deg); }
+  80%, 100% { transform: rotate(360deg); }
+}
+@keyframes md-progress-arc {
+  0% { stroke-dasharray: 10 100; }
+  50% { stroke-dasharray: 87 100; animation-timing-function: cubic-bezier(.2, 0, 0, 1); }
+  100% { stroke-dasharray: 10 100; }
+}
+/* App Reduce Motion stops the spin and leaves a still arc; the sign-in page has no app setting to
+ * read, so an OS-level request only slows the cycle down, as it did before. */
+.shell[data-reduce-motion="true"] .circular-progress:not(.determinate) :is(svg, g, circle) { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .sign-in-page .circular-progress:not(.determinate) :is(svg, g, circle) { animation-duration: 18000ms; }
+}
+
+/* ---- Slider: the Material 3 1.4 widget -------------------------------------------------------- */
+/* SliderTokens (material3 1.4.0): a 16dp pill track (ActiveTrackHeight / InactiveTrackHeight,
+ * ActiveTrackShape = CornerFull), a 4x44dp handle (ActiveHandleWidth / HandleHeight) that narrows
+ * to 2dp while pressed or focused (PressedHandleWidth / FocusHandleWidth), a 6dp gap between handle
+ * and track (ActiveHandleLeadingSpace) and a 4dp stop dot (StopIndicatorSize). Compose animates the
+ * handle with a Material spring; CSS cannot run a spring on a pseudo-element, so the Web keeps the
+ * shared FastOutSlowIn for the width change. material/slider.js supplies --range-fraction and
+ * --range-stops, because a browser knows neither where the fill ends nor which stops it has. */
+input[type="range"] {
+  --range-fraction: 0;
+  --range-stops: none;
+  --range-thumb-width: 4px;
+  /* Half the band left empty around the handle: ActiveHandleWidth / 2 + ActiveHandleLeadingSpace. */
+  --range-gap: 8px;
+  --range-active: var(--md-primary);
+  --range-inactive: var(--md-secondary-container);
+  --range-handle: var(--md-primary);
+  /* SliderDefaults.colors(): a stop is drawn in the *other* track color, so it stays visible. */
+  --range-stop-on-active: var(--md-secondary-container);
+  --range-stop-on-inactive: var(--md-primary);
+  /* The handle centre: a browser keeps the thumb box inside the track, so it travels 2dp .. width-2dp. */
+  --range-x: calc((100% - var(--range-thumb-width)) * var(--range-fraction) + var(--range-thumb-width) / 2);
+  /* One gradient paints both track parts and leaves the handle gap empty; the stop dots ride above
+   * it, in the order material/slider.js lists them. It lives in a custom property because the
+   * WebKit and the Gecko pseudo-element cannot share a selector list: one unknown pseudo-element
+   * makes a browser drop the whole rule. */
+  --range-track-paint: var(--range-stops), linear-gradient(90deg,
+    var(--range-active) 0 calc(var(--range-x) - var(--range-gap)),
+    transparent calc(var(--range-x) - var(--range-gap)) calc(var(--range-x) + var(--range-gap)),
+    var(--range-inactive) calc(var(--range-x) + var(--range-gap)) 100%);
+  -webkit-appearance: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+/* SliderTokens disabled colors: OnSurface at 38% for the active track and the handle, 12% for the
+ * inactive track. A stop follows the track it lies on. */
+input[type="range"]:disabled {
+  --range-active: color-mix(in srgb, var(--md-on-surface) 38%, transparent);
+  --range-inactive: color-mix(in srgb, var(--md-on-surface) 12%, transparent);
+  --range-handle: color-mix(in srgb, var(--md-on-surface) 38%, transparent);
+  --range-stop-on-active: color-mix(in srgb, var(--md-on-surface) 12%, transparent);
+  --range-stop-on-inactive: color-mix(in srgb, var(--md-on-surface) 38%, transparent);
+  cursor: default;
+}
+/* The track, twice: WebKit and Gecko spell the pseudo-element differently and each browser drops a
+ * whole rule that mentions the other one, so the two can never share a selector list. */
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  background-image: var(--range-track-paint);
+}
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  background-image: var(--range-track-paint);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--range-thumb-width);
+  height: 44px;
+  margin-top: -14px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--range-handle);
+  transition: width 200ms cubic-bezier(.4, 0, .2, 1);
+}
+input[type="range"]:active::-webkit-slider-thumb,
+input[type="range"]:focus-visible::-webkit-slider-thumb { width: 2px; }
+input[type="range"]::-moz-range-progress { height: 16px; background: transparent; }
+input[type="range"]::-moz-range-thumb {
+  width: var(--range-thumb-width);
+  height: 44px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--range-handle);
+  transition: width 200ms cubic-bezier(.4, 0, .2, 1);
+}
+input[type="range"]:active::-moz-range-thumb,
+input[type="range"]:focus-visible::-moz-range-thumb { width: 2px; }
+.shell[data-reduce-motion="true"] input[type="range"]::-webkit-slider-thumb { transition: none; }
+.shell[data-reduce-motion="true"] input[type="range"]::-moz-range-thumb { transition: none; }
+
+/* ---- Scrollbar: the thin floating bar the phone shows ---------------------------------------- */
+/* Scrollbars: the phone shows a thin floating 4dp bar, so the desktop WebUI keeps that look -
+   a 4dp rounded thumb inside a 12dp transparent gutter - and touch devices stay on the platform
+   overlay bar. Chrome and Safari take the pseudo-element rules; Firefox only gets the standard
+   pair, because a non-initial scrollbar-width would make Chrome ignore the rules above below. */
+@media (pointer: fine) {
+  *::-webkit-scrollbar { width: 12px; height: 12px; }
+  *::-webkit-scrollbar-track, *::-webkit-scrollbar-corner { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--md-outline) 42%, transparent);
+    background-clip: padding-box;
+    min-height: 40px;
+  }
+  /* background-color and not the background shorthand: the shorthand would reset the
+     background-clip above and paint the thumb across its whole gutter, which reads as the bar
+     jumping from 4 dp to 12 dp the moment the pointer arrives. */
+  *::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--md-outline) 68%, transparent); }
+  *::-webkit-scrollbar-thumb:active { background-color: color-mix(in srgb, var(--md-outline) 92%, transparent); }
+}
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--md-outline) 60%, transparent) transparent; }
+}
+
+/* ---- Windows: the one entry every surface over the page uses --------------------------------- */
+/* Material 3 brings a window in with a fade and a short rise and the phone's dialogs do the same,
+ * so every <dialog> here - the advanced settings, the PDF and video pickers, the media viewer, the
+ * page dialogs - enters that way instead of appearing at full opacity. The detail sheet is a
+ * navigation stack and keeps its sideways motion, and a menu runs its own anchored scale.
+ * `backwards` and not `both`: the window keeps its own transform once the entry is over. */
+/* The phone's dialog window animation (Animation.DeviceDefault.Dialog -> Animation.Material.Dialog):
+ * popup_enter_material fades in and rises from 20dp below over config_activityDefaultDur (220ms)
+ * on @interpolator/standard (0.2, 0, 0, 1); popup_exit_material fades out and keeps rising to
+ * 10dp above (popup_exit_animation_to_y_delta = -10dp) over config_activityShortDur (150ms) on
+ * @interpolator/standard_accelerate (0.3, 0, 1, 1). */
+@keyframes md-window-enter { from { opacity: 0; transform: translateY(20px); } to { transform: none; } }
+@keyframes md-scrim-enter { from { opacity: 0; } }
+@keyframes md-window-exit { from { opacity: var(--md-window-exit-alpha); transform: var(--md-window-exit-transform); } to { opacity: 0; transform: translateY(-10px); } }
+@keyframes md-scrim-exit { from { opacity: var(--md-scrim-exit-alpha); } to { opacity: 0; } }
+dialog:not(.menu-popup-layer):not(.detail-sheet-layer):not(.tool-media-viewer)[data-closing] { animation: md-window-exit 150ms cubic-bezier(.3, 0, 1, 1) forwards; }
+dialog:not(.menu-popup-layer):not(.detail-sheet-layer):not(.tool-media-viewer)[data-closing]::backdrop { animation: md-scrim-exit 150ms cubic-bezier(.3, 0, 1, 1) forwards; }
+dialog:not(.menu-popup-layer):not(.detail-sheet-layer):not(.tool-media-viewer):not([data-closing]) { animation: md-window-enter 220ms cubic-bezier(.2, 0, 0, 1) backwards; }
+dialog:not(.menu-popup-layer):not(.detail-sheet-layer):not(.tool-media-viewer)::backdrop { animation: md-scrim-enter 220ms cubic-bezier(.2, 0, 0, 1) backwards; }
+/* App Reduce Motion keeps the window where it is and lets it simply appear. Two rules because a
+ * pseudo-element inside :is() never matches. */
+.shell[data-reduce-motion="true"] dialog { animation: none; }
+.shell[data-reduce-motion="true"] dialog::backdrop { animation: none; }
+
+/* Full-screen preview content and the unscaled backdrop share retained modal ownership. */
+@keyframes md-media-enter-scale { from { transform: scale(.96); } to { transform: none; } }
+@keyframes md-media-exit-scale { from { transform: var(--md-window-exit-transform); } to { transform: scale(.96); } }
+@keyframes md-media-exit-alpha { from { opacity: var(--md-window-exit-alpha); } to { opacity: 0; } }
+dialog.tool-media-viewer:not([data-closing]) {
+  animation: md-scrim-enter 220ms cubic-bezier(.4,0,.2,1) backwards,
+    md-media-enter-scale 300ms cubic-bezier(.4,0,.2,1) backwards;
+}
+dialog.tool-media-viewer[data-closing] {
+  animation: md-media-exit-alpha 180ms cubic-bezier(.4,0,.2,1) forwards,
+    md-media-exit-scale 220ms cubic-bezier(.4,0,1,1) forwards;
+}
+dialog.tool-media-viewer::backdrop { animation: md-scrim-enter 220ms cubic-bezier(.4,0,.2,1) backwards; }
+dialog.tool-media-viewer[data-closing]::backdrop { animation: md-scrim-exit 180ms cubic-bezier(.4,0,.2,1) forwards; }
+.shell[data-reduce-motion="true"] dialog.tool-media-viewer:not([data-closing]) {
+  animation: md-scrim-enter 220ms cubic-bezier(.4,0,.2,1) backwards;
+}
+.shell[data-reduce-motion="true"] dialog.tool-media-viewer[data-closing] {
+  animation: md-media-exit-alpha 180ms cubic-bezier(.4,0,.2,1) forwards;
+}
+.shell[data-reduce-motion="true"] dialog.tool-media-viewer::backdrop {
+  animation: md-scrim-enter 220ms cubic-bezier(.4,0,.2,1) backwards;
+}
+.shell[data-reduce-motion="true"] dialog.tool-media-viewer[data-closing]::backdrop {
+  animation: md-scrim-exit 180ms cubic-bezier(.4,0,.2,1) forwards;
+}

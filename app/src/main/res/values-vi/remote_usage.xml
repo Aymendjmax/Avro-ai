@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">Mức sử dụng</string>
+    <string name="remote_usage_remaining">Còn lại %1$d%%</string>
+    <string name="remote_usage_window">Khoảng thời gian %1$s</string>
+    <string name="remote_usage_resets">Đặt lại %1$s</string>
+</resources>

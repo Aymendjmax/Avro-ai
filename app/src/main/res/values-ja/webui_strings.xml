@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">ブラウザから Avro を操作</string>
+    <string name="webui_enable">WebUI を有効にする</string>
+    <string name="webui_status_stopped">オフ。オンにすると、このスマートフォンで Web サーバーを実行し、通知を表示します。</string>
+    <string name="webui_status_starting">起動中…</string>
+    <string name="webui_status_running">ポート %1$d で実行中</string>
+    <string name="webui_status_failed">起動できません: %1$s</string>
+    <string name="webui_password_required">WebUI をオンにするには、下でパスワードを設定してください。</string>
+    <string name="webui_port">ポート</string>
+    <string name="webui_port_desc">1024〜65535。変更するとサーバーが再起動します。</string>
+    <string name="webui_password_set">パスワードを設定</string>
+    <string name="webui_password_change">パスワードを変更</string>
+    <string name="webui_password_desc_unset">WebUI をオンにする前に設定が必要です</string>
+    <string name="webui_password_desc_set">設定済み。変更するとすべてのブラウザがサインアウトします。</string>
+    <string name="webui_password_new">新しいパスワード</string>
+    <string name="webui_password_confirm">パスワードの確認</string>
+    <string name="webui_password_too_short">%1$d 文字以上にしてください。</string>
+    <string name="webui_password_mismatch">パスワードが一致しません。</string>
+    <string name="webui_access">アクセス</string>
+    <string name="webui_access_urls_desc">同じネットワークのブラウザで、次のいずれかのアドレスを開いてください。</string>
+    <string name="webui_access_off">WebUI の実行中はここにアドレスが表示されます。</string>
+    <string name="webui_access_none">ネットワークアドレスが見つかりません。</string>
+    <string name="webui_http_warning">HTTP は暗号化されません。同じネットワーク上の誰でもパスワードと会話を読めます。Tailscale など、信頼できるネットワークでのみ使用してください。</string>
+    <string name="webui_notification_channel">WebUI サーバー</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">起動中…</string>
+    <string name="webui_notification_running">%1$s を開く</string>
+    <string name="webui_notification_failed">停止しました: %1$s</string>
+    <string name="webui_notification_stop">停止</string>
+    <string name="webui_security">セキュリティ</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">接続を暗号化します。証明書は自己署名のため、ブラウザは初回に警告します。フィンガープリントを確認してから受け入れてください。</string>
+    <string name="webui_certificate_fingerprint">SHA-256 フィンガープリント</string>
+    <string name="webui_certificate_fingerprint_desc">証明書を受け入れる前に、ブラウザに表示されるフィンガープリントと照合してください。</string>
+    <string name="webui_certificate_regenerate">証明書を再生成</string>
+    <string name="webui_certificate_regenerate_desc">新しい証明書を作成します。各ブラウザで再度受け入れる必要があります。</string>
+    <string name="webui_certificate_regenerate_action">再生成</string>
+</resources>

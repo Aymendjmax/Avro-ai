@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_read_active_memory">활성 메모리 읽기</string>
+    <string name="tool_reading_active_memory">활성 메모리 읽는 중…</string>
+    <string name="tool_read_active_memory_success">활성 메모리를 읽었습니다</string>
+    <string name="tool_read_active_memory_empty">활성 메모리가 비어 있습니다</string>
+    <string name="tool_read_active_memory_failed">활성 메모리 읽기 실패</string>
+    <string name="tool_no_memories">저장된 메모리를 찾을 수 없음</string>
+    <string name="tool_no_skills">스킬을 찾을 수 없음</string>
+    <string name="tool_no_shells">셸을 찾을 수 없음</string>
+    <string name="tool_no_tasks">작업을 찾을 수 없음</string>
+    <string name="tool_listed_memories_default">저장된 메모리를 확인함</string>
+    <string name="tool_conversation_search_done_no_count">대화를 검색함</string>
+    <string name="tool_listed_conversations_default">대화를 나열함</string>
+    <string name="tool_listed_shells_default">셸을 나열함</string>
+    <string name="tool_listed_shell_jobs_default">셸 작업을 나열함</string>
+    <string name="tool_found_files_default">파일을 찾음</string>
+    <string name="tool_found_matches_default">일치 항목을 찾음</string>
+    <string name="tool_listing_skills">스킬 나열 중…</string>
+    <string name="tool_reading_skill_subject">%1$s 읽는 중…</string>
+    <string name="tool_creating_skill_subject">%1$s 만드는 중…</string>
+    <string name="tool_editing_skill_subject">%1$s 편집 중…</string>
+    <string name="tool_deleting_skill_subject">%1$s 삭제 중…</string>
+    <string name="tool_listed_skills">스킬 %1$d개를 나열함</string>
+    <string name="tool_listed_skills_default">스킬을 나열함</string>
+    <string name="tool_read_skill_done">%1$s 읽음</string>
+    <string name="tool_read_skill_done_default">스킬을 읽음</string>
+    <string name="tool_created_skill">%1$s 만듦</string>
+    <string name="tool_created_skill_default">스킬을 만듦</string>
+    <string name="tool_edited_skill">%1$s 편집함</string>
+    <string name="tool_edited_skill_default">스킬을 편집함</string>
+    <string name="tool_deleted_skill">%1$s 삭제함</string>
+    <string name="tool_deleted_skill_default">스킬을 삭제함</string>
+    <string name="tool_created_task_subject">%1$s 만듦</string>
+    <string name="tool_listed_task_count">작업 %1$d개를 나열함</string>
+    <string name="tool_deleted_task_subject">%1$s 삭제함</string>
+    <string name="tool_failed_to_read">%1$s 읽기 실패</string>
+    <string name="tool_read_failed_default">읽기 실패</string>
+    <string name="tool_failed_to_create">%1$s 만들기 실패</string>
+    <string name="tool_create_failed_default">만들기 실패</string>
+    <string name="tool_failed_to_update">%1$s 업데이트 실패</string>
+    <string name="tool_update_failed_default">업데이트 실패</string>
+    <string name="tool_failed_to_delete">%1$s 삭제 실패</string>
+    <string name="tool_delete_failed_default">삭제 실패</string>
+    <string name="tool_failed_to_write">%1$s 쓰기 실패</string>
+    <string name="tool_write_failed_default">쓰기 실패</string>
+    <string name="tool_failed_to_search">%1$s 검색 실패</string>
+    <string name="tool_failed_to_fetch">%1$s 가져오기 실패</string>
+    <string name="tool_failed_to_find">%1$s 찾기 실패</string>
+    <string name="tool_find_failed_default">파일 찾기 실패</string>
+    <string name="tool_failed_to_view">%1$s 보기 실패</string>
+    <string name="tool_view_failed_default">이미지 보기 실패</string>
+    <string name="tool_image_generation_failed">이미지 생성 실패</string>
+    <string name="tool_shell_failed_with_reason">셸 명령 실패: %1$s</string>
+    <string name="tool_shell_job_read_failed">셸 작업 읽기 실패</string>
+    <string name="tool_shell_job_stop_failed">셸 작업 중지 실패</string>
+    <string name="tool_list_failed_default">항목 나열 실패</string>
+    <string name="tool_loop_start_failed">루프 시작 실패</string>
+    <string name="tool_loop_stop_failed">루프 중지 실패</string>
+    <string name="tool_reading_files_count">파일 %1$d개 읽는 중…</string>
+    <string name="tool_read_files_count">파일 %1$d개 읽음</string>
+    <string name="tool_read_content_empty">반환된 파일 내용 없음</string>
+    <string name="tool_read_conversation_empty">반환된 대화 메시지 없음</string>
+    <string name="tool_ask_user">사용자에게 질문</string>
+    <string name="tool_waiting_for_answers">답변 대기 중…</string>
+    <string name="tool_interrupted">중단됨</string>
+    <string name="tool_renaming_file">%1$s을(를) %2$s(으)로 이름 변경 중…</string>
+    <string name="tool_renamed_file">%1$s을(를) %2$s(으)로 이름 변경함</string>
+    <string name="tool_renaming_file_default">파일 이름 변경 중…</string>
+    <string name="tool_renamed_file_default">파일 이름 변경함</string>
+    <string name="tool_describing_file">%1$s 설명 업데이트 중…</string>
+    <string name="tool_described_file">%1$s 설명 업데이트함</string>
+    <string name="tool_describing_file_default">파일 설명 업데이트 중…</string>
+    <string name="tool_described_file_default">파일 설명 업데이트함</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="other">질문 %1$d개를 대기열에 추가함</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="other">질문 %1$d개에 답변함</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="other">질문 %1$d개를 건너뜀</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="other">질문 %2$d개 중 %1$d개에 답변함</item>
+    </plurals>
+    <string name="tool_questions_asked">질문함</string>
+    <string name="tool_loop_already_stopped">루프가 이미 중지됨</string>
+    <string name="tool_ask_user_failed">사용자에게 질문하지 못함</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="other">저장된 %1$d개의 메모리를 살펴봤습니다</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="other">스킬 %1$d개를 나열함</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="other">\"%2$s\"에 대해 %1$d개의 결과를 찾았습니다</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="other">대화 %1$d개를 찾았습니다</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="other">\"%2$s\"에 대해 %1$d개의 대화를 찾았습니다</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="other">대화 %1$d개 나열됨</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="other">%1$d개의 셸 목록 표시됨</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="other">셸 작업 %1$d개를 표시했습니다</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="other">파일 %1$d개 찾음</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="other">일치 %1$d개 발견</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="other">작업 %1$d개를 나열함</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="other">파일 %1$d개 읽는 중…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="other">파일 %1$d개 읽음</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="other">결과 %1$d개를 찾음</item>
+    </plurals>
+</resources>

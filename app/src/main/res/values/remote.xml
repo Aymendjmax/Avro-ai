@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_title">Remote</string>
+    <string name="remote_devices">Devices</string>
+    <string name="remote_connect">Connect</string>
+    <string name="remote_address">Service URL</string>
+    <string name="remote_token">Access token</string>
+    <string name="remote_connection_hint">Install Filo on the target device, then enter its IP address or URL.</string>
+    <string name="remote_sessions">Sessions</string>
+    <string name="remote_empty">No existing sessions found</string>
+    <string name="remote_sync_hint">Keep this session open in Codex. Replies sync as they are saved.</string>
+    <string name="remote_refresh">Refresh</string>
+    <string name="remote_load_more">Load More</string>
+    <string name="remote_check">I Have Checked</string>
+    <string name="remote_confirm">Continue Sending?</string>
+    <string name="remote_remove">Remove Connection</string>
+    <string name="remote_add_device">Add Device</string>
+    <string name="remote_no_devices">No Devices</string>
+    <string name="remote_no_devices_desc">Add a computer running Filo to access its Codex sessions.</string>
+    <string name="remote_connection">Connection</string>
+    <string name="remote_edit_device">Edit Device</string>
+    <string name="remote_delete_title">Delete Device?</string>
+    <string name="remote_delete_message">Remove the saved connection to %1$s? Codex sessions will be kept.</string>
+    <string name="remote_new_session_unavailable">New Session — unavailable on this host</string>
+    <string name="remote_model_unavailable">Model Unavailable</string>
+    <string name="remote_address_placeholder">http://192.168.1.100:7435</string>
+    <string name="remote_token_placeholder">0123456789abcdef…</string>
+    <string name="remote_online">Online</string>
+    <string name="remote_offline">Offline</string>
+    <string name="remote_connecting">Connecting</string>
+    <string name="remote_archive">Archive</string>
+    <string name="remote_archive_title">Archive task?</string>
+    <string name="remote_archive_message">Remove this task from the active lists in Codex and Remote? Its history will be kept.</string>
+</resources>

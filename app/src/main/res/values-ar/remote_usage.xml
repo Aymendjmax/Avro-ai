@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">الاستخدام</string>
+    <string name="remote_usage_remaining">متبقٍ %1$d%%</string>
+    <string name="remote_usage_window">نافذة مدتها %1$s</string>
+    <string name="remote_usage_resets">إعادة التعيين %1$s</string>
+</resources>

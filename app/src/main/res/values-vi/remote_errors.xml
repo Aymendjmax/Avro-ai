@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_failed">Không thể hoàn tất thao tác từ xa. Hãy xem chi tiết lỗi.</string>
+    <string name="remote_unknown">Chưa xác nhận được việc gửi. Hãy kiểm tra cuộc trò chuyện trong Codex trước khi gửi lại.</string>
+    <string name="remote_rejected">Codex không chấp nhận tin nhắn. Hãy xem chi tiết lỗi trước khi thử lại.</string>
+    <string name="remote_storage_failed">Avro không thể truy cập dữ liệu Remote cục bộ. Hãy kiểm tra dung lượng trống.</string>
+    <string name="remote_network_failed">Không thể kết nối Filo. Hãy kiểm tra máy đích, địa chỉ dịch vụ và mạng.</string>
+    <string name="remote_auth_failed">Filo từ chối mã truy cập. Hãy dùng mã trên máy đích.</string>
+    <string name="remote_configuration_failed">Nhập URL dịch vụ hợp lệ và mã truy cập gồm 64 ký tự.</string>
+    <string name="remote_protocol_failed">Avro không thể xác minh hoặc đọc phản hồi Filo. Hãy kiểm tra bản cập nhật của cả hai ứng dụng.</string>
+    <string name="remote_service_failed">Codex không thể hoàn tất yêu cầu.</string>
+    <string name="remote_save_failed">Avro không thể lưu thiết bị. Hãy kiểm tra dung lượng rồi lưu lại.</string>
+    <string name="remote_session_busy">Một tiến trình Codex khác đang dùng cuộc trò chuyện này. Hãy chờ tiến trình đó giải phóng cuộc trò chuyện.</string>
+    <string name="remote_response_too_large">Phản hồi hoặc tệp đính kèm vượt quá kích thước được hỗ trợ.</string>
+    <string name="remote_invalid_request">Filo không thể đọc yêu cầu. Hãy kiểm tra dữ liệu đã nhập.</string>
+    <string name="remote_not_found">Mục được yêu cầu không còn khả dụng. Hãy làm mới danh sách.</string>
+    <string name="remote_not_supported">Ứng dụng khách đang kết nối không hỗ trợ thao tác này.</string>
+    <string name="remote_desktop_unavailable">Filo không thể kết nối Codex Desktop. Hãy mở Codex trên máy đích.</string>
+    <string name="remote_session_unavailable">Codex chưa chuẩn bị xong cuộc trò chuyện này. Hãy kiểm tra trên máy đích.</string>
+    <string name="remote_helper_unavailable">Filo không thể kết nối tiến trình hỗ trợ người dùng. Hãy kiểm tra dịch vụ Filo trên máy đích.</string>
+    <string name="remote_runtime_unavailable">Môi trường chạy Codex Desktop không khả dụng. Hãy mở Codex để hoàn tất thiết lập.</string>
+    <string name="remote_service_restarting">Filo đang tắt. Hãy chờ dịch vụ hoạt động trở lại.</string>
+    <string name="remote_request_timeout">Yêu cầu đã hết thời gian chờ. Hãy kiểm tra cuộc trò chuyện trước khi gửi lại.</string>
+    <string name="remote_turn_changed">Phản hồi đang tạo đã thay đổi. Hãy làm mới cuộc trò chuyện trước khi thao tác lại.</string>
+    <string name="remote_image_unavailable">Ảnh này không khả dụng trên máy đích.</string>
+    <string name="remote_upload_invalid">Tệp đính kèm tải lên chưa hoàn tất hoặc không hợp lệ. Hãy chọn lại tệp.</string>
+    <string name="remote_upload_unavailable">Filo không thể lưu tệp đính kèm. Hãy kiểm tra dung lượng trên máy đích.</string>
+    <string name="remote_busy">Filo đang xử lý quá nhiều yêu cầu. Hãy chờ một lát.</string>
+    <string name="remote_usage_unavailable">Hiện chưa có thông tin mức sử dụng Codex.</string>
+    <string name="remote_settings_unavailable">Codex không hỗ trợ cài đặt đã chọn cho mô hình này.</string>
+</resources>

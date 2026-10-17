@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Avro — Intro</title>
+<style>:root{--bg:#000;--fg:#fff;--ui:#ffffff22;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fff;--fg:#000;--ui:#00000018}}
+:root[data-theme="light"]{--bg:#fff;--fg:#000;--ui:#00000018}:root[data-theme="dark"]{--bg:#000;--fg:#fff;--ui:#ffffff22}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
+body{display:flex;flex-direction:column}svg{flex:1;min-height:0;width:100%}svg *{fill:var(--fg)}svg mask *{fill:none!important}
+.c{display:flex;gap:8px;align-items:center;padding:10px 14px 14px}.c button{background:var(--ui);color:var(--fg);border:0;border-radius:10px;padding:9px 12px;font:inherit}
+.c input{flex:1;accent-color:var(--fg)}</style></head><body>
+<svg id="s" viewBox="0 0 2081 802" preserveAspectRatio="xMidYMid meet"><defs>
+<filter id="goo" filterUnits="userSpaceOnUse" x="0" y="0" width="2081" height="802"><feGaussianBlur stdDeviation="10"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -9"/></filter>
+<filter id="hl" filterUnits="userSpaceOnUse" x="0" y="0" width="2081" height="802"><feGaussianBlur stdDeviation="28"/></filter>
+<mask id="mm" maskUnits="userSpaceOnUse" x="0" y="0" width="2081" height="802"><path id="mp" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/></mask></defs>
+<g id="mk" mask="url(#mm)"><path id="b"/><path id="t"/></g><g id="gl"></g>
+<g id="ha" filter="url(#hl)" opacity=".38"><ellipse id="h1"/><ellipse id="h2"/></g>
+<g id="dt" filter="url(#goo)"><ellipse id="d1"/><ellipse id="d2"/></g></svg>
+<div class="c"><button id="pl">⏸</button><input id="rg" type="range" min="0" max="8" step="0.001" value="0"><button id="th">◐</button><button id="ez">Cubic</button></div>
+<script>
+const D={"W": 2081, "H": 802, "c0": [1040.5, 401.0], "body": "M264.50 312.13L338.68 168.99A72.01 72.01 0 0 1 464.85 165.90L696.74 564.41A72.01 72.01 0 0 1 572.26 636.84L406.26 351.57L392.36 378.39Z", "tip": "M245.43 348.93L137.90 556.43A72.01 72.01 0 0 0 265.76 622.69L373.29 415.19Z", "cl": "M201.8 589.6L402.6 202.1L634.5 600.6", "w": 144.0136315307303, "g": [{"d": "M914.9 672.0 756.8 298.9H883.4L990.9 609.0H936.4L1043.1 298.9H1167.5L1010.1 672.0Z", "s": ["M815.1 298.9L962.1 637.0L1109.1 298.9"]}, {"d": "M1210.5 672.0V298.9H1327.2V672.0ZM1327.2 466.3 1277.3 429.4Q1291.9 362.6 1326.8 326.9Q1361.7 291.2 1422.4 291.2Q1450.0 291.2 1470.3 298.9Q1490.7 306.6 1506.0 324.2L1437.0 412.5Q1429.3 404.1 1417.8 399.8Q1406.2 395.6 1391.7 395.6Q1361.7 395.6 1344.4 413.3Q1327.2 430.9 1327.2 466.3Z", "s": ["M1268.8 314.6L1268.8 672.0", "M1268.8 500.6Q1304.4 349.6 1476.9 349.6"]}, {"d": "M1729.9 680.4Q1671.1 680.4 1625.0 654.7Q1579.0 629.0 1552.1 584.3Q1525.2 539.5 1525.2 484.1Q1525.2 429.4 1552.1 385.6Q1579.0 341.9 1625.0 316.2Q1671.1 290.5 1730.2 290.5Q1787.3 290.5 1834.0 315.8Q1880.7 341.1 1907.6 385.3Q1934.4 429.4 1934.4 484.7Q1934.4 539.6 1907.6 583.9Q1880.7 628.2 1834.2 654.3Q1787.8 680.4 1729.9 680.4ZM1729.7 573.0Q1754.5 573.0 1773.9 561.8Q1793.2 550.7 1803.9 531.1Q1814.7 511.5 1814.7 485.1Q1814.7 459.2 1803.2 438.9Q1791.6 418.7 1773.0 407.9Q1754.5 397.2 1730.2 397.2Q1704.9 397.2 1686.1 408.3Q1667.3 419.4 1656.1 439.4Q1645.0 459.3 1645.0 484.8Q1645.0 510.8 1656.1 530.7Q1667.3 550.7 1686.1 561.8Q1704.9 573.0 1729.7 573.0Z", "s": ["M1729.8 348.8A146.2 136.7 0 1 0 1729.8 622.1A146.2 136.7 0 1 0 1729.8 348.8"]}], "sw": 116.69121813031161, "r0": 22, "rp": 70, "rs": 50},NS='http://www.w3.org/2000/svg',$=i=>document.getElementById(i);
+const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+$('b').setAttribute('d',D.body);$('t').setAttribute('d',D.tip);
+const mp=$('mp');mp.setAttribute('d',D.cl);mp.setAttribute('stroke-width',D.w+4);
+const LA=mp.getTotalLength(),defs=document.querySelector('defs');
+const strokes=[];
+D.g.forEach((g,i)=>{const m=mk('mask',{id:'m'+i,maskUnits:'userSpaceOnUse',x:0,y:0,width:D.W,height:D.H},defs);
+ const gr=mk('g',{mask:'url(#m'+i+')'},$('gl'));mk('path',{d:g.d},gr);
+ g.s.forEach(d=>{const e=mk('path',{d,fill:'none',stroke:'#fff','stroke-width':D.sw*1.5,'stroke-linecap':'round','stroke-linejoin':'round'},m);strokes.push({e,L:e.getTotalLength()})})});
+const cl=x=>Math.min(1,Math.max(0,x)),sm=u=>{u=cl(u);return u*u*u*(u*(u*6-15)+10)},cu=u=>{u=cl(u);return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2};
+const ob=u=>{u=cl(u);const c=1.70158,k=c+1;return 1+k*Math.pow(u-1,3)+c*Math.pow(u-1,2)},lp=(a,b,u)=>a+(b-a)*u;
+let ez=cu;const [CX,CY]=D.c0,h1=D.w/2,h2=D.sw/2,FW=4.8,RV=2.8,T=8;
+const pa=l=>mp.getPointAtLength(l),ps=(i,l)=>strokes[i].e.getPointAtLength(l);
+const SP=95,P1=[CX-SP,CY],P2=[CX+SP,CY],S1=pa(0),S2=ps(0,0);
+const qp=(a,b,o)=>{const m=[(a[0]+b[0])/2,(a[1]+b[1])/2],dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy);return'M'+a+'Q'+[m[0]-dy/l*o,m[1]+dx/l*o]+' '+b};
+const tr1=mk('path',{d:qp(P1,[S1.x,S1.y],-140)},defs),tr2=mk('path',{d:qp(P2,[S2.x,S2.y],140)},defs);
+const LT1=tr1.getTotalLength(),LT2=tr2.getTotalLength();
+const HOP=.1,ST=1.4,TT=.5,WS=ST+TT,WE=2,AD=1.5,ENDT=WS+WE;
+const HP=[];for(let i=0;i<strokes.length-1;i++){const q=ps(i,strokes[i].L),n=ps(i+1,0);HP.push({q,n,w:.5*Math.hypot(q.x-n.x,q.y-n.y)})}
+const SEG=[];strokes.forEach((s,i)=>{SEG.push({k:'s',i,w:s.L});if(HP[i])SEG.push({k:'h',i,w:HP[i].w})});
+const WT=SEG.reduce((a,b)=>a+b.w,0),mix=(u)=>lp(u,ez(u),.5);
+function state(f){
+ let rr=f<.35?D.r0:f<.5?lp(D.r0,D.r0*.7,sm((f-.35)/.15)):f<1?lp(D.r0*.7,D.rp,ob((f-.5)/.5)):D.rp;
+ let d1={x:CX,y:CY,r:rr},d2={x:CX,y:CY,r:rr},mpv=0,sp=strokes.map(()=>0);
+ if(f>=1){const q=(f-1)/.4,u=ob(q),r=lp(D.rp,D.rs,sm(q));d1={x:CX-SP*u,y:CY,r};d2={x:CX+SP*u,y:CY,r}}
+ if(f>=ST){
+  if(f<WS){const u=ez((f-ST)/TT),a=tr1.getPointAtLength(u*LT1),b=tr2.getPointAtLength(u*LT2);d1={x:a.x,y:a.y,r:lp(D.rs,h1,sm(u)),fly:1};d2={x:b.x,y:b.y,r:lp(D.rs,h2,sm(u)),fly:1}}
+  else{
+   mpv=ez((f-WS)/AD);const p=pa(mpv*LA);d1={x:p.x,y:p.y,r:h1};
+   if(f>=WS+AD)d1.r=h1*(1-sm((f-WS-AD)/.2));
+   const g=ez(cl((f-WS)/WE))*WT,q0=ps(0,0);let c=0;d2={x:q0.x,y:q0.y,r:h2};
+   for(const sg of SEG){
+    if(g>=c+sg.w){if(sg.k=='s')sp[sg.i]=1}
+    else if(g>=c){const u=(g-c)/sg.w,v=mix(u);
+     if(sg.k=='s'){sp[sg.i]=v;const p=ps(sg.i,v*strokes[sg.i].L);d2={x:p.x,y:p.y,r:h2}}
+     else{const hp=HP[sg.i];d2={x:lp(hp.q.x,hp.n.x,v),y:lp(hp.q.y,hp.n.y,v),r:h2,fly:1}}}
+    c+=sg.w}
+   if(g>=WT){const l=strokes.length-1,q=ps(l,strokes[l].L);d2={x:q.x,y:q.y,r:h2*(1-sm((f-ENDT)/.2))}}}}
+ const dl=D.sw*.25,rv=sp.map((p,i)=>p<=0?0:Math.max(0,(p*strokes[i].L-dl*(1-sm((p-.9)/.1)))/strokes[i].L));
+ return{d1,d2,mpv,sp:rv}}
+const fm=t=>t<=FW?t:t<FW+RV?FW*(1-sm((t-FW)/RV)):0;
+function draw(t){const s=state(fm(t)),a=state(fm(t-.012)),b=state(fm(t+.012)),h=state(fm(t-.07));
+ mp.style.display=s.mpv>0?'':'none';mp.setAttribute('stroke-dasharray',LA);mp.setAttribute('stroke-dashoffset',LA*(1-s.mpv));
+ strokes.forEach((o,i)=>{o.e.style.display=s.sp[i]>0?'':'none';o.e.setAttribute('stroke-dasharray',o.L);o.e.setAttribute('stroke-dashoffset',o.L*(1-s.sp[i]))});
+ ['d1','d2'].forEach((k,j)=>{const d=s[k],va=a[k],vb=b[k],vx=(vb.x-va.x)/.024,vy=(vb.y-va.y)/.024,K=d.fly?Math.min(.8,Math.hypot(vx,vy)/2500):0,r=Math.max(0,d.r),e=$(k);
+  e.setAttribute('cx',d.x);e.setAttribute('cy',d.y);e.setAttribute('rx',r*(1+K));e.setAttribute('ry',r/(1+K*.5));e.setAttribute('transform','rotate('+Math.atan2(vy,vx)*57.3+' '+d.x+' '+d.y+')');
+  const g=$('h'+(j+1)),q=h[k];g.setAttribute('cx',q.x);g.setAttribute('cy',q.y);g.setAttribute('rx',r*1.7);g.setAttribute('ry',r*1.7)})}
+let t0=performance.now(),play=true,off=0;const rg=$('rg');
+function loop(n){if(play){const t=((n-t0)/1000+off)%T;rg.value=t;draw(t)}requestAnimationFrame(loop)}
+$('pl').onclick=()=>{play=!play;$('pl').textContent=play?'⏸':'▶';if(play){off=+rg.value;t0=performance.now()}};
+rg.oninput=()=>{play=false;$('pl').textContent='▶';draw(+rg.value)};
+$('th').onclick=()=>{const r=document.documentElement;const l=getComputedStyle(r).getPropertyValue('--bg').trim()=='#fff';r.dataset.theme=l?'dark':'light'};
+$('ez').onclick=()=>{const c=ez==cu;ez=c?sm:cu;$('ez').textContent=c?'Smooth':'Cubic'};
+draw(0);requestAnimationFrame(loop);
+</script></body></html>

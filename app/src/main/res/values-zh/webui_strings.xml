@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">在浏览器里控制 Avro</string>
+    <string name="webui_enable">启用 WebUI</string>
+    <string name="webui_status_stopped">未开启。开启后会在手机上运行网页服务，并显示常驻通知。</string>
+    <string name="webui_status_starting">正在启动…</string>
+    <string name="webui_status_running">正在端口 %1$d 上运行</string>
+    <string name="webui_status_failed">无法启动：%1$s</string>
+    <string name="webui_password_required">请先在下方设置密码，再开启 WebUI。</string>
+    <string name="webui_port">端口</string>
+    <string name="webui_port_desc">1024 到 65535。修改后服务会重启。</string>
+    <string name="webui_password_set">设置密码</string>
+    <string name="webui_password_change">修改密码</string>
+    <string name="webui_password_desc_unset">开启 WebUI 前必须设置</string>
+    <string name="webui_password_desc_set">已设置。修改后所有浏览器都会退出登录。</string>
+    <string name="webui_password_new">新密码</string>
+    <string name="webui_password_confirm">确认密码</string>
+    <string name="webui_password_too_short">至少需要 %1$d 个字符。</string>
+    <string name="webui_password_mismatch">两次输入的密码不一致。</string>
+    <string name="webui_access">访问</string>
+    <string name="webui_access_urls_desc">在同一网络的浏览器里打开下面任一地址。</string>
+    <string name="webui_access_off">WebUI 运行时会在这里显示访问地址。</string>
+    <string name="webui_access_none">没有找到网络地址。</string>
+    <string name="webui_http_warning">HTTP 不加密。同一网络里的任何人都能看到密码和对话内容。请只在可信的网络中使用，例如 Tailscale。</string>
+    <string name="webui_notification_channel">WebUI 服务</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">正在启动…</string>
+    <string name="webui_notification_running">打开 %1$s</string>
+    <string name="webui_notification_failed">已停止：%1$s</string>
+    <string name="webui_notification_stop">停止</string>
+    <string name="webui_security">安全</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">加密连接。证书是自签的，浏览器第一次会警告；核对指纹后再接受。</string>
+    <string name="webui_certificate_fingerprint">SHA-256 指纹</string>
+    <string name="webui_certificate_fingerprint_desc">接受证书前，请与浏览器显示的指纹核对。</string>
+    <string name="webui_certificate_regenerate">重新生成证书</string>
+    <string name="webui_certificate_regenerate_desc">生成新证书后，每个浏览器都要重新接受一次。</string>
+    <string name="webui_certificate_regenerate_action">重新生成</string>
+</resources>

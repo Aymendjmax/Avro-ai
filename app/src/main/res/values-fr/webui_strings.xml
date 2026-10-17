@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">Contrôler Avro depuis un navigateur</string>
+    <string name="webui_enable">Activer la WebUI</string>
+    <string name="webui_status_stopped">Désactivée. Une fois activée, ce téléphone exécute un serveur web avec une notification.</string>
+    <string name="webui_status_starting">Démarrage…</string>
+    <string name="webui_status_running">Active sur le port %1$d</string>
+    <string name="webui_status_failed">Démarrage impossible : %1$s</string>
+    <string name="webui_password_required">Définissez un mot de passe ci-dessous pour activer la WebUI.</string>
+    <string name="webui_port">Port</string>
+    <string name="webui_port_desc">De 1024 à 65535. Le modifier redémarre le serveur.</string>
+    <string name="webui_password_set">Définir le mot de passe</string>
+    <string name="webui_password_change">Changer le mot de passe</string>
+    <string name="webui_password_desc_unset">Requis pour activer la WebUI</string>
+    <string name="webui_password_desc_set">Défini. Le changer déconnecte tous les navigateurs.</string>
+    <string name="webui_password_new">Nouveau mot de passe</string>
+    <string name="webui_password_confirm">Confirmer le mot de passe</string>
+    <string name="webui_password_too_short">Utilisez au moins %1$d caractères.</string>
+    <string name="webui_password_mismatch">Les mots de passe ne correspondent pas.</string>
+    <string name="webui_access">Accès</string>
+    <string name="webui_access_urls_desc">Ouvrez l\'une de ces adresses dans un navigateur du même réseau.</string>
+    <string name="webui_access_off">Les adresses s\'affichent ici pendant que la WebUI fonctionne.</string>
+    <string name="webui_access_none">Aucune adresse réseau trouvée.</string>
+    <string name="webui_http_warning">HTTP n\'est pas chiffré. Toute personne sur le même réseau peut lire le mot de passe et les conversations. Utilisez-la uniquement sur des réseaux de confiance, comme Tailscale.</string>
+    <string name="webui_notification_channel">Serveur WebUI</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">Démarrage…</string>
+    <string name="webui_notification_running">Ouvrir %1$s</string>
+    <string name="webui_notification_failed">Arrêtée : %1$s</string>
+    <string name="webui_notification_stop">Arrêter</string>
+    <string name="webui_security">Sécurité</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">Chiffre la connexion. Les navigateurs avertissent une fois car le certificat est auto-signé ; acceptez-le après avoir vérifié l’empreinte.</string>
+    <string name="webui_certificate_fingerprint">Empreinte SHA-256</string>
+    <string name="webui_certificate_fingerprint_desc">Comparez-la avec l’empreinte affichée par votre navigateur avant d’accepter le certificat.</string>
+    <string name="webui_certificate_regenerate">Régénérer le certificat</string>
+    <string name="webui_certificate_regenerate_desc">Crée un nouveau certificat. Chaque navigateur devra l’accepter à nouveau.</string>
+    <string name="webui_certificate_regenerate_action">Régénérer</string>
+</resources>

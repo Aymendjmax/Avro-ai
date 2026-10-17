@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">共用儲存空間</string>
+    <string name="sandbox_shared_storage_desc">可選擇將裝置的共用儲存空間開放給 Linux 沙箱。</string>
+    <string name="sandbox_shared_storage_mounted">已掛載至 /mnt/shared</string>
+    <string name="sandbox_shared_storage_permission_required">已啟用 · 仍需授予儲存空間存取權</string>
+    <string name="sandbox_shared_storage_grant">授予儲存空間存取權</string>
+    <string name="sandbox_shared_storage_warning">啟用後，沙箱命令可讀取及修改相片、下載項目和其他共用檔案。會變更資料的工具呼叫需要確認。</string>
+</resources>

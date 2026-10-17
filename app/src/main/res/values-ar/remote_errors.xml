@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_failed">تعذر إكمال الإجراء عن بُعد. راجع تفاصيل الخطأ.</string>
+    <string name="remote_unknown">لم يتأكد التسليم. تحقق من المحادثة في Codex قبل الإرسال مجددًا.</string>
+    <string name="remote_rejected">لم يقبل Codex الرسالة. راجع تفاصيل الخطأ قبل المحاولة مجددًا.</string>
+    <string name="remote_storage_failed">تعذر على Avro الوصول إلى بيانات Remote المحلية. تحقق من المساحة المتاحة.</string>
+    <string name="remote_network_failed">تعذر الاتصال بـ Filo. تحقق من الكمبيوتر المستهدف وعنوان الخدمة والشبكة.</string>
+    <string name="remote_auth_failed">رفض Filo رمز الوصول. استخدم الرمز الموجود على الكمبيوتر المستهدف.</string>
+    <string name="remote_configuration_failed">أدخل عنوان URL صالحًا للخدمة ورمز وصول من 64 حرفًا.</string>
+    <string name="remote_protocol_failed">تعذر على Avro التحقق من استجابة Filo أو قراءتها. تأكد من تحديث التطبيقين.</string>
+    <string name="remote_service_failed">تعذر على Codex إكمال الطلب.</string>
+    <string name="remote_save_failed">تعذر على Avro حفظ الجهاز. تحقق من المساحة ثم احفظه مجددًا.</string>
+    <string name="remote_session_busy">تستخدم عملية Codex أخرى هذه المحادثة. انتظر حتى تحررها.</string>
+    <string name="remote_response_too_large">تتجاوز الاستجابة أو المرفق الحجم المدعوم.</string>
+    <string name="remote_invalid_request">تعذر على Filo قراءة الطلب. تحقق من القيم المدخلة.</string>
+    <string name="remote_not_found">لم يعد العنصر المطلوب متاحًا. حدّث القائمة.</string>
+    <string name="remote_not_supported">لا يدعم العميل المتصل هذه العملية.</string>
+    <string name="remote_desktop_unavailable">تعذر على Filo الاتصال بـ Codex Desktop. افتح Codex على الكمبيوتر المستهدف.</string>
+    <string name="remote_session_unavailable">لم يجهّز Codex هذه المحادثة بعد. تحقق منها على الكمبيوتر المستهدف.</string>
+    <string name="remote_helper_unavailable">تعذر على Filo الاتصال بعملية المستخدم المساعدة. تحقق من خدمة Filo على الكمبيوتر المستهدف.</string>
+    <string name="remote_runtime_unavailable">بيئة تشغيل Codex Desktop غير متاحة. افتح Codex لإكمال الإعداد.</string>
+    <string name="remote_service_restarting">يجري إيقاف Filo. انتظر حتى تصبح الخدمة متاحة.</string>
+    <string name="remote_request_timeout">انتهت مهلة الطلب. تحقق من المحادثة قبل الإرسال مجددًا.</string>
+    <string name="remote_turn_changed">تغير الرد الجاري إنشاؤه. حدّث المحادثة قبل تكرار العملية.</string>
+    <string name="remote_image_unavailable">هذه الصورة غير متاحة على الكمبيوتر المستهدف.</string>
+    <string name="remote_upload_invalid">تحميل المرفق غير مكتمل أو غير صالح. اختر الملف مجددًا.</string>
+    <string name="remote_upload_unavailable">تعذر على Filo حفظ المرفق. تحقق من مساحة التخزين على الكمبيوتر المستهدف.</string>
+    <string name="remote_busy">يعالج Filo طلبات كثيرة جدًا. انتظر قليلًا.</string>
+    <string name="remote_usage_unavailable">معلومات استخدام Codex غير متاحة حاليًا.</string>
+    <string name="remote_settings_unavailable">لا يدعم Codex الإعداد المحدد لهذا النموذج.</string>
+</resources>

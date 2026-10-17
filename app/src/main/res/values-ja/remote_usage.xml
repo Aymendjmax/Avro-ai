@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">使用量</string>
+    <string name="remote_usage_remaining">残り %1$d%%</string>
+    <string name="remote_usage_window">%1$sのウィンドウ</string>
+    <string name="remote_usage_resets">リセット: %1$s</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">사용량</string>
+    <string name="remote_usage_remaining">%1$d%% 남음</string>
+    <string name="remote_usage_window">%1$s 사용 기간</string>
+    <string name="remote_usage_resets">초기화: %1$s</string>
+</resources>

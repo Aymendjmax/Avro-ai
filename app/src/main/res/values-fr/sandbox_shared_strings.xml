@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">Stockage partagé</string>
+    <string name="sandbox_shared_storage_desc">Exposez facultativement le stockage partagé de l’appareil au bac à sable Linux.</string>
+    <string name="sandbox_shared_storage_mounted">Monté sur /mnt/shared</string>
+    <string name="sandbox_shared_storage_permission_required">Activé · l’accès au stockage reste requis</string>
+    <string name="sandbox_shared_storage_grant">Autoriser l’accès au stockage</string>
+    <string name="sandbox_shared_storage_warning">Cela permet aux commandes du bac à sable de lire et modifier les photos, téléchargements et autres fichiers partagés. Les appels d’outils qui modifient des données nécessitent une confirmation.</string>
+</resources>

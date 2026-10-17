@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">Nutzung</string>
+    <string name="remote_usage_remaining">%1$d%% verbleibend</string>
+    <string name="remote_usage_window">Zeitfenster: %1$s</string>
+    <string name="remote_usage_resets">Zurückgesetzt %1$s</string>
+</resources>

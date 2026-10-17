@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcp_title">MCP</string>
+    <string name="mcp_desc">Conecta servidores de herramientas externos</string>
+    <string name="mcp_servers">Servidores MCP</string>
+    <string name="mcp_no_servers">No hay servidores MCP</string>
+    <string name="mcp_no_servers_desc">Añade un endpoint HTTP transmisible o SSE para usar sus herramientas en las conversaciones.</string>
+    <string name="mcp_add_server">Añadir servidor MCP</string>
+    <string name="mcp_edit_server">Editar servidor MCP</string>
+    <string name="mcp_delete_title">¿Eliminar servidor MCP?</string>
+    <string name="mcp_delete_message">¿Eliminar %1$s y quitar sus herramientas?</string>
+    <string name="mcp_connection">Conexión</string>
+    <string name="mcp_transport">Transporte</string>
+    <string name="mcp_transport_streamable_http">HTTP transmisible</string>
+    <string name="mcp_transport_sse">SSE</string>
+    <string name="mcp_name">Nombre</string>
+    <string name="mcp_url">URL del servidor</string>
+    <string name="mcp_url_error">Introduce una URL http:// o https:// válida</string>
+    <string name="mcp_headers">Encabezados personalizados</string>
+    <string name="mcp_headers_desc">Añade solo los encabezados que requiere el servidor. Los valores se guardan cifrados.</string>
+    <string name="mcp_no_headers">Sin encabezados personalizados</string>
+    <string name="mcp_headers_error">Cada línea debe usar Nombre: Valor</string>
+    <string name="mcp_header_name">Nombre del encabezado</string>
+    <string name="mcp_header_value">Valor del encabezado</string>
+    <string name="mcp_header_name_error">Usa un nombre de encabezado HTTP único y no reservado</string>
+    <string name="mcp_header_value_error">Introduce un valor sin caracteres de control</string>
+    <string name="mcp_add_header">Añadir encabezado</string>
+    <string name="mcp_delete_header">Eliminar encabezado</string>
+    <string name="mcp_timeout">Tiempo de espera (segundos)</string>
+    <string name="mcp_timeout_desc">5–300 segundos</string>
+    <string name="mcp_status">Estado</string>
+    <string name="mcp_status_idle">Inactivo</string>
+    <string name="mcp_status_connecting">Conectando…</string>
+    <string name="mcp_status_connected">Conectado</string>
+    <string name="mcp_tools_enabled">%1$d herramientas activadas</string>
+    <string name="mcp_status_error">Error de conexión</string>
+    <string name="mcp_refresh">Reconectar</string>
+    <string name="mcp_tools_count">Herramientas (%1$d)</string>
+    <string name="mcp_tool_no_description">Sin descripción</string>
+</resources>

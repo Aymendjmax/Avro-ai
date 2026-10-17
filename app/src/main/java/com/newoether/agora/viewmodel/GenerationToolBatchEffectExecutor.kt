@@ -1,0 +1,455 @@
+package com.newoether.agora.viewmodel
+
+import com.newoether.agora.api.StreamEvent
+import com.newoether.agora.model.CitationPolicy
+import com.newoether.agora.model.CitationRecord
+import com.newoether.agora.model.MessageSegment
+import com.newoether.agora.model.RunEffect
+import com.newoether.agora.model.RunEffectIdentity
+import com.newoether.agora.model.ToolCallData
+import com.newoether.agora.model.ToolExecutionStates
+import com.newoether.agora.model.ToolImageAttachment
+import com.newoether.agora.model.toCitationRecord
+import com.newoether.agora.model.toMessageSegment
+import com.newoether.agora.tool.ToolExecutionEvent
+import com.newoether.agora.tool.ToolExecutionResult
+import com.newoether.agora.util.Constants
+
+private const val TOOL_PROGRESS_UI_UPDATE_INTERVAL_MS = 50L
+
+internal class GenerationToolOverlay(
+    private val presentation: GenerationToolPresentationSource,
+    private val providerName: String,
+) {
+    private val segments = mutableListOf(MessageSegment(type = "answer"))
+    private val citations = mutableListOf<CitationRecord>()
+    private val streamIndices = mutableMapOf<String, Int>()
+
+    val size: Int
+        get() = segments.size
+
+    fun snapshot(): List<MessageSegment> =
+        segments.toList() + citations.map { it.toMessageSegment() }
+
+    fun contentSnapshot(): List<MessageSegment> = segments.toList()
+
+    fun replaceAll(replacement: List<MessageSegment>) {
+        segments.clear()
+        citations.clear()
+        replacement.forEach { segment ->
+            if (segment.type == "citation") {
+                segment.toCitationRecord()?.let(::upsertCitation)
+            } else {
+                segments += segment
+            }
+        }
+        streamIndices.clear()
+    }
+
+    fun prependAll(prefix: List<MessageSegment>) {
+        if (prefix.isEmpty()) return
+        val contentPrefix = prefix.filter { it.type != "citation" }
+        prefix.mapNotNull { it.toCitationRecord() }.forEach(::upsertCitation)
+        if (contentPrefix.isEmpty()) return
+        segments.addAll(0, contentPrefix)
+        streamIndices.entries.forEach { entry -> entry.setValue(entry.value + contentPrefix.size) }
+    }
+
+    fun append(segment: MessageSegment) {
+        if (segment.type == "citation") {
+            segment.toCitationRecord()?.let(::upsertCitation)
+        } else {
+            appendMergedSegment(segments, segment)
+        }
+    }
+
+    /**
+     * Appends a thinking-style transcription segment (the same type the main transcription
+     * stage streams) and returns its index for live updates. Consecutive calls produce
+     * consecutive segments, matching the main flow's ordinal labeling.
+     */
+    fun appendTranscriptionSegment(content: String): Int {
+        val index = segments.size
+        segments += MessageSegment(type = "transcription", content = content)
+        return index
+    }
+
+    fun updateTranscriptionSegment(index: Int, content: String) {
+        if (index !in segments.indices) return
+        segments[index] = segments[index].copy(content = content)
+    }
+
+    fun updateLastThoughtMetadata(
+        signature: String?,
+        signatureProvider: String?,
+    ): Boolean {
+        val index = segments.indexOfLast { segment -> segment.type == "thought" }
+        if (index < 0) return false
+        if (signature != null) {
+            segments[index] = segments[index].copy(
+                signature = signature,
+                signatureProvider = signatureProvider,
+            )
+        }
+        return true
+    }
+
+    fun upsertCitation(raw: CitationRecord): Boolean {
+        val citation = CitationPolicy.normalize(raw) ?: return false
+        val index = citations.indexOfFirst { it.sourceId == citation.sourceId }
+        if (index < 0) {
+            if (citations.size >= CitationPolicy.MAX_SOURCES) return false
+            citations += citation
+            return true
+        }
+        val merged = CitationPolicy.merge(citations[index], citation)
+        val changed = merged != citations[index]
+        citations[index] = merged
+        return changed
+    }
+
+    fun hasStream(streamKey: String): Boolean = streamKey in streamIndices
+
+    fun upsert(
+        streamKey: String,
+        toolCallId: String?,
+        name: String,
+        arguments: String,
+        signature: String?,
+    ): Boolean {
+        val existingIndex = streamIndices[streamKey]
+        if (existingIndex != null) {
+            val existing = segments[existingIndex]
+            val resolvedName = name.ifBlank { existing.toolName.orEmpty() }
+            val metadata = presentation.presentationMetadata(resolvedName)
+            segments[existingIndex] = existing.copy(
+                toolName = resolvedName.ifBlank { existing.toolName },
+                toolArgs = arguments,
+                toolCallId = toolCallId ?: existing.toolCallId ?: streamKey,
+                signature = signature ?: existing.signature,
+                signatureProvider = providerName.takeIf {
+                    signature != null || existing.signature != null
+                },
+                toolState = ToolExecutionStates.CALLING,
+                toolTarget = metadata?.target ?: existing.toolTarget,
+                toolDisplayName = metadata?.displayName ?: existing.toolDisplayName,
+            )
+            return false
+        }
+
+        val index = segments.size
+        val metadata = presentation.presentationMetadata(name)
+        segments += MessageSegment(
+            type = "tool",
+            toolName = name.ifBlank { null },
+            toolArgs = arguments,
+            toolResult = null,
+            toolCallId = toolCallId ?: streamKey,
+            signature = signature,
+            signatureProvider = providerName.takeIf { signature != null },
+            toolState = ToolExecutionStates.CALLING,
+            toolTarget = metadata?.target,
+            toolDisplayName = metadata?.displayName,
+        )
+        streamIndices[streamKey] = index
+        return true
+    }
+
+    fun upsertHosted(event: StreamEvent.HostedToolCallUpdate): Boolean {
+        val created = upsert(
+            streamKey = event.streamKey,
+            toolCallId = event.streamKey,
+            name = event.name,
+            arguments = event.arguments,
+            signature = null,
+        )
+        val index = checkNotNull(streamIndices[event.streamKey])
+        val current = segments[index]
+        segments[index] = current.copy(
+            toolResult = event.result,
+            toolState = when {
+                event.result == null -> ToolExecutionStates.RUNNING
+                event.isError -> ToolExecutionStates.FAILED
+                else -> ToolExecutionStates.SUCCEEDED
+            },
+        )
+        return created
+    }
+
+    fun start(call: StreamEvent.ToolCallRequest) {
+        val index = checkNotNull(streamIndices[call.streamKey]) {
+            "Missing live segment for tool call ${call.streamKey}"
+        }
+        val current = segments[index]
+        val metadata = presentation.presentationMetadata(call.name)
+        segments[index] = current.copy(
+            toolName = call.name,
+            toolArgs = call.arguments,
+            toolCallId = call.id,
+            signature = call.signature,
+            signatureProvider = providerName.takeIf { call.signature != null },
+            responseOutputItems = call.responseOutputItems,
+            responseOutputItemProvider = providerName.takeIf {
+                call.responseOutputItems.isNotEmpty()
+            },
+            toolState = ToolExecutionStates.RUNNING,
+            toolTarget = metadata?.target ?: current.toolTarget,
+            toolDisplayName = metadata?.displayName ?: current.toolDisplayName,
+        )
+    }
+
+    fun failUnpersistedStart(call: StreamEvent.ToolCallRequest) {
+        val index = checkNotNull(streamIndices[call.streamKey]) {
+            "Missing live segment for tool call ${call.streamKey}"
+        }
+        segments[index] = segments[index].copy(
+            toolState = ToolExecutionStates.FAILED,
+            responseOutputItems = emptyList(),
+            responseOutputItemProvider = null,
+        )
+    }
+
+    fun releaseCommittedResponseState(toolCallIds: Set<String>) {
+        if (toolCallIds.isEmpty()) return
+        segments.indices.forEach { index ->
+            val segment = segments[index]
+            if (
+                segment.type == "tool" &&
+                segment.toolCallId in toolCallIds &&
+                (segment.responseOutputItems.isNotEmpty() ||
+                    segment.responseOutputItemProvider != null)
+            ) {
+                segments[index] = segment.copy(
+                    responseOutputItems = emptyList(),
+                    responseOutputItemProvider = null,
+                )
+            }
+        }
+    }
+
+    fun applyProgress(callId: String, event: ToolExecutionEvent) {
+        val index = segments.indexOfLast { it.toolCallId == callId }
+        if (index < 0) return
+        val current = segments[index]
+        segments[index] = when (event) {
+            is ToolExecutionEvent.OutputDelta -> current.copy(
+                toolState = ToolExecutionStates.RUNNING,
+                toolProgress = appendBoundedToolOutput(current.toolProgress, event.text),
+            )
+            is ToolExecutionEvent.OutputSnapshot -> current.copy(
+                toolState = ToolExecutionStates.RUNNING,
+                toolProgress = takeLastWholeCodePoints(
+                    event.text,
+                    Constants.MAX_TOOL_RESULT_LENGTH,
+                ),
+            )
+            is ToolExecutionEvent.TargetResolved -> current.copy(toolTarget = event.target)
+            is ToolExecutionEvent.Progress -> current.copy(toolState = ToolExecutionStates.RUNNING)
+            is ToolExecutionEvent.Completed -> current
+        }
+    }
+
+    fun complete(
+        call: StreamEvent.ToolCallRequest,
+        result: ToolExecutionResult,
+        transcription: String? = null,
+    ): CompletedToolCall {
+        val index = checkNotNull(streamIndices[call.streamKey]) {
+            "Missing live segment for tool call ${call.streamKey}"
+        }
+        val clipped = result.text.take(Constants.MAX_TOOL_RESULT_LENGTH)
+        val displayText = result.displayText?.take(Constants.MAX_TOOL_RESULT_LENGTH)
+        val structuredResult = result.structuredContent?.take(Constants.MAX_TOOL_RESULT_LENGTH)
+        val completed = segments[index].copy(
+            toolResult = clipped,
+            toolResultText = displayText,
+            toolStructuredResult = structuredResult,
+            toolState = finalToolState(result, call.name),
+            toolImages = result.images,
+            toolTranscription = transcription,
+        )
+        segments[index] = completed
+        return CompletedToolCall(
+            segment = completed,
+            data = ToolCallData(
+                toolName = call.name,
+                arguments = call.arguments,
+                result = clipped,
+                signature = call.signature,
+                toolCallId = call.id,
+                resultImages = result.images,
+                displayName = completed.toolDisplayName,
+                resultText = displayText,
+                structuredResult = structuredResult,
+                responseOutputItems = completed.responseOutputItems,
+                responseOutputItemProvider = completed.responseOutputItemProvider,
+                transcription = transcription,
+            ),
+        )
+    }
+
+    fun failIncompleteStreams(completedStreamKeys: Set<String>) {
+        streamIndices.forEach { (streamKey, index) ->
+            val segment = segments[index]
+            if (streamKey !in completedStreamKeys && segment.toolResult == null) {
+                segments[index] = segment.copy(toolState = ToolExecutionStates.FAILED)
+            }
+        }
+    }
+
+    fun stopIncompleteTools() {
+        segments.indices.forEach { index ->
+            val segment = segments[index]
+            if (segment.type == "tool" && segment.toolResult == null) {
+                segments[index] = segment.copy(toolState = ToolExecutionStates.STOPPED)
+            }
+        }
+    }
+}
+
+internal fun takeLastWholeCodePoints(text: String, maxChars: Int): String {
+    if (text.length <= maxChars) return text
+    var start = text.length - maxChars
+    if (start > 0 && Character.isLowSurrogate(text[start]) && Character.isHighSurrogate(text[start - 1])) {
+        start++
+    }
+    return text.substring(start)
+}
+
+internal data class CompletedToolCall(
+    val segment: MessageSegment,
+    val data: ToolCallData,
+)
+
+internal data class AuthorizedToolBatchRequest(
+    val effect: RunEffect.ExecuteToolBatch,
+    val calls: List<StreamEvent.ToolCallRequest>,
+    val context: GenerationContext,
+    val conversationId: String,
+    val authorizedToolNames: Set<String>,
+    /** Per-generation single-image transcription flow, resolved from this generation's
+     *  provider instances. Null disables tool-result image transcription. */
+    val toolImageTranscriber: (suspend (ToolImageAttachment, suspend (String) -> Unit) -> String?)? = null,
+) {
+    init {
+        require(calls.isNotEmpty())
+    }
+}
+
+internal data class AuthorizedToolBatchOutcome(
+    val identity: RunEffectIdentity,
+    val calls: List<ToolCallData>,
+    val segments: List<MessageSegment>,
+)
+
+internal data class ToolBatchProgressCallbacks(
+    val publish: suspend (forceCheckpoint: Boolean) -> Unit,
+    val onPublishedAt: (Long) -> Unit,
+)
+
+/**
+ * Executes one already-authorized tool batch without committing or continuing the Run.
+ *
+ * Tool-result image transcription sub-phase: when a completed result declares
+ * [ToolExecutionResult.transcribeImages] and carries images, the executor runs the
+ * per-generation [AuthorizedToolCall.toolImageTranscriber] over the first declared image,
+ * streams a thinking (transcription) segment into the overlay, and appends the description to
+ * the result text. This is one generic rule — the executor contains no tool-name routing.
+ */
+internal class GenerationToolBatchEffectExecutor(
+    private val tools: GenerationToolExecutor,
+    private val nowMs: () -> Long = System::currentTimeMillis,
+) {
+    suspend fun execute(
+        request: AuthorizedToolBatchRequest,
+        overlay: GenerationToolOverlay,
+        callbacks: ToolBatchProgressCallbacks,
+    ): AuthorizedToolBatchOutcome {
+        val results = mutableListOf<ToolCallData>()
+        val completedSegments = mutableListOf<MessageSegment>()
+
+        request.calls.forEach { call ->
+            overlay.start(call)
+            try {
+                callbacks.publish(true)
+                callbacks.onPublishedAt(nowMs())
+            } catch (e: Exception) {
+                overlay.failUnpersistedStart(call)
+                throw e
+            }
+
+            var lastToolUiEmitMs = 0L
+            val executed = tools.execute(
+                AuthorizedToolCall(
+                    batchIdentity = request.effect.identity,
+                    callId = call.id,
+                    name = call.name,
+                    arguments = call.arguments,
+                    context = request.context,
+                    authorizedToolNames = request.authorizedToolNames,
+                    toolImageTranscriber = request.toolImageTranscriber,
+                ),
+            ) { event ->
+                if (event !is ToolExecutionEvent.Completed) {
+                    overlay.applyProgress(call.id, event)
+                    val now = nowMs()
+                    if (now - lastToolUiEmitMs >= TOOL_PROGRESS_UI_UPDATE_INTERVAL_MS) {
+                        callbacks.publish(false)
+                        callbacks.onPublishedAt(now)
+                        lastToolUiEmitMs = now
+                    }
+                }
+            }
+            check(executed.batchIdentity == request.effect.identity)
+            check(executed.callId == call.id)
+            val result = executed.result
+            val transcriber = request.toolImageTranscriber
+            val toolImage = result.images.firstOrNull()
+            var transcription: String? = null
+            if (result.transcribeImages && toolImage != null && transcriber != null) {
+                // Generic rule (no tool-name routing): results that declare their images as
+                // model input are described with the main transcription flow and streamed as a
+                // thinking segment. The description reaches the model through the API-only
+                // image-context row, mirroring regular image transcriptions — the tool result
+                // text itself stays clean.
+                val segmentIndex = overlay.appendTranscriptionSegment("")
+                callbacks.publish(true)
+                callbacks.onPublishedAt(nowMs())
+                var lastTranscriptionUiEmitMs = 0L
+                var lastPartial = ""
+                val description = transcriber(toolImage) { partial ->
+                    lastPartial = partial
+                    overlay.updateTranscriptionSegment(segmentIndex, partial)
+                    val now = nowMs()
+                    if (now - lastTranscriptionUiEmitMs >= TOOL_PROGRESS_UI_UPDATE_INTERVAL_MS) {
+                        callbacks.publish(false)
+                        callbacks.onPublishedAt(now)
+                        lastTranscriptionUiEmitMs = now
+                    }
+                }
+                // The transcriber always emits a terminal progress line (description or failure
+                // notice), so the thinking block never ends up empty. The description travels
+                // with the result row (segment.toolTranscription) so the API projection can
+                // inject it — the round-boundary path rebuild excludes the model message.
+                overlay.updateTranscriptionSegment(
+                    segmentIndex,
+                    description ?: lastPartial,
+                )
+                transcription = description
+                callbacks.publish(false)
+                callbacks.onPublishedAt(nowMs())
+            }
+            val completed = overlay.complete(call, result, transcription = transcription)
+            completedSegments += completed.segment
+            results += completed.data
+            callbacks.publish(false)
+            callbacks.onPublishedAt(nowMs())
+        }
+
+        return AuthorizedToolBatchOutcome(
+            identity = request.effect.identity,
+            calls = results,
+            segments = completedSegments,
+        )
+    }
+}

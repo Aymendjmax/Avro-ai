@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcp_title">MCP</string>
+    <string name="mcp_desc">連接外部工具伺服器</string>
+    <string name="mcp_servers">MCP 伺服器</string>
+    <string name="mcp_no_servers">尚無 MCP 伺服器</string>
+    <string name="mcp_no_servers_desc">新增 Streamable HTTP 或 SSE 端點後，即可在對話中使用其工具。</string>
+    <string name="mcp_add_server">新增 MCP 伺服器</string>
+    <string name="mcp_edit_server">編輯 MCP 伺服器</string>
+    <string name="mcp_delete_title">刪除 MCP 伺服器？</string>
+    <string name="mcp_delete_message">刪除 %1$s 並移除其工具？</string>
+    <string name="mcp_connection">連線</string>
+    <string name="mcp_transport">傳輸方式</string>
+    <string name="mcp_transport_streamable_http">Streamable HTTP</string>
+    <string name="mcp_transport_sse">SSE</string>
+    <string name="mcp_name">名稱</string>
+    <string name="mcp_url">伺服器 URL</string>
+    <string name="mcp_url_error">請輸入有效的 http:// 或 https:// URL</string>
+    <string name="mcp_headers">自訂標頭</string>
+    <string name="mcp_headers_desc">僅新增伺服器必要的標頭。標頭值會加密儲存。</string>
+    <string name="mcp_no_headers">尚無自訂標頭</string>
+    <string name="mcp_headers_error">每行必須使用「名稱: 值」格式</string>
+    <string name="mcp_header_name">標頭名稱</string>
+    <string name="mcp_header_value">標頭值</string>
+    <string name="mcp_header_name_error">請輸入唯一且非保留的 HTTP 標頭名稱</string>
+    <string name="mcp_header_value_error">請輸入不含控制字元的值</string>
+    <string name="mcp_add_header">新增標頭</string>
+    <string name="mcp_delete_header">刪除標頭</string>
+    <string name="mcp_timeout">逾時（秒）</string>
+    <string name="mcp_timeout_desc">5–300 秒</string>
+    <string name="mcp_status">狀態</string>
+    <string name="mcp_status_idle">閒置</string>
+    <string name="mcp_status_connecting">正在連線…</string>
+    <string name="mcp_status_connected">已連線</string>
+    <string name="mcp_tools_enabled">已啟用 %1$d 個工具</string>
+    <string name="mcp_status_error">連線錯誤</string>
+    <string name="mcp_refresh">重新連線</string>
+    <string name="mcp_tools_count">工具（%1$d）</string>
+    <string name="mcp_tool_no_description">無說明</string>
+</resources>

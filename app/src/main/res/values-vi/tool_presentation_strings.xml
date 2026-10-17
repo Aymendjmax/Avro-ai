@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_read_active_memory">Đọc bộ nhớ hoạt động</string>
+    <string name="tool_reading_active_memory">Đang đọc bộ nhớ hoạt động…</string>
+    <string name="tool_read_active_memory_success">Đã đọc bộ nhớ hoạt động</string>
+    <string name="tool_read_active_memory_empty">Bộ nhớ hoạt động trống</string>
+    <string name="tool_read_active_memory_failed">Đọc bộ nhớ hoạt động thất bại</string>
+    <string name="tool_no_memories">Không tìm thấy bộ nhớ đã lưu</string>
+    <string name="tool_no_skills">Không tìm thấy kỹ năng</string>
+    <string name="tool_no_shells">Không tìm thấy shell</string>
+    <string name="tool_no_tasks">Không tìm thấy tác vụ</string>
+    <string name="tool_listed_memories_default">Đã xem các bộ nhớ đã lưu</string>
+    <string name="tool_conversation_search_done_no_count">Đã tìm kiếm cuộc trò chuyện</string>
+    <string name="tool_listed_conversations_default">Đã liệt kê cuộc trò chuyện</string>
+    <string name="tool_listed_shells_default">Đã liệt kê shell</string>
+    <string name="tool_listed_shell_jobs_default">Đã liệt kê tác vụ shell</string>
+    <string name="tool_found_files_default">Đã tìm thấy tệp</string>
+    <string name="tool_found_matches_default">Đã tìm thấy kết quả khớp</string>
+    <string name="tool_listing_skills">Đang liệt kê kỹ năng…</string>
+    <string name="tool_reading_skill_subject">Đang đọc %1$s…</string>
+    <string name="tool_creating_skill_subject">Đang tạo %1$s…</string>
+    <string name="tool_editing_skill_subject">Đang chỉnh sửa %1$s…</string>
+    <string name="tool_deleting_skill_subject">Đang xóa %1$s…</string>
+    <string name="tool_listed_skills">Đã liệt kê %1$d kỹ năng</string>
+    <string name="tool_listed_skills_default">Đã liệt kê kỹ năng</string>
+    <string name="tool_read_skill_done">Đã đọc %1$s</string>
+    <string name="tool_read_skill_done_default">Đã đọc kỹ năng</string>
+    <string name="tool_created_skill">Đã tạo %1$s</string>
+    <string name="tool_created_skill_default">Đã tạo kỹ năng</string>
+    <string name="tool_edited_skill">Đã chỉnh sửa %1$s</string>
+    <string name="tool_edited_skill_default">Đã chỉnh sửa kỹ năng</string>
+    <string name="tool_deleted_skill">Đã xóa %1$s</string>
+    <string name="tool_deleted_skill_default">Đã xóa kỹ năng</string>
+    <string name="tool_created_task_subject">Đã tạo %1$s</string>
+    <string name="tool_listed_task_count">Đã liệt kê %1$d tác vụ</string>
+    <string name="tool_deleted_task_subject">Đã xóa %1$s</string>
+    <string name="tool_failed_to_read">Không thể đọc %1$s</string>
+    <string name="tool_read_failed_default">Không thể đọc</string>
+    <string name="tool_failed_to_create">Không thể tạo %1$s</string>
+    <string name="tool_create_failed_default">Không thể tạo</string>
+    <string name="tool_failed_to_update">Không thể cập nhật %1$s</string>
+    <string name="tool_update_failed_default">Không thể cập nhật</string>
+    <string name="tool_failed_to_delete">Không thể xóa %1$s</string>
+    <string name="tool_delete_failed_default">Không thể xóa</string>
+    <string name="tool_failed_to_write">Không thể ghi %1$s</string>
+    <string name="tool_write_failed_default">Không thể ghi</string>
+    <string name="tool_failed_to_search">Không thể tìm kiếm %1$s</string>
+    <string name="tool_failed_to_fetch">Không thể tải %1$s</string>
+    <string name="tool_failed_to_find">Không thể tìm thấy %1$s</string>
+    <string name="tool_find_failed_default">Không thể tìm thấy tệp</string>
+    <string name="tool_failed_to_view">Không thể xem %1$s</string>
+    <string name="tool_view_failed_default">Không thể xem hình ảnh</string>
+    <string name="tool_image_generation_failed">Không thể tạo hình ảnh</string>
+    <string name="tool_shell_failed_with_reason">Lệnh shell thất bại: %1$s</string>
+    <string name="tool_shell_job_read_failed">Không thể đọc tác vụ shell</string>
+    <string name="tool_shell_job_stop_failed">Không thể dừng tác vụ shell</string>
+    <string name="tool_list_failed_default">Không thể liệt kê mục</string>
+    <string name="tool_loop_start_failed">Không thể bắt đầu vòng lặp</string>
+    <string name="tool_loop_stop_failed">Không thể dừng vòng lặp</string>
+    <string name="tool_reading_files_count">Đang đọc %1$d tệp…</string>
+    <string name="tool_read_files_count">Đã đọc %1$d tệp</string>
+    <string name="tool_read_content_empty">Không có nội dung tệp được trả về</string>
+    <string name="tool_read_conversation_empty">Không có tin nhắn hội thoại được trả về</string>
+    <string name="tool_ask_user">Hỏi Người Dùng</string>
+    <string name="tool_waiting_for_answers">Đang chờ câu trả lời…</string>
+    <string name="tool_interrupted">Bị gián đoạn</string>
+    <string name="tool_renaming_file">Đang đổi tên %1$s thành %2$s…</string>
+    <string name="tool_renamed_file">Đã đổi tên %1$s thành %2$s</string>
+    <string name="tool_renaming_file_default">Đang đổi tên tệp…</string>
+    <string name="tool_renamed_file_default">Đã đổi tên tệp</string>
+    <string name="tool_describing_file">Đang cập nhật mô tả của %1$s…</string>
+    <string name="tool_described_file">Đã cập nhật mô tả của %1$s</string>
+    <string name="tool_describing_file_default">Đang cập nhật mô tả tệp…</string>
+    <string name="tool_described_file_default">Đã cập nhật mô tả tệp</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="other">Đã xếp hàng %1$d câu hỏi</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="other">Đã trả lời %1$d câu hỏi</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="other">Đã bỏ qua %1$d câu hỏi</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="other">Đã trả lời %1$d trên %2$d câu hỏi</item>
+    </plurals>
+    <string name="tool_questions_asked">Đã đặt câu hỏi</string>
+    <string name="tool_loop_already_stopped">Vòng lặp đã dừng trước đó</string>
+    <string name="tool_ask_user_failed">Không thể hỏi người dùng</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="other">Đã tìm qua %1$d ký ức đã lưu</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="other">Đã liệt kê %1$d kỹ năng</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="other">Tìm thấy %1$d kết quả cho \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="other">Đã tìm thấy %1$d cuộc trò chuyện</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="other">Tìm thấy %1$d cuộc trò chuyện cho \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="other">Đã liệt kê %1$d cuộc trò chuyện</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="other">Đã liệt kê %1$d shell</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="other">Đã liệt kê %1$d tác vụ shell</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="other">Tìm thấy %1$d tệp</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="other">Tìm thấy %1$d kết quả khớp</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="other">Đã liệt kê %1$d tác vụ</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="other">Đang đọc %1$d tệp…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="other">Đã đọc %1$d tệp</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="other">Đã tìm thấy %1$d kết quả</item>
+    </plurals>
+</resources>

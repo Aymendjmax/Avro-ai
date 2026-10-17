@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_title">원격</string>
+    <string name="remote_devices">기기</string>
+    <string name="remote_connect">연결</string>
+    <string name="remote_address">서비스 URL</string>
+    <string name="remote_token">액세스 토큰</string>
+    <string name="remote_connection_hint">연결할 기기에 Filo를 설치한 다음 IP 주소 또는 URL을 입력하세요.</string>
+    <string name="remote_sessions">세션</string>
+    <string name="remote_empty">기존 세션을 찾을 수 없음</string>
+    <string name="remote_sync_hint">Codex에서 이 세션을 열어 두세요. 답변이 저장되면 동기화됩니다.</string>
+    <string name="remote_refresh">새로고침</string>
+    <string name="remote_load_more">더 불러오기</string>
+    <string name="remote_check">확인했어요</string>
+    <string name="remote_confirm">계속 보낼까요?</string>
+    <string name="remote_remove">연결 삭제</string>
+    <string name="remote_add_device">기기 추가</string>
+    <string name="remote_no_devices">기기 없음</string>
+    <string name="remote_no_devices_desc">Filo가 실행 중인 컴퓨터를 추가하여 해당 Codex 세션에 접근하세요.</string>
+    <string name="remote_connection">연결</string>
+    <string name="remote_edit_device">기기 편집</string>
+    <string name="remote_delete_title">기기를 삭제할까요?</string>
+    <string name="remote_delete_message">%1$s의 저장된 연결을 삭제할까요? Codex 세션은 유지됩니다.</string>
+    <string name="remote_new_session_unavailable">새 세션 — 이 기기에서 사용할 수 없음</string>
+    <string name="remote_model_unavailable">모델 사용 불가</string>
+    <string name="remote_address_placeholder">http://192.168.1.100:7435</string>
+    <string name="remote_token_placeholder">0123456789abcdef…</string>
+    <string name="remote_online">온라인</string>
+    <string name="remote_offline">오프라인</string>
+    <string name="remote_connecting">연결 중</string>
+    <string name="remote_archive">보관</string>
+    <string name="remote_archive_title">작업을 보관할까요?</string>
+    <string name="remote_archive_message">Codex와 Remote의 활성 목록에서 이 작업을 제거할까요? 기록은 유지됩니다.</string>
+</resources>

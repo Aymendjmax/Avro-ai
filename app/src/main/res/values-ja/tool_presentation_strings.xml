@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_read_active_memory">アクティブメモリを読む</string>
+    <string name="tool_reading_active_memory">アクティブメモリを読み込み中…</string>
+    <string name="tool_read_active_memory_success">アクティブメモリを読み込みました</string>
+    <string name="tool_read_active_memory_empty">アクティブメモリは空です</string>
+    <string name="tool_read_active_memory_failed">アクティブメモリの読み込みに失敗しました</string>
+    <string name="tool_no_memories">保存済みメモリは見つかりませんでした</string>
+    <string name="tool_no_skills">スキルは見つかりませんでした</string>
+    <string name="tool_no_shells">シェルは見つかりませんでした</string>
+    <string name="tool_no_tasks">タスクは見つかりませんでした</string>
+    <string name="tool_listed_memories_default">保存済みメモリを確認しました</string>
+    <string name="tool_conversation_search_done_no_count">会話を検索しました</string>
+    <string name="tool_listed_conversations_default">会話を一覧表示しました</string>
+    <string name="tool_listed_shells_default">シェルを一覧表示しました</string>
+    <string name="tool_listed_shell_jobs_default">シェルジョブを一覧表示しました</string>
+    <string name="tool_found_files_default">ファイルが見つかりました</string>
+    <string name="tool_found_matches_default">一致項目が見つかりました</string>
+    <string name="tool_listing_skills">スキルを一覧表示中…</string>
+    <string name="tool_reading_skill_subject">%1$s を読み取り中…</string>
+    <string name="tool_creating_skill_subject">%1$s を作成中…</string>
+    <string name="tool_editing_skill_subject">%1$s を編集中…</string>
+    <string name="tool_deleting_skill_subject">%1$s を削除中…</string>
+    <string name="tool_listed_skills">スキルを %1$d 件一覧表示しました</string>
+    <string name="tool_listed_skills_default">スキルを一覧表示しました</string>
+    <string name="tool_read_skill_done">%1$s を読み取りました</string>
+    <string name="tool_read_skill_done_default">スキルを読み取りました</string>
+    <string name="tool_created_skill">%1$s を作成しました</string>
+    <string name="tool_created_skill_default">スキルを作成しました</string>
+    <string name="tool_edited_skill">%1$s を編集しました</string>
+    <string name="tool_edited_skill_default">スキルを編集しました</string>
+    <string name="tool_deleted_skill">%1$s を削除しました</string>
+    <string name="tool_deleted_skill_default">スキルを削除しました</string>
+    <string name="tool_created_task_subject">%1$s を作成しました</string>
+    <string name="tool_listed_task_count">タスクを %1$d 件一覧表示しました</string>
+    <string name="tool_deleted_task_subject">%1$s を削除しました</string>
+    <string name="tool_failed_to_read">%1$s を読み取れませんでした</string>
+    <string name="tool_read_failed_default">読み取りに失敗しました</string>
+    <string name="tool_failed_to_create">%1$s を作成できませんでした</string>
+    <string name="tool_create_failed_default">作成に失敗しました</string>
+    <string name="tool_failed_to_update">%1$s を更新できませんでした</string>
+    <string name="tool_update_failed_default">更新に失敗しました</string>
+    <string name="tool_failed_to_delete">%1$s を削除できませんでした</string>
+    <string name="tool_delete_failed_default">削除に失敗しました</string>
+    <string name="tool_failed_to_write">%1$s に書き込めませんでした</string>
+    <string name="tool_write_failed_default">書き込みに失敗しました</string>
+    <string name="tool_failed_to_search">%1$s を検索できませんでした</string>
+    <string name="tool_failed_to_fetch">%1$s を取得できませんでした</string>
+    <string name="tool_failed_to_find">%1$s が見つかりませんでした</string>
+    <string name="tool_find_failed_default">ファイルを見つけられませんでした</string>
+    <string name="tool_failed_to_view">%1$s を表示できませんでした</string>
+    <string name="tool_view_failed_default">画像を表示できませんでした</string>
+    <string name="tool_image_generation_failed">画像を生成できませんでした</string>
+    <string name="tool_shell_failed_with_reason">シェルコマンドに失敗しました: %1$s</string>
+    <string name="tool_shell_job_read_failed">シェルジョブを読み取れませんでした</string>
+    <string name="tool_shell_job_stop_failed">シェルジョブを停止できませんでした</string>
+    <string name="tool_list_failed_default">項目を一覧表示できませんでした</string>
+    <string name="tool_loop_start_failed">ループを開始できませんでした</string>
+    <string name="tool_loop_stop_failed">ループを停止できませんでした</string>
+    <string name="tool_reading_files_count">%1$d 個のファイルを読み取り中…</string>
+    <string name="tool_read_files_count">%1$d 個のファイルを読み取り済み</string>
+    <string name="tool_read_content_empty">ファイルの内容は返されませんでした</string>
+    <string name="tool_read_conversation_empty">会話のメッセージは返されませんでした</string>
+    <string name="tool_ask_user">ユーザーに質問</string>
+    <string name="tool_waiting_for_answers">回答を待機中…</string>
+    <string name="tool_interrupted">中断された</string>
+    <string name="tool_renaming_file">%1$s を %2$s に名前変更中…</string>
+    <string name="tool_renamed_file">%1$s を %2$s に名前変更した</string>
+    <string name="tool_renaming_file_default">ファイル名を変更中…</string>
+    <string name="tool_renamed_file_default">ファイル名を変更した</string>
+    <string name="tool_describing_file">%1$s の説明を更新中…</string>
+    <string name="tool_described_file">%1$s の説明を更新した</string>
+    <string name="tool_describing_file_default">ファイルの説明を更新中…</string>
+    <string name="tool_described_file_default">ファイルの説明を更新した</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="other">%1$d 件の質問をキューに追加</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="other">%1$d 件の質問に回答</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="other">%1$d 件の質問をスキップ</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="other">%2$d 件中 %1$d 件の質問に回答</item>
+    </plurals>
+    <string name="tool_questions_asked">質問した</string>
+    <string name="tool_loop_already_stopped">ループはすでに停止している</string>
+    <string name="tool_ask_user_failed">ユーザーへの質問に失敗した</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="other">保存された %1$d 件のメモリを確認しました</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="other">スキルを %1$d 件一覧表示しました</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="other">\"%2$s\" の結果が %1$d 件見つかりました</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="other">会話が %1$d 件見つかりました</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="other">\"%2$s\" の会話が %1$d 件見つかりました</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="other">%1$d 件の会話を列挙</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="other">%1$d 個のシェルを一覧表示しました</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="other">%1$d 件のシェルジョブを一覧表示</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="other">%1$d 件のファイルを検出</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="other">%1$d 件の一致を検出</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="other">タスクを %1$d 件一覧表示しました</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="other">%1$d 個のファイルを読み取り中…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="other">%1$d 個のファイルを読み取り済み</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="other">%1$d 件の結果が見つかった</item>
+    </plurals>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcp_title">MCP</string>
+    <string name="mcp_desc">外部ツールサーバーに接続</string>
+    <string name="mcp_servers">MCP サーバー</string>
+    <string name="mcp_no_servers">MCP サーバーがありません</string>
+    <string name="mcp_no_servers_desc">Streamable HTTP または SSE エンドポイントを追加すると、そのツールを会話で利用できます。</string>
+    <string name="mcp_add_server">MCP サーバーを追加</string>
+    <string name="mcp_edit_server">MCP サーバーを編集</string>
+    <string name="mcp_delete_title">MCP サーバーを削除しますか？</string>
+    <string name="mcp_delete_message">%1$s とそのツールを削除しますか？</string>
+    <string name="mcp_connection">接続</string>
+    <string name="mcp_transport">トランスポート</string>
+    <string name="mcp_transport_streamable_http">Streamable HTTP</string>
+    <string name="mcp_transport_sse">SSE</string>
+    <string name="mcp_name">名前</string>
+    <string name="mcp_url">サーバー URL</string>
+    <string name="mcp_url_error">有効な http:// または https:// URL を入力してください</string>
+    <string name="mcp_headers">カスタムヘッダー</string>
+    <string name="mcp_headers_desc">サーバーに必要なヘッダーのみ追加してください。値は暗号化して保存されます。</string>
+    <string name="mcp_no_headers">カスタムヘッダーなし</string>
+    <string name="mcp_headers_error">各行を「名前: 値」の形式にしてください</string>
+    <string name="mcp_header_name">ヘッダー名</string>
+    <string name="mcp_header_value">ヘッダー値</string>
+    <string name="mcp_header_name_error">重複せず予約されていない HTTP ヘッダー名を入力してください</string>
+    <string name="mcp_header_value_error">制御文字を含まない値を入力してください</string>
+    <string name="mcp_add_header">ヘッダーを追加</string>
+    <string name="mcp_delete_header">ヘッダーを削除</string>
+    <string name="mcp_timeout">タイムアウト（秒）</string>
+    <string name="mcp_timeout_desc">5～300 秒</string>
+    <string name="mcp_status">状態</string>
+    <string name="mcp_status_idle">待機中</string>
+    <string name="mcp_status_connecting">接続中…</string>
+    <string name="mcp_status_connected">接続済み</string>
+    <string name="mcp_tools_enabled">%1$d 個のツールが有効</string>
+    <string name="mcp_status_error">接続エラー</string>
+    <string name="mcp_refresh">再接続</string>
+    <string name="mcp_tools_count">ツール（%1$d）</string>
+    <string name="mcp_tool_no_description">説明なし</string>
+</resources>

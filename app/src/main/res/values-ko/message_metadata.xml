@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generation_speed_with_label">평균 생성 속도: %1$s</string>
+</resources>

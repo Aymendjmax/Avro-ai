@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_read_active_memory">Чтение активной памяти</string>
+    <string name="tool_reading_active_memory">Чтение активной памяти…</string>
+    <string name="tool_read_active_memory_success">Активная память прочитана</string>
+    <string name="tool_read_active_memory_empty">Активная память пуста</string>
+    <string name="tool_read_active_memory_failed">Не удалось прочитать активную память</string>
+    <string name="tool_no_memories">Сохранённые воспоминания не найдены</string>
+    <string name="tool_no_skills">Навыки не найдены</string>
+    <string name="tool_no_shells">Оболочки не найдены</string>
+    <string name="tool_no_tasks">Задачи не найдены</string>
+    <string name="tool_listed_memories_default">Сохранённые воспоминания просмотрены</string>
+    <string name="tool_conversation_search_done_no_count">Выполнен поиск разговоров</string>
+    <string name="tool_listed_conversations_default">Разговоры перечислены</string>
+    <string name="tool_listed_shells_default">Оболочки перечислены</string>
+    <string name="tool_listed_shell_jobs_default">Задания оболочки перечислены</string>
+    <string name="tool_found_files_default">Файлы найдены</string>
+    <string name="tool_found_matches_default">Совпадения найдены</string>
+    <string name="tool_listing_skills">Перечисление навыков…</string>
+    <string name="tool_reading_skill_subject">Чтение %1$s…</string>
+    <string name="tool_creating_skill_subject">Создание %1$s…</string>
+    <string name="tool_editing_skill_subject">Изменение %1$s…</string>
+    <string name="tool_deleting_skill_subject">Удаление %1$s…</string>
+    <string name="tool_listed_skills">Перечислено навыков: %1$d</string>
+    <string name="tool_listed_skills_default">Навыки перечислены</string>
+    <string name="tool_read_skill_done">Прочитано: %1$s</string>
+    <string name="tool_read_skill_done_default">Навык прочитан</string>
+    <string name="tool_created_skill">Создано: %1$s</string>
+    <string name="tool_created_skill_default">Навык создан</string>
+    <string name="tool_edited_skill">Изменено: %1$s</string>
+    <string name="tool_edited_skill_default">Навык изменён</string>
+    <string name="tool_deleted_skill">Удалено: %1$s</string>
+    <string name="tool_deleted_skill_default">Навык удалён</string>
+    <string name="tool_created_task_subject">Создано: %1$s</string>
+    <string name="tool_listed_task_count">Перечислено задач: %1$d</string>
+    <string name="tool_deleted_task_subject">Удалено: %1$s</string>
+    <string name="tool_failed_to_read">Не удалось прочитать %1$s</string>
+    <string name="tool_read_failed_default">Не удалось прочитать</string>
+    <string name="tool_failed_to_create">Не удалось создать %1$s</string>
+    <string name="tool_create_failed_default">Не удалось создать</string>
+    <string name="tool_failed_to_update">Не удалось обновить %1$s</string>
+    <string name="tool_update_failed_default">Не удалось обновить</string>
+    <string name="tool_failed_to_delete">Не удалось удалить %1$s</string>
+    <string name="tool_delete_failed_default">Не удалось удалить</string>
+    <string name="tool_failed_to_write">Не удалось записать %1$s</string>
+    <string name="tool_write_failed_default">Не удалось записать</string>
+    <string name="tool_failed_to_search">Не удалось найти в %1$s</string>
+    <string name="tool_failed_to_fetch">Не удалось получить %1$s</string>
+    <string name="tool_failed_to_find">Не удалось найти %1$s</string>
+    <string name="tool_find_failed_default">Не удалось найти файлы</string>
+    <string name="tool_failed_to_view">Не удалось просмотреть %1$s</string>
+    <string name="tool_view_failed_default">Не удалось просмотреть изображение</string>
+    <string name="tool_image_generation_failed">Не удалось создать изображение</string>
+    <string name="tool_shell_failed_with_reason">Сбой команды оболочки: %1$s</string>
+    <string name="tool_shell_job_read_failed">Не удалось прочитать задание оболочки</string>
+    <string name="tool_shell_job_stop_failed">Не удалось остановить задание оболочки</string>
+    <string name="tool_list_failed_default">Не удалось перечислить элементы</string>
+    <string name="tool_loop_start_failed">Не удалось запустить цикл</string>
+    <string name="tool_loop_stop_failed">Не удалось остановить цикл</string>
+    <string name="tool_reading_files_count">Чтение файлов: %1$d…</string>
+    <string name="tool_read_files_count">Прочитано файлов: %1$d</string>
+    <string name="tool_read_content_empty">Содержимое файлов не возвращено</string>
+    <string name="tool_read_conversation_empty">Сообщения беседы не возвращены</string>
+    <string name="tool_ask_user">Спросить Пользователя</string>
+    <string name="tool_waiting_for_answers">Ожидание ответов…</string>
+    <string name="tool_interrupted">Прервано</string>
+    <string name="tool_renaming_file">Переименование %1$s в %2$s…</string>
+    <string name="tool_renamed_file">%1$s переименован в %2$s</string>
+    <string name="tool_renaming_file_default">Переименование файла…</string>
+    <string name="tool_renamed_file_default">Файл переименован</string>
+    <string name="tool_describing_file">Обновление описания %1$s…</string>
+    <string name="tool_described_file">Описание %1$s обновлено</string>
+    <string name="tool_describing_file_default">Обновление описания файла…</string>
+    <string name="tool_described_file_default">Описание файла обновлено</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="one">%1$d вопрос в очереди</item>
+        <item quantity="few">%1$d вопроса в очереди</item>
+        <item quantity="many">%1$d вопросов в очереди</item>
+        <item quantity="other">%1$d вопроса в очереди</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="one">Отвечено на %1$d вопрос</item>
+        <item quantity="few">Отвечено на %1$d вопроса</item>
+        <item quantity="many">Отвечено на %1$d вопросов</item>
+        <item quantity="other">Отвечено на %1$d вопроса</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="one">Пропущен %1$d вопрос</item>
+        <item quantity="few">Пропущено %1$d вопроса</item>
+        <item quantity="many">Пропущено %1$d вопросов</item>
+        <item quantity="other">Пропущено %1$d вопроса</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="one">Отвечено на %1$d из %2$d вопроса</item>
+        <item quantity="few">Отвечено на %1$d из %2$d вопросов</item>
+        <item quantity="many">Отвечено на %1$d из %2$d вопросов</item>
+        <item quantity="other">Отвечено на %1$d из %2$d вопроса</item>
+    </plurals>
+    <string name="tool_questions_asked">Вопросы заданы</string>
+    <string name="tool_loop_already_stopped">Цикл уже остановлен</string>
+    <string name="tool_ask_user_failed">Не удалось спросить пользователя</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="one">Просмотрена %1$d сохранённая память</item>
+        <item quantity="few">Просмотрены %1$d сохранённые памяти</item>
+        <item quantity="many">Просмотрено %1$d сохранённых памятей</item>
+        <item quantity="other">Просмотрено %1$d сохранённых памятей</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="one">Показан %1$d навык</item>
+        <item quantity="few">Показаны %1$d навыка</item>
+        <item quantity="many">Показано %1$d навыков</item>
+        <item quantity="other">Показано %1$d навыков</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="one">Найден %1$d результат для \"%2$s\"</item>
+        <item quantity="few">Найдены %1$d результата для \"%2$s\"</item>
+        <item quantity="many">Найдено %1$d результатов для \"%2$s\"</item>
+        <item quantity="other">Найдено %1$d результатов для \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="one">Найден %1$d разговор</item>
+        <item quantity="few">Найдены %1$d разговора</item>
+        <item quantity="many">Найдено %1$d разговоров</item>
+        <item quantity="other">Найдено %1$d разговоров</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="one">Найден %1$d разговор для \"%2$s\"</item>
+        <item quantity="few">Найдены %1$d разговора для \"%2$s\"</item>
+        <item quantity="many">Найдено %1$d разговоров для \"%2$s\"</item>
+        <item quantity="other">Найдено %1$d разговоров для \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="one">Показан %1$d разговор</item>
+        <item quantity="few">Показаны %1$d разговора</item>
+        <item quantity="many">Показано %1$d разговоров</item>
+        <item quantity="other">Показано %1$d разговоров</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="one">Показана %1$d оболочка</item>
+        <item quantity="few">Показаны %1$d оболочки</item>
+        <item quantity="many">Показано %1$d оболочек</item>
+        <item quantity="other">Показано %1$d оболочек</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="one">Показано %1$d задание оболочки</item>
+        <item quantity="few">Показаны %1$d задания оболочки</item>
+        <item quantity="many">Показано %1$d заданий оболочки</item>
+        <item quantity="other">Показано %1$d заданий оболочки</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="one">Найден %1$d файл</item>
+        <item quantity="few">Найдены %1$d файла</item>
+        <item quantity="many">Найдено %1$d файлов</item>
+        <item quantity="other">Найдено %1$d файлов</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="one">Найдено %1$d совпадение</item>
+        <item quantity="few">Найдены %1$d совпадения</item>
+        <item quantity="many">Найдено %1$d совпадений</item>
+        <item quantity="other">Найдено %1$d совпадений</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="one">Показана %1$d задача</item>
+        <item quantity="few">Показаны %1$d задачи</item>
+        <item quantity="many">Показано %1$d задач</item>
+        <item quantity="other">Показано %1$d задач</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="one">Чтение %1$d файла…</item>
+        <item quantity="few">Чтение %1$d файлов…</item>
+        <item quantity="many">Чтение %1$d файлов…</item>
+        <item quantity="other">Чтение %1$d файлов…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="one">Прочитан %1$d файл</item>
+        <item quantity="few">Прочитаны %1$d файла</item>
+        <item quantity="many">Прочитано %1$d файлов</item>
+        <item quantity="other">Прочитано %1$d файлов</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="one">Найден %1$d результат</item>
+        <item quantity="few">Найдены %1$d результата</item>
+        <item quantity="many">Найдено %1$d результатов</item>
+        <item quantity="other">Найдено %1$d результатов</item>
+    </plurals>
+</resources>

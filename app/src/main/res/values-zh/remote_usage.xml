@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">用量</string>
+    <string name="remote_usage_remaining">剩余 %1$d%%</string>
+    <string name="remote_usage_window">%1$s窗口</string>
+    <string name="remote_usage_resets">重置时间：%1$s</string>
+</resources>

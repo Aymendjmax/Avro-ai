@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_view_image">Afficher l’image</string>
+    <string name="tool_viewing_image">Affichage de l’image %1$s…</string>
+    <string name="tool_progress_viewing">Affichage…</string>
+    <string name="tool_viewed_image">Image %1$s affichée</string>
+    <string name="tool_viewed_image_default">Image affichée</string>
+</resources>

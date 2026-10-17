@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">Điều khiển Avro từ trình duyệt</string>
+    <string name="webui_enable">Bật WebUI</string>
+    <string name="webui_status_stopped">Đang tắt. Khi bật, điện thoại này chạy một máy chủ web kèm thông báo.</string>
+    <string name="webui_status_starting">Đang khởi động…</string>
+    <string name="webui_status_running">Đang chạy trên cổng %1$d</string>
+    <string name="webui_status_failed">Không thể khởi động: %1$s</string>
+    <string name="webui_password_required">Hãy đặt mật khẩu bên dưới để bật WebUI.</string>
+    <string name="webui_port">Cổng</string>
+    <string name="webui_port_desc">Từ 1024 đến 65535. Thay đổi sẽ khởi động lại máy chủ.</string>
+    <string name="webui_password_set">Đặt mật khẩu</string>
+    <string name="webui_password_change">Đổi mật khẩu</string>
+    <string name="webui_password_desc_unset">Bắt buộc trước khi bật WebUI</string>
+    <string name="webui_password_desc_set">Đã đặt. Đổi mật khẩu sẽ đăng xuất mọi trình duyệt.</string>
+    <string name="webui_password_new">Mật khẩu mới</string>
+    <string name="webui_password_confirm">Xác nhận mật khẩu</string>
+    <string name="webui_password_too_short">Dùng ít nhất %1$d ký tự.</string>
+    <string name="webui_password_mismatch">Mật khẩu không khớp.</string>
+    <string name="webui_access">Truy cập</string>
+    <string name="webui_access_urls_desc">Mở một trong các địa chỉ này trong trình duyệt cùng mạng.</string>
+    <string name="webui_access_off">Địa chỉ sẽ hiện ở đây khi WebUI đang chạy.</string>
+    <string name="webui_access_none">Không tìm thấy địa chỉ mạng.</string>
+    <string name="webui_http_warning">HTTP không được mã hóa. Bất kỳ ai trong cùng mạng đều có thể đọc mật khẩu và các cuộc trò chuyện. Chỉ dùng trên mạng đáng tin cậy, chẳng hạn Tailscale.</string>
+    <string name="webui_notification_channel">Máy chủ WebUI</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">Đang khởi động…</string>
+    <string name="webui_notification_running">Mở %1$s</string>
+    <string name="webui_notification_failed">Đã dừng: %1$s</string>
+    <string name="webui_notification_stop">Dừng</string>
+    <string name="webui_security">Bảo mật</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">Mã hóa kết nối. Trình duyệt sẽ cảnh báo một lần vì chứng chỉ tự ký; hãy chấp nhận sau khi kiểm tra dấu vân tay.</string>
+    <string name="webui_certificate_fingerprint">Dấu vân tay SHA-256</string>
+    <string name="webui_certificate_fingerprint_desc">Hãy so sánh với dấu vân tay trình duyệt hiển thị trước khi chấp nhận chứng chỉ.</string>
+    <string name="webui_certificate_regenerate">Tạo lại chứng chỉ</string>
+    <string name="webui_certificate_regenerate_desc">Tạo chứng chỉ mới. Mọi trình duyệt phải chấp nhận lại.</string>
+    <string name="webui_certificate_regenerate_action">Tạo lại</string>
+</resources>

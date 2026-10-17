@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">Controle o Avro pelo navegador</string>
+    <string name="webui_enable">Ativar WebUI</string>
+    <string name="webui_status_stopped">Desativada. Quando ativada, este telefone executa um servidor web com uma notificação.</string>
+    <string name="webui_status_starting">Iniciando…</string>
+    <string name="webui_status_running">Em execução na porta %1$d</string>
+    <string name="webui_status_failed">Não foi possível iniciar: %1$s</string>
+    <string name="webui_password_required">Defina uma senha abaixo para ativar a WebUI.</string>
+    <string name="webui_port">Porta</string>
+    <string name="webui_port_desc">De 1024 a 65535. Alterar reinicia o servidor.</string>
+    <string name="webui_password_set">Definir senha</string>
+    <string name="webui_password_change">Alterar senha</string>
+    <string name="webui_password_desc_unset">Necessária para ativar a WebUI</string>
+    <string name="webui_password_desc_set">Definida. Alterar desconecta todos os navegadores.</string>
+    <string name="webui_password_new">Nova senha</string>
+    <string name="webui_password_confirm">Confirmar senha</string>
+    <string name="webui_password_too_short">Use pelo menos %1$d caracteres.</string>
+    <string name="webui_password_mismatch">As senhas não coincidem.</string>
+    <string name="webui_access">Acesso</string>
+    <string name="webui_access_urls_desc">Abra um destes endereços em um navegador na mesma rede.</string>
+    <string name="webui_access_off">Os endereços aparecem aqui enquanto a WebUI está em execução.</string>
+    <string name="webui_access_none">Nenhum endereço de rede encontrado.</string>
+    <string name="webui_http_warning">HTTP não é criptografado. Qualquer pessoa na mesma rede pode ler a senha e as conversas. Use apenas em redes confiáveis, como o Tailscale.</string>
+    <string name="webui_notification_channel">Servidor WebUI</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">Iniciando…</string>
+    <string name="webui_notification_running">Abrir %1$s</string>
+    <string name="webui_notification_failed">Parado: %1$s</string>
+    <string name="webui_notification_stop">Parar</string>
+    <string name="webui_security">Segurança</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">Criptografa a conexão. Os navegadores avisam uma vez porque o certificado é autoassinado; aceite-o depois de conferir a impressão digital.</string>
+    <string name="webui_certificate_fingerprint">Impressão digital SHA-256</string>
+    <string name="webui_certificate_fingerprint_desc">Compare com a impressão digital que o navegador mostra antes de aceitar o certificado.</string>
+    <string name="webui_certificate_regenerate">Gerar novo certificado</string>
+    <string name="webui_certificate_regenerate_desc">Cria um certificado novo. Cada navegador terá de aceitá-lo de novo.</string>
+    <string name="webui_certificate_regenerate_action">Gerar novo</string>
+</resources>

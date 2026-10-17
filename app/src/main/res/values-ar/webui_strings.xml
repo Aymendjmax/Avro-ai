@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">التحكم في Avro من المتصفح</string>
+    <string name="webui_enable">تفعيل WebUI</string>
+    <string name="webui_status_stopped">متوقف. عند التفعيل يشغّل هذا الهاتف خادم ويب مع إشعار.</string>
+    <string name="webui_status_starting">جارٍ البدء…</string>
+    <string name="webui_status_running">يعمل على المنفذ %1$d</string>
+    <string name="webui_status_failed">تعذّر البدء: %1$s</string>
+    <string name="webui_password_required">عيّن كلمة مرور أدناه لتشغيل WebUI.</string>
+    <string name="webui_port">المنفذ</string>
+    <string name="webui_port_desc">من 1024 إلى 65535. تغييره يعيد تشغيل الخادم.</string>
+    <string name="webui_password_set">تعيين كلمة المرور</string>
+    <string name="webui_password_change">تغيير كلمة المرور</string>
+    <string name="webui_password_desc_unset">مطلوبة قبل تشغيل WebUI</string>
+    <string name="webui_password_desc_set">معيّنة. تغييرها يسجّل خروج جميع المتصفحات.</string>
+    <string name="webui_password_new">كلمة مرور جديدة</string>
+    <string name="webui_password_confirm">تأكيد كلمة المرور</string>
+    <string name="webui_password_too_short">استخدم %1$d أحرف على الأقل.</string>
+    <string name="webui_password_mismatch">كلمتا المرور غير متطابقتين.</string>
+    <string name="webui_access">الوصول</string>
+    <string name="webui_access_urls_desc">افتح أحد هذه العناوين في متصفح على الشبكة نفسها.</string>
+    <string name="webui_access_off">تظهر العناوين هنا أثناء تشغيل WebUI.</string>
+    <string name="webui_access_none">لم يُعثر على عنوان شبكة.</string>
+    <string name="webui_http_warning">اتصال HTTP غير مشفّر. يمكن لأي شخص على الشبكة نفسها قراءة كلمة المرور والمحادثات. استخدمه فقط على شبكات موثوقة مثل Tailscale.</string>
+    <string name="webui_notification_channel">خادم WebUI</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">جارٍ البدء…</string>
+    <string name="webui_notification_running">افتح %1$s</string>
+    <string name="webui_notification_failed">توقّف: %1$s</string>
+    <string name="webui_notification_stop">إيقاف</string>
+    <string name="webui_security">الأمان</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">يشفّر الاتصال. تحذّر المتصفحات مرة واحدة لأن الشهادة موقّعة ذاتيًا؛ اقبلها بعد التحقق من البصمة.</string>
+    <string name="webui_certificate_fingerprint">بصمة SHA-256</string>
+    <string name="webui_certificate_fingerprint_desc">قارنها بالبصمة التي يعرضها المتصفح قبل قبول الشهادة.</string>
+    <string name="webui_certificate_regenerate">إعادة إنشاء الشهادة</string>
+    <string name="webui_certificate_regenerate_desc">ينشئ شهادة جديدة. يجب على كل متصفح قبولها مرة أخرى.</string>
+    <string name="webui_certificate_regenerate_action">إعادة الإنشاء</string>
+</resources>

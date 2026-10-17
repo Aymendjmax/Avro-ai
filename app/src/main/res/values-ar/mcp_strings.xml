@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcp_title">MCP</string>
+    <string name="mcp_desc">الاتصال بخوادم أدوات خارجية</string>
+    <string name="mcp_servers">خوادم MCP</string>
+    <string name="mcp_no_servers">لا توجد خوادم MCP</string>
+    <string name="mcp_no_servers_desc">أضف نقطة نهاية Streamable HTTP أو SSE لإتاحة أدواتها في المحادثات.</string>
+    <string name="mcp_add_server">إضافة خادم MCP</string>
+    <string name="mcp_edit_server">تعديل خادم MCP</string>
+    <string name="mcp_delete_title">حذف خادم MCP؟</string>
+    <string name="mcp_delete_message">هل تريد حذف %1$s وإزالة أدواته؟</string>
+    <string name="mcp_connection">الاتصال</string>
+    <string name="mcp_transport">طريقة النقل</string>
+    <string name="mcp_transport_streamable_http">Streamable HTTP</string>
+    <string name="mcp_transport_sse">SSE</string>
+    <string name="mcp_name">الاسم</string>
+    <string name="mcp_url">عنوان URL للخادم</string>
+    <string name="mcp_url_error">أدخل عنوان http:// أو https:// صالحًا</string>
+    <string name="mcp_headers">رؤوس مخصصة</string>
+    <string name="mcp_headers_desc">أضف فقط الرؤوس التي يتطلبها الخادم. تُخزّن القيم مشفرة.</string>
+    <string name="mcp_no_headers">لا توجد رؤوس مخصصة</string>
+    <string name="mcp_headers_error">يجب أن يستخدم كل سطر صيغة الاسم: القيمة</string>
+    <string name="mcp_header_name">اسم الرأس</string>
+    <string name="mcp_header_value">قيمة الرأس</string>
+    <string name="mcp_header_name_error">استخدم اسم رأس HTTP فريدًا وغير محجوز</string>
+    <string name="mcp_header_value_error">أدخل قيمة بلا محارف تحكم</string>
+    <string name="mcp_add_header">إضافة رأس</string>
+    <string name="mcp_delete_header">حذف الرأس</string>
+    <string name="mcp_timeout">المهلة (بالثواني)</string>
+    <string name="mcp_timeout_desc">5–300 ثانية</string>
+    <string name="mcp_status">الحالة</string>
+    <string name="mcp_status_idle">خامل</string>
+    <string name="mcp_status_connecting">جارٍ الاتصال…</string>
+    <string name="mcp_status_connected">متصل</string>
+    <string name="mcp_tools_enabled">تم تمكين %1$d من الأدوات</string>
+    <string name="mcp_status_error">خطأ في الاتصال</string>
+    <string name="mcp_refresh">إعادة الاتصال</string>
+    <string name="mcp_tools_count">الأدوات (%1$d)</string>
+    <string name="mcp_tool_no_description">لا يوجد وصف</string>
+</resources>

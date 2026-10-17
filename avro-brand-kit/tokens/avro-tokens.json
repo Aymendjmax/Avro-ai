@@ -1,0 +1,110 @@
+{
+  "brand": "Avro",
+  "colors": {
+    "black": "#000000",
+    "white": "#FFFFFF",
+    "scheme": "Avro-MN (Material 3 Monochrome)",
+    "dark": {
+      "primary": "#FFFFFF",
+      "onPrimary": "#1B1B1B",
+      "primaryContainer": "#D4D4D4",
+      "onPrimaryContainer": "#000000",
+      "secondaryContainer": "#474747",
+      "onSecondaryContainer": "#E2E2E2",
+      "surface": "#131313",
+      "surfaceAmoled": "#000000",
+      "surfaceContainer": "#1F1F1F",
+      "surfaceContainerHigh": "#2A2A2A",
+      "onSurface": "#E2E2E2",
+      "onSurfaceVariant": "#C6C6C6",
+      "outline": "#919191",
+      "outlineVariant": "#474747",
+      "error": "#FFB4AB"
+    },
+    "light": {
+      "primary": "#000000",
+      "onPrimary": "#E2E2E2",
+      "primaryContainer": "#3B3B3B",
+      "onPrimaryContainer": "#FFFFFF",
+      "secondaryContainer": "#D4D4D4",
+      "onSecondaryContainer": "#1B1B1B",
+      "surface": "#F9F9F9",
+      "surfaceAmoled": "#FFFFFF",
+      "surfaceContainer": "#EEEEEE",
+      "surfaceContainerHigh": "#E8E8E8",
+      "onSurface": "#1B1B1B",
+      "onSurfaceVariant": "#474747",
+      "outline": "#777777",
+      "outlineVariant": "#C6C6C6",
+      "error": "#BA1A1A"
+    }
+  },
+  "typography": {
+    "latin": {
+      "family": "Outfit (mioutfit_variable.ttf)",
+      "weights": [
+        200,
+        300,
+        400,
+        500,
+        700
+      ],
+      "wordmark": "Outfit Bold 700",
+      "code": "JetBrains Mono",
+      "scale": "1.2 geometric from 16sp: 11,13,16,19,23,28,33,40,48,57"
+    },
+    "arabic": {
+      "family": "Noto Sans Arabic",
+      "license": "OFL-1.1",
+      "weightMap": {
+        "200": 200,
+        "300": 300,
+        "400": 400,
+        "500": 500,
+        "700": 700
+      },
+      "optionalVariableTuning": {
+        "300": 290,
+        "400": 360,
+        "500": 450,
+        "700": 660
+      },
+      "letterSpacing": 0,
+      "italic": false,
+      "lineHeight": {
+        "body": 1.6,
+        "headline": 1.35,
+        "label": 1.5
+      },
+      "note": "Stem-matched at equal size; Noto is ~6-12% heavier. Verify on device."
+    }
+  },
+  "mark": {
+    "viewBox": "0 0 768 768",
+    "height": 542,
+    "width": 576,
+    "legThickness": 144,
+    "gap": 41.5,
+    "leftLeg": 436,
+    "rightLeg": 461,
+    "clearSpace": "1x = leg thickness (144 units, 26.6% of mark height)"
+  },
+  "motion": {
+    "easeInOut": "cubic-bezier(0.65,0,0.35,1)",
+    "smootherstep": "6t^5-15t^4+10t^3",
+    "backOutC1": 1.70158,
+    "goo": {
+      "blurStd": 10,
+      "alphaMatrix": "22 -9"
+    },
+    "halo": {
+      "blurStd": 28,
+      "opacity": 0.38,
+      "radiusScale": 1.7,
+      "lagSec": 0.07
+    },
+    "stretch": "K=min(0.7,speed/2600); rx=r(1+K); ry=r/(1+K/2)",
+    "fps": 60,
+    "frame": "1024x1024"
+  }
+}

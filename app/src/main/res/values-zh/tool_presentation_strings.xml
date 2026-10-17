@@ -1,0 +1,131 @@
+<resources>
+    <string name="tool_read_active_memory">读取活跃记忆</string>
+    <string name="tool_reading_active_memory">正在读取活跃记忆…</string>
+    <string name="tool_read_active_memory_success">已读取活跃记忆</string>
+    <string name="tool_read_active_memory_empty">活跃记忆为空</string>
+    <string name="tool_read_active_memory_failed">读取活跃记忆失败</string>
+    <string name="tool_no_memories">未找到已保存的记忆</string>
+    <string name="tool_no_skills">未找到技能</string>
+    <string name="tool_no_shells">未找到 Shell</string>
+    <string name="tool_no_tasks">未找到任务</string>
+    <string name="tool_listed_memories_default">已查看保存的记忆</string>
+    <string name="tool_conversation_search_done_no_count">已搜索对话</string>
+    <string name="tool_listed_conversations_default">已列出对话</string>
+    <string name="tool_listed_shells_default">已列出 Shell</string>
+    <string name="tool_listed_shell_jobs_default">已列出 Shell 任务</string>
+    <string name="tool_found_files_default">已找到文件</string>
+    <string name="tool_found_matches_default">已找到匹配项</string>
+    <string name="tool_listing_skills">正在列出技能…</string>
+    <string name="tool_reading_skill_subject">正在读取 %1$s…</string>
+    <string name="tool_creating_skill_subject">正在创建 %1$s…</string>
+    <string name="tool_editing_skill_subject">正在编辑 %1$s…</string>
+    <string name="tool_deleting_skill_subject">正在删除 %1$s…</string>
+    <string name="tool_listed_skills">已列出 %1$d 个技能</string>
+    <string name="tool_listed_skills_default">已列出技能</string>
+    <string name="tool_read_skill_done">已读取 %1$s</string>
+    <string name="tool_read_skill_done_default">已读取技能</string>
+    <string name="tool_created_skill">已创建 %1$s</string>
+    <string name="tool_created_skill_default">已创建技能</string>
+    <string name="tool_edited_skill">已编辑 %1$s</string>
+    <string name="tool_edited_skill_default">已编辑技能</string>
+    <string name="tool_deleted_skill">已删除 %1$s</string>
+    <string name="tool_deleted_skill_default">已删除技能</string>
+    <string name="tool_created_task_subject">已创建 %1$s</string>
+    <string name="tool_listed_task_count">已列出 %1$d 个任务</string>
+    <string name="tool_deleted_task_subject">已删除 %1$s</string>
+    <string name="tool_failed_to_read">无法读取 %1$s</string>
+    <string name="tool_read_failed_default">读取失败</string>
+    <string name="tool_failed_to_create">无法创建 %1$s</string>
+    <string name="tool_create_failed_default">创建失败</string>
+    <string name="tool_failed_to_update">无法更新 %1$s</string>
+    <string name="tool_update_failed_default">更新失败</string>
+    <string name="tool_failed_to_delete">无法删除 %1$s</string>
+    <string name="tool_delete_failed_default">删除失败</string>
+    <string name="tool_failed_to_write">无法写入 %1$s</string>
+    <string name="tool_write_failed_default">写入失败</string>
+    <string name="tool_failed_to_search">无法搜索 %1$s</string>
+    <string name="tool_failed_to_fetch">无法抓取 %1$s</string>
+    <string name="tool_failed_to_find">无法查找 %1$s</string>
+    <string name="tool_find_failed_default">查找文件失败</string>
+    <string name="tool_failed_to_view">无法查看 %1$s</string>
+    <string name="tool_view_failed_default">查看图片失败</string>
+    <string name="tool_image_generation_failed">生成图片失败</string>
+    <string name="tool_shell_failed_with_reason">Shell 命令失败：%1$s</string>
+    <string name="tool_shell_job_read_failed">读取 Shell 任务失败</string>
+    <string name="tool_shell_job_stop_failed">停止 Shell 任务失败</string>
+    <string name="tool_list_failed_default">列出项目失败</string>
+    <string name="tool_loop_start_failed">启动循环失败</string>
+    <string name="tool_loop_stop_failed">停止循环失败</string>
+    <string name="tool_reading_files_count">正在读取 %1$d 个文件…</string>
+    <string name="tool_read_files_count">已读取 %1$d 个文件</string>
+    <string name="tool_read_content_empty">未返回文件内容</string>
+    <string name="tool_read_conversation_empty">未返回对话消息</string>
+    <string name="tool_ask_user">询问用户</string>
+    <string name="tool_waiting_for_answers">等待回答…</string>
+    <string name="tool_interrupted">意外中断</string>
+    <string name="tool_renaming_file">正在将 %1$s 重命名为 %2$s…</string>
+    <string name="tool_renamed_file">已将 %1$s 重命名为 %2$s</string>
+    <string name="tool_renaming_file_default">正在重命名文件…</string>
+    <string name="tool_renamed_file_default">已重命名文件</string>
+    <string name="tool_describing_file">正在更新 %1$s 的描述…</string>
+    <string name="tool_described_file">已更新 %1$s 的描述</string>
+    <string name="tool_describing_file_default">正在更新文件描述…</string>
+    <string name="tool_described_file_default">已更新文件描述</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="other">已排队 %1$d 个问题</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="other">已回答 %1$d 个问题</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="other">已跳过 %1$d 个问题</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="other">已回答 %1$d 个问题，共 %2$d 个</item>
+    </plurals>
+    <string name="tool_questions_asked">已提问</string>
+    <string name="tool_loop_already_stopped">循环已处于停止状态</string>
+    <string name="tool_ask_user_failed">询问用户失败</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="other">查看了 %1$d 条已保存的记忆</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="other">已列出 %1$d 个技能</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="other">搜索 \"%2$s\" 找到 %1$d 条结果</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="other">找到 %1$d 个对话</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="other">搜索 \"%2$s\" 找到 %1$d 条对话</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="other">已列出 %1$d 个对话</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="other">列出了 %1$d 个终端</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="other">列出了 %1$d 个 Shell 任务</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="other">找到 %1$d 个文件</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="other">找到 %1$d 处匹配</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="other">已列出 %1$d 个任务</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="other">正在读取 %1$d 个文件…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="other">已读取 %1$d 个文件</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="other">找到 %1$d 条结果</item>
+    </plurals>
+</resources>

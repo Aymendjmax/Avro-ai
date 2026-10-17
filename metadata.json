@@ -1,0 +1,6 @@
+{
+  "name": "Avro",
+  "description": "Mobile AI-agent app supporting multi-provider LLMs, agentic workflows, and MCP tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

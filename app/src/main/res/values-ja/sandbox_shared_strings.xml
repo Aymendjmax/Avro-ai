@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">共有ストレージ</string>
+    <string name="sandbox_shared_storage_desc">端末の共有ストレージを Linux サンドボックスに公開できます。</string>
+    <string name="sandbox_shared_storage_mounted">/mnt/shared にマウント済み</string>
+    <string name="sandbox_shared_storage_permission_required">有効 · ストレージへのアクセス許可が必要です</string>
+    <string name="sandbox_shared_storage_grant">ストレージへのアクセスを許可</string>
+    <string name="sandbox_shared_storage_warning">サンドボックスのコマンドが写真、ダウンロード、その他の共有ファイルを読み書きできるようになります。変更を行うツール呼び出しには確認が必要です。</string>
+</resources>

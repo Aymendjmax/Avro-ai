@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_usage">Usage</string>
+    <string name="remote_usage_remaining">%1$d%% remaining</string>
+    <string name="remote_usage_window">%1$s window</string>
+    <string name="remote_usage_resets">Resets %1$s</string>
+</resources>

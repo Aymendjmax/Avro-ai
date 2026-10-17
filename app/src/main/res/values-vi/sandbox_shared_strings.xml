@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">Bộ nhớ dùng chung</string>
+    <string name="sandbox_shared_storage_desc">Tùy chọn cho phép sandbox Linux truy cập bộ nhớ dùng chung của thiết bị.</string>
+    <string name="sandbox_shared_storage_mounted">Đã gắn tại /mnt/shared</string>
+    <string name="sandbox_shared_storage_permission_required">Đã bật · vẫn cần quyền truy cập bộ nhớ</string>
+    <string name="sandbox_shared_storage_grant">Cấp quyền truy cập bộ nhớ</string>
+    <string name="sandbox_shared_storage_warning">Lệnh trong sandbox có thể đọc và sửa ảnh, tệp tải xuống cùng các tệp dùng chung khác. Lời gọi công cụ làm thay đổi dữ liệu cần được xác nhận.</string>
+</resources>

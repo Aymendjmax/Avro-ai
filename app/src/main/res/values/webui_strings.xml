@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">Control Avro from a browser</string>
+    <string name="webui_enable">Enable WebUI</string>
+    <string name="webui_status_stopped">Off. Runs a web server on this phone with a notification while on.</string>
+    <string name="webui_status_starting">Starting…</string>
+    <string name="webui_status_running">Running on port %1$d</string>
+    <string name="webui_status_failed">Could not start: %1$s</string>
+    <string name="webui_password_required">Set a password below to turn on WebUI.</string>
+    <string name="webui_port">Port</string>
+    <string name="webui_port_desc">1024 to 65535. Changing it restarts the server.</string>
+    <string name="webui_password_set">Set Password</string>
+    <string name="webui_password_change">Change Password</string>
+    <string name="webui_password_desc_unset">Required before WebUI can turn on</string>
+    <string name="webui_password_desc_set">Set. Changing it signs every browser out.</string>
+    <string name="webui_password_new">New password</string>
+    <string name="webui_password_confirm">Confirm password</string>
+    <string name="webui_password_too_short">Use at least %1$d characters.</string>
+    <string name="webui_password_mismatch">The passwords do not match.</string>
+    <string name="webui_access">Access</string>
+    <string name="webui_access_urls_desc">Open one of these addresses in a browser on the same network.</string>
+    <string name="webui_access_off">Addresses appear here while WebUI is running.</string>
+    <string name="webui_access_none">No network address found.</string>
+    <string name="webui_http_warning">HTTP is not encrypted. Anyone on the same network can read the password and the conversations. Use it only on networks you trust, such as Tailscale.</string>
+    <string name="webui_notification_channel">WebUI server</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">Starting…</string>
+    <string name="webui_notification_running">Open %1$s</string>
+    <string name="webui_notification_failed">Stopped: %1$s</string>
+    <string name="webui_notification_stop">Stop</string>
+    <string name="webui_security">Security</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">Encrypts the connection. Browsers warn once because the certificate is self-signed; accept it after checking the fingerprint.</string>
+    <string name="webui_certificate_fingerprint">SHA-256 Fingerprint</string>
+    <string name="webui_certificate_fingerprint_desc">Compare this with the fingerprint your browser shows before you accept the certificate.</string>
+    <string name="webui_certificate_regenerate">Regenerate Certificate</string>
+    <string name="webui_certificate_regenerate_desc">Creates a new certificate. Every browser has to accept it again.</string>
+    <string name="webui_certificate_regenerate_action">Regenerate</string>
+</resources>

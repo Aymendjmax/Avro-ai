@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_failed">遠端操作未完成，請查看錯誤詳情。</string>
+    <string name="remote_unknown">尚未確認訊息是否送達。再次傳送前，請先在 Codex 中核對該對話。</string>
+    <string name="remote_rejected">Codex 未接受這則訊息，請查看錯誤詳情後再嘗試。</string>
+    <string name="remote_storage_failed">Avro 無法存取本機遠端資料，請檢查剩餘儲存空間。</string>
+    <string name="remote_network_failed">無法連線至 Filo，請檢查目標電腦、服務位址和網路。</string>
+    <string name="remote_auth_failed">Filo 拒絕了存取權杖，請使用目標電腦上的權杖。</string>
+    <string name="remote_configuration_failed">請輸入有效的服務 URL 和 64 字元存取權杖。</string>
+    <string name="remote_protocol_failed">Avro 無法驗證或讀取 Filo 的回應，請檢查兩端應用程式是否已更新。</string>
+    <string name="remote_service_failed">Codex 未能完成請求。</string>
+    <string name="remote_save_failed">Avro 未能儲存裝置，請檢查儲存空間後重新儲存。</string>
+    <string name="remote_session_busy">其他 Codex 程序正在使用此對話，請等待它釋放對話。</string>
+    <string name="remote_response_too_large">回應或附件超出了支援的大小。</string>
+    <string name="remote_invalid_request">Filo 無法讀取此請求，請檢查輸入內容。</string>
+    <string name="remote_not_found">請求的內容已無法使用，請重新整理清單。</string>
+    <string name="remote_not_supported">目前連線的用戶端不支援此操作。</string>
+    <string name="remote_desktop_unavailable">Filo 無法連線至 Codex Desktop，請在目標電腦上開啟 Codex。</string>
+    <string name="remote_session_unavailable">Codex 尚未準備好此對話，請在目標電腦上檢查。</string>
+    <string name="remote_helper_unavailable">Filo 無法連線至使用者輔助程序，請檢查目標電腦上的 Filo 服務。</string>
+    <string name="remote_runtime_unavailable">Codex Desktop 執行環境無法使用，請開啟 Codex 完成初始化。</string>
+    <string name="remote_service_restarting">Filo 正在關閉，請等待服務恢復可用。</string>
+    <string name="remote_request_timeout">請求已逾時。再次傳送前，請先核對該對話。</string>
+    <string name="remote_turn_changed">正在產生的回覆已變更，請重新整理對話後再操作。</string>
+    <string name="remote_image_unavailable">目標電腦上的這張圖片已無法使用。</string>
+    <string name="remote_upload_invalid">附件上傳不完整或無效，請重新選擇檔案。</string>
+    <string name="remote_upload_unavailable">Filo 無法儲存附件，請檢查目標電腦的儲存空間。</string>
+    <string name="remote_busy">Filo 目前請求過多，請稍候。</string>
+    <string name="remote_usage_unavailable">暫時無法取得 Codex 用量資訊。</string>
+    <string name="remote_settings_unavailable">Codex 的目前模型不支援所選設定。</string>
+</resources>

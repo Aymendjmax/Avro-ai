@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_failed">No se pudo completar la acción remota. Consulta los detalles del error.</string>
+    <string name="remote_unknown">El envío no está confirmado. Revisa la conversación en Codex antes de volver a enviar.</string>
+    <string name="remote_rejected">Codex no aceptó el mensaje. Consulta el error antes de intentarlo de nuevo.</string>
+    <string name="remote_storage_failed">Avro no puede acceder a los datos remotos locales. Comprueba el espacio disponible.</string>
+    <string name="remote_network_failed">No se puede conectar con Filo. Comprueba el equipo de destino, la dirección y la red.</string>
+    <string name="remote_auth_failed">Filo rechazó el token de acceso. Usa el token del equipo de destino.</string>
+    <string name="remote_configuration_failed">Introduce una URL de servicio válida y un token de acceso de 64 caracteres.</string>
+    <string name="remote_protocol_failed">Avro no puede verificar o leer la respuesta de Filo. Comprueba que ambas apps estén actualizadas.</string>
+    <string name="remote_service_failed">Codex no pudo completar la solicitud.</string>
+    <string name="remote_save_failed">Avro no pudo guardar el dispositivo. Comprueba el espacio y vuelve a guardar.</string>
+    <string name="remote_session_busy">Otro proceso de Codex usa esta conversación. Espera a que la libere.</string>
+    <string name="remote_response_too_large">La respuesta o el archivo adjunto supera el tamaño admitido.</string>
+    <string name="remote_invalid_request">Filo no puede leer la solicitud. Comprueba los valores introducidos.</string>
+    <string name="remote_not_found">El elemento solicitado ya no está disponible. Actualiza la lista.</string>
+    <string name="remote_not_supported">El cliente conectado no admite esta operación.</string>
+    <string name="remote_desktop_unavailable">Filo no puede conectar con Codex Desktop. Abre Codex en el equipo de destino.</string>
+    <string name="remote_session_unavailable">Codex aún no tiene lista esta conversación. Revísala en el equipo de destino.</string>
+    <string name="remote_helper_unavailable">Filo no puede conectar con su proceso auxiliar de usuario. Comprueba el servicio Filo del equipo de destino.</string>
+    <string name="remote_runtime_unavailable">El entorno de Codex Desktop no está disponible. Abre Codex para completar su configuración.</string>
+    <string name="remote_service_restarting">Filo se está cerrando. Espera a que el servicio esté disponible.</string>
+    <string name="remote_request_timeout">La solicitud agotó el tiempo de espera. Revisa la conversación antes de volver a enviar.</string>
+    <string name="remote_turn_changed">La respuesta en curso ha cambiado. Actualiza la conversación antes de repetir la operación.</string>
+    <string name="remote_image_unavailable">Esta imagen no está disponible en el equipo de destino.</string>
+    <string name="remote_upload_invalid">La carga del archivo adjunto es incompleta o no válida. Selecciona el archivo de nuevo.</string>
+    <string name="remote_upload_unavailable">Filo no puede guardar el archivo adjunto. Comprueba el almacenamiento del equipo de destino.</string>
+    <string name="remote_busy">Filo está procesando demasiadas solicitudes. Espera un momento.</string>
+    <string name="remote_usage_unavailable">La información de uso de Codex no está disponible por ahora.</string>
+    <string name="remote_settings_unavailable">Codex no admite el ajuste seleccionado para este modelo.</string>
+</resources>

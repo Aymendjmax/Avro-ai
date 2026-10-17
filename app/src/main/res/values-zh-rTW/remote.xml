@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_title">遠端</string>
+    <string name="remote_devices">裝置</string>
+    <string name="remote_connect">連線</string>
+    <string name="remote_address">服務位址</string>
+    <string name="remote_token">存取權杖</string>
+    <string name="remote_connection_hint">在目標裝置上安裝 Filo，然後輸入該裝置的 IP 位址或 URL。</string>
+    <string name="remote_sessions">對話</string>
+    <string name="remote_empty">找不到既有對話</string>
+    <string name="remote_sync_hint">請在 Codex 中保持此對話開啟。回覆儲存後會同步顯示。</string>
+    <string name="remote_refresh">重新整理</string>
+    <string name="remote_load_more">載入更多</string>
+    <string name="remote_check">我已檢查</string>
+    <string name="remote_confirm">繼續傳送？</string>
+    <string name="remote_remove">移除連線</string>
+    <string name="remote_add_device">新增裝置</string>
+    <string name="remote_no_devices">尚無裝置</string>
+    <string name="remote_no_devices_desc">新增執行 Filo 的電腦，存取其中的 Codex 工作階段。</string>
+    <string name="remote_connection">連線</string>
+    <string name="remote_edit_device">編輯裝置</string>
+    <string name="remote_delete_title">刪除裝置？</string>
+    <string name="remote_delete_message">刪除已儲存的 %1$s 連線？Codex 工作階段會保留。</string>
+    <string name="remote_new_session_unavailable">新增對話（此裝置暫不支援）</string>
+    <string name="remote_model_unavailable">模型暫不可用</string>
+    <string name="remote_address_placeholder">http://192.168.1.100:7435</string>
+    <string name="remote_token_placeholder">0123456789abcdef…</string>
+    <string name="remote_online">線上</string>
+    <string name="remote_offline">離線</string>
+    <string name="remote_connecting">連線中</string>
+    <string name="remote_archive">封存</string>
+    <string name="remote_archive_title">封存任務？</string>
+    <string name="remote_archive_message">將此任務從 Codex 和 Remote 的未封存清單中移除？歷史記錄會保留。</string>
+</resources>

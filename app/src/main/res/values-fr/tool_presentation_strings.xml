@@ -1,0 +1,102 @@
+<resources>
+    <string name="tool_read_active_memory">Lire la mémoire active</string>
+    <string name="tool_reading_active_memory">Lecture de la mémoire active…</string>
+    <string name="tool_read_active_memory_success">Mémoire active lue</string>
+    <string name="tool_read_active_memory_empty">La mémoire active est vide</string>
+    <string name="tool_read_active_memory_failed">Échec de la lecture de la mémoire active</string>
+<string name="tool_no_memories">Aucune mémoire enregistrée trouvée</string><string name="tool_no_skills">Aucune compétence trouvée</string><string name="tool_no_shells">Aucun shell trouvé</string><string name="tool_no_tasks">Aucune tâche trouvée</string><string name="tool_listed_memories_default">Mémoires enregistrées parcourues</string><string name="tool_conversation_search_done_no_count">Conversations recherchées</string><string name="tool_listed_conversations_default">Conversations répertoriées</string><string name="tool_listed_shells_default">Shells répertoriés</string><string name="tool_listed_shell_jobs_default">Tâches shell répertoriées</string><string name="tool_found_files_default">Fichiers trouvés</string><string name="tool_found_matches_default">Correspondances trouvées</string>
+<string name="tool_listing_skills">Liste des compétences…</string><string name="tool_reading_skill_subject">Lecture de %1$s…</string><string name="tool_creating_skill_subject">Création de %1$s…</string><string name="tool_editing_skill_subject">Modification de %1$s…</string><string name="tool_deleting_skill_subject">Suppression de %1$s…</string>
+<string name="tool_listed_skills">%1$d compétences listées</string><string name="tool_listed_skills_default">Compétences listées</string><string name="tool_read_skill_done">%1$s lu</string><string name="tool_read_skill_done_default">Compétence lue</string><string name="tool_created_skill">%1$s créé</string><string name="tool_created_skill_default">Compétence créée</string><string name="tool_edited_skill">%1$s modifié</string><string name="tool_edited_skill_default">Compétence modifiée</string><string name="tool_deleted_skill">%1$s supprimé</string><string name="tool_deleted_skill_default">Compétence supprimée</string>
+<string name="tool_created_task_subject">%1$s créé</string><string name="tool_listed_task_count">%1$d tâches listées</string><string name="tool_deleted_task_subject">%1$s supprimé</string>
+<string name="tool_failed_to_read">Impossible de lire %1$s</string><string name="tool_read_failed_default">Lecture impossible</string><string name="tool_failed_to_create">Impossible de créer %1$s</string><string name="tool_create_failed_default">Création impossible</string><string name="tool_failed_to_update">Impossible de mettre à jour %1$s</string><string name="tool_update_failed_default">Mise à jour impossible</string><string name="tool_failed_to_delete">Impossible de supprimer %1$s</string><string name="tool_delete_failed_default">Suppression impossible</string><string name="tool_failed_to_write">Impossible d’écrire %1$s</string><string name="tool_write_failed_default">Écriture impossible</string><string name="tool_failed_to_search">Impossible de rechercher %1$s</string><string name="tool_failed_to_fetch">Impossible de récupérer %1$s</string><string name="tool_failed_to_find">Impossible de trouver %1$s</string><string name="tool_find_failed_default">Recherche de fichiers impossible</string><string name="tool_failed_to_view">Impossible d’afficher %1$s</string><string name="tool_view_failed_default">Affichage de l’image impossible</string><string name="tool_image_generation_failed">Génération d’image impossible</string><string name="tool_shell_failed_with_reason">Échec de la commande shell : %1$s</string><string name="tool_shell_job_read_failed">Impossible de lire la tâche shell</string><string name="tool_shell_job_stop_failed">Impossible d’arrêter la tâche shell</string><string name="tool_list_failed_default">Liste impossible</string><string name="tool_loop_start_failed">Impossible de démarrer la boucle</string><string name="tool_loop_stop_failed">Impossible d’arrêter la boucle</string>
+    <string name="tool_reading_files_count">Lecture de %1$d fichiers…</string>
+    <string name="tool_read_files_count">%1$d fichiers lus</string>
+    <string name="tool_read_content_empty">Aucun contenu de fichier renvoyé</string>
+    <string name="tool_read_conversation_empty">Aucun message de conversation renvoyé</string>
+    <string name="tool_ask_user">Interroger L’utilisateur</string>
+    <string name="tool_waiting_for_answers">En attente des réponses…</string>
+    <string name="tool_interrupted">Interrompu</string>
+    <string name="tool_renaming_file">Renommage de %1$s en %2$s…</string>
+    <string name="tool_renamed_file">%1$s renommé en %2$s</string>
+    <string name="tool_renaming_file_default">Renommage du fichier…</string>
+    <string name="tool_renamed_file_default">Fichier renommé</string>
+    <string name="tool_describing_file">Mise à jour de la description de %1$s…</string>
+    <string name="tool_described_file">Description de %1$s mise à jour</string>
+    <string name="tool_describing_file_default">Mise à jour de la description du fichier…</string>
+    <string name="tool_described_file_default">Description du fichier mise à jour</string>
+    <plurals name="tool_questions_queued">
+        <item quantity="one">%1$d question en attente</item>
+        <item quantity="other">%1$d questions en attente</item>
+    </plurals>
+    <plurals name="tool_questions_answered">
+        <item quantity="one">Réponse à %1$d question</item>
+        <item quantity="other">Réponse à %1$d questions</item>
+    </plurals>
+    <plurals name="tool_questions_skipped">
+        <item quantity="one">%1$d question ignorée</item>
+        <item quantity="other">%1$d questions ignorées</item>
+    </plurals>
+    <plurals name="tool_questions_mixed">
+        <item quantity="one">Réponse à %1$d sur %2$d question</item>
+        <item quantity="other">Réponse à %1$d sur %2$d questions</item>
+    </plurals>
+    <string name="tool_questions_asked">Questions posées</string>
+    <string name="tool_loop_already_stopped">Boucle déjà arrêtée</string>
+    <string name="tool_ask_user_failed">Impossible d’interroger l’utilisateur</string>
+    <plurals name="tool_lookup_count">
+        <item quantity="one">%1$d souvenir enregistré consulté</item>
+        <item quantity="other">%1$d mémoires enregistrées parcourues</item>
+    </plurals>
+    <plurals name="tool_listed_skills">
+        <item quantity="one">%1$d compétence listée</item>
+        <item quantity="other">%1$d compétences listées</item>
+    </plurals>
+    <plurals name="tool_web_search_done">
+        <item quantity="one">%1$d résultat trouvé pour \"%2$s\"</item>
+        <item quantity="other">%1$d résultats trouvés pour \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_default">
+        <item quantity="one">%1$d conversation trouvée</item>
+        <item quantity="other">%1$d conversations trouvées</item>
+    </plurals>
+    <plurals name="tool_conversation_search_done_for">
+        <item quantity="one">%1$d conversation trouvée pour \"%2$s\"</item>
+        <item quantity="other">%1$d conversations trouvées pour \"%2$s\"</item>
+    </plurals>
+    <plurals name="tool_listed_conversations">
+        <item quantity="one">%1$d conversation listée</item>
+        <item quantity="other">%1$d conversations listées</item>
+    </plurals>
+    <plurals name="tool_shell_list_count">
+        <item quantity="one">%1$d shell listé</item>
+        <item quantity="other">%1$d shells listés</item>
+    </plurals>
+    <plurals name="tool_shell_job_count">
+        <item quantity="one">%1$d tâche shell listée</item>
+        <item quantity="other">%1$d tâches shell répertoriées</item>
+    </plurals>
+    <plurals name="tool_found_files">
+        <item quantity="one">%1$d fichier trouvé</item>
+        <item quantity="other">%1$d fichiers trouvés</item>
+    </plurals>
+    <plurals name="tool_searched_file">
+        <item quantity="one">%1$d correspondance trouvée</item>
+        <item quantity="other">%1$d correspondances trouvées</item>
+    </plurals>
+    <plurals name="tool_listed_task_count">
+        <item quantity="one">%1$d tâche listée</item>
+        <item quantity="other">%1$d tâches listées</item>
+    </plurals>
+    <plurals name="tool_reading_files_count">
+        <item quantity="one">Lecture de %1$d fichier…</item>
+        <item quantity="other">Lecture de %1$d fichiers…</item>
+    </plurals>
+    <plurals name="tool_read_files_count">
+        <item quantity="one">%1$d fichier lu</item>
+        <item quantity="other">%1$d fichiers lus</item>
+    </plurals>
+    <plurals name="tool_web_search_result_count">
+        <item quantity="one">%1$d résultat trouvé</item>
+        <item quantity="other">%1$d résultats trouvés</item>
+    </plurals>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_failed">원격 작업을 완료하지 못했습니다. 오류 세부 정보를 확인하세요.</string>
+    <string name="remote_unknown">전송 결과를 확인하지 못했습니다. 다시 보내기 전에 Codex에서 대화를 확인하세요.</string>
+    <string name="remote_rejected">Codex가 메시지를 수락하지 않았습니다. 다시 시도하기 전에 오류 세부 정보를 확인하세요.</string>
+    <string name="remote_storage_failed">Avro가 로컬 원격 데이터에 접근할 수 없습니다. 저장 공간을 확인하세요.</string>
+    <string name="remote_network_failed">Filo에 연결할 수 없습니다. 대상 컴퓨터, 서비스 주소 및 네트워크를 확인하세요.</string>
+    <string name="remote_auth_failed">Filo가 액세스 토큰을 거부했습니다. 대상 컴퓨터의 토큰을 사용하세요.</string>
+    <string name="remote_configuration_failed">올바른 서비스 URL과 64자 액세스 토큰을 입력하세요.</string>
+    <string name="remote_protocol_failed">Avro가 Filo 응답을 검증하거나 읽을 수 없습니다. 두 앱이 최신인지 확인하세요.</string>
+    <string name="remote_service_failed">Codex가 요청을 완료하지 못했습니다.</string>
+    <string name="remote_save_failed">Avro가 기기를 저장하지 못했습니다. 저장 공간을 확인하고 다시 저장하세요.</string>
+    <string name="remote_session_busy">다른 Codex 프로세스가 이 대화를 사용 중입니다. 해제될 때까지 기다리세요.</string>
+    <string name="remote_response_too_large">응답 또는 첨부 파일이 지원되는 크기를 초과합니다.</string>
+    <string name="remote_invalid_request">Filo가 요청을 읽을 수 없습니다. 입력 내용을 확인하세요.</string>
+    <string name="remote_not_found">요청한 항목을 더 이상 사용할 수 없습니다. 목록을 새로고침하세요.</string>
+    <string name="remote_not_supported">연결된 클라이언트에서 이 작업을 지원하지 않습니다.</string>
+    <string name="remote_desktop_unavailable">Filo가 Codex Desktop에 연결할 수 없습니다. 대상 컴퓨터에서 Codex를 여세요.</string>
+    <string name="remote_session_unavailable">Codex에서 이 대화가 아직 준비되지 않았습니다. 대상 컴퓨터에서 확인하세요.</string>
+    <string name="remote_helper_unavailable">Filo가 사용자 보조 프로세스에 연결할 수 없습니다. 대상 컴퓨터의 Filo 서비스를 확인하세요.</string>
+    <string name="remote_runtime_unavailable">Codex Desktop 실행 환경을 사용할 수 없습니다. Codex를 열어 초기 설정을 완료하세요.</string>
+    <string name="remote_service_restarting">Filo가 종료 중입니다. 서비스를 사용할 수 있을 때까지 기다리세요.</string>
+    <string name="remote_request_timeout">요청 시간이 초과되었습니다. 다시 보내기 전에 대화를 확인하세요.</string>
+    <string name="remote_turn_changed">생성 중인 응답이 변경되었습니다. 대화를 새로고침한 후 작업하세요.</string>
+    <string name="remote_image_unavailable">대상 컴퓨터에서 이 이미지를 사용할 수 없습니다.</string>
+    <string name="remote_upload_invalid">첨부 파일 업로드가 불완전하거나 잘못되었습니다. 파일을 다시 선택하세요.</string>
+    <string name="remote_upload_unavailable">Filo가 첨부 파일을 저장할 수 없습니다. 대상 컴퓨터의 저장 공간을 확인하세요.</string>
+    <string name="remote_busy">Filo에 요청이 너무 많습니다. 잠시 기다리세요.</string>
+    <string name="remote_usage_unavailable">현재 Codex 사용량 정보를 가져올 수 없습니다.</string>
+    <string name="remote_settings_unavailable">Codex의 현재 모델은 선택한 설정을 지원하지 않습니다.</string>
+</resources>

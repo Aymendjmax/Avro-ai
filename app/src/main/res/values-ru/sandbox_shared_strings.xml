@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">Общее хранилище</string>
+    <string name="sandbox_shared_storage_desc">При необходимости предоставьте Linux-песочнице доступ к общему хранилищу устройства.</string>
+    <string name="sandbox_shared_storage_mounted">Подключено в /mnt/shared</string>
+    <string name="sandbox_shared_storage_permission_required">Включено · требуется доступ к хранилищу</string>
+    <string name="sandbox_shared_storage_grant">Предоставить доступ к хранилищу</string>
+    <string name="sandbox_shared_storage_warning">Команды песочницы смогут читать и изменять фотографии, загрузки и другие общие файлы. Для изменяющих вызовов инструментов требуется подтверждение.</string>
+</resources>

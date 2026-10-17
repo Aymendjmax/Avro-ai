@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">Almacenamiento compartido</string>
+    <string name="sandbox_shared_storage_desc">Expón opcionalmente el almacenamiento compartido del dispositivo al entorno Linux.</string>
+    <string name="sandbox_shared_storage_mounted">Montado en /mnt/shared</string>
+    <string name="sandbox_shared_storage_permission_required">Activado · aún se requiere acceso al almacenamiento</string>
+    <string name="sandbox_shared_storage_grant">Conceder acceso al almacenamiento</string>
+    <string name="sandbox_shared_storage_warning">Esto permite que los comandos del entorno lean y modifiquen fotos, descargas y otros archivos compartidos. Las llamadas que modifican datos requieren confirmación.</string>
+</resources>

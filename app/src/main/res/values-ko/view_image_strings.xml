@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tool_view_image">이미지 보기</string>
+    <string name="tool_viewing_image">이미지 %1$s 보는 중…</string>
+    <string name="tool_progress_viewing">보는 중…</string>
+    <string name="tool_viewed_image">이미지 %1$s을(를) 보았습니다</string>
+    <string name="tool_viewed_image_default">이미지를 보았습니다</string>
+</resources>

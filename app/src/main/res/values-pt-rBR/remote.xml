@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_title">Remoto</string>
+    <string name="remote_devices">Dispositivos</string>
+    <string name="remote_connect">Conectar</string>
+    <string name="remote_address">URL do serviço</string>
+    <string name="remote_token">Token de acesso</string>
+    <string name="remote_connection_hint">Instale o Filo no dispositivo de destino e insira o endereço IP ou URL.</string>
+    <string name="remote_sessions">Sessões</string>
+    <string name="remote_empty">Nenhuma sessão existente encontrada</string>
+    <string name="remote_sync_hint">Mantenha esta sessão aberta no Codex. As respostas são sincronizadas após serem salvas.</string>
+    <string name="remote_refresh">Atualizar</string>
+    <string name="remote_load_more">Carregar Mais</string>
+    <string name="remote_check">Já Verifiquei</string>
+    <string name="remote_confirm">Continuar Enviando?</string>
+    <string name="remote_remove">Remover conexão</string>
+    <string name="remote_add_device">Adicionar dispositivo</string>
+    <string name="remote_no_devices">Nenhum dispositivo</string>
+    <string name="remote_no_devices_desc">Adicione um computador com o Filo em execução para acessar suas sessões do Codex.</string>
+    <string name="remote_connection">Conexão</string>
+    <string name="remote_edit_device">Editar dispositivo</string>
+    <string name="remote_delete_title">Excluir dispositivo?</string>
+    <string name="remote_delete_message">Remover a conexão salva com %1$s? As sessões do Codex serão mantidas.</string>
+    <string name="remote_new_session_unavailable">Nova sessão — indisponível neste dispositivo</string>
+    <string name="remote_model_unavailable">Modelo indisponível</string>
+    <string name="remote_address_placeholder">http://192.168.1.100:7435</string>
+    <string name="remote_token_placeholder">0123456789abcdef…</string>
+    <string name="remote_online">Online</string>
+    <string name="remote_offline">Offline</string>
+    <string name="remote_connecting">Conectando</string>
+    <string name="remote_archive">Arquivar</string>
+    <string name="remote_archive_title">Arquivar tarefa?</string>
+    <string name="remote_archive_message">Remover esta tarefa das listas ativas do Codex e do Remote? O histórico será mantido.</string>
+</resources>

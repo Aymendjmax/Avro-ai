@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_shared_storage">Gemeinsamer Speicher</string>
+    <string name="sandbox_shared_storage_desc">Optional den gemeinsamen Gerätespeicher für die Linux-Sandbox freigeben.</string>
+    <string name="sandbox_shared_storage_mounted">Unter /mnt/shared eingehängt</string>
+    <string name="sandbox_shared_storage_permission_required">Aktiviert · Speicherzugriff ist noch erforderlich</string>
+    <string name="sandbox_shared_storage_grant">Speicherzugriff gewähren</string>
+    <string name="sandbox_shared_storage_warning">Damit können Sandbox-Befehle Fotos, Downloads und andere gemeinsame Dateien lesen und ändern. Verändernde Tool-Aufrufe müssen bestätigt werden.</string>
+</resources>

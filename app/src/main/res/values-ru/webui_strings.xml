@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_webui">WebUI</string>
+    <string name="settings_webui_desc">Управление Avro из браузера</string>
+    <string name="webui_enable">Включить WebUI</string>
+    <string name="webui_status_stopped">Выключено. Во включённом состоянии на телефоне работает веб-сервер с уведомлением.</string>
+    <string name="webui_status_starting">Запуск…</string>
+    <string name="webui_status_running">Работает на порту %1$d</string>
+    <string name="webui_status_failed">Не удалось запустить: %1$s</string>
+    <string name="webui_password_required">Задайте пароль ниже, чтобы включить WebUI.</string>
+    <string name="webui_port">Порт</string>
+    <string name="webui_port_desc">От 1024 до 65535. При изменении сервер перезапускается.</string>
+    <string name="webui_password_set">Задать пароль</string>
+    <string name="webui_password_change">Изменить пароль</string>
+    <string name="webui_password_desc_unset">Нужен, чтобы включить WebUI</string>
+    <string name="webui_password_desc_set">Задан. При изменении все браузеры выйдут из системы.</string>
+    <string name="webui_password_new">Новый пароль</string>
+    <string name="webui_password_confirm">Подтвердите пароль</string>
+    <string name="webui_password_too_short">Используйте не менее %1$d символов.</string>
+    <string name="webui_password_mismatch">Пароли не совпадают.</string>
+    <string name="webui_access">Доступ</string>
+    <string name="webui_access_urls_desc">Откройте один из этих адресов в браузере в той же сети.</string>
+    <string name="webui_access_off">Адреса появятся здесь, пока WebUI работает.</string>
+    <string name="webui_access_none">Сетевой адрес не найден.</string>
+    <string name="webui_http_warning">HTTP не шифруется. Любой в той же сети может прочитать пароль и переписку. Используйте только в доверенных сетях, например в Tailscale.</string>
+    <string name="webui_notification_channel">Сервер WebUI</string>
+    <string name="webui_notification_title">Avro WebUI</string>
+    <string name="webui_notification_starting">Запуск…</string>
+    <string name="webui_notification_running">Открыть %1$s</string>
+    <string name="webui_notification_failed">Остановлено: %1$s</string>
+    <string name="webui_notification_stop">Остановить</string>
+    <string name="webui_security">Безопасность</string>
+    <string name="webui_https">HTTPS</string>
+    <string name="webui_https_desc">Шифрует соединение. Сертификат самоподписанный, поэтому браузер один раз предупредит; примите его после проверки отпечатка.</string>
+    <string name="webui_certificate_fingerprint">Отпечаток SHA-256</string>
+    <string name="webui_certificate_fingerprint_desc">Сравните его с отпечатком в браузере, прежде чем принять сертификат.</string>
+    <string name="webui_certificate_regenerate">Создать новый сертификат</string>
+    <string name="webui_certificate_regenerate_desc">Создаёт новый сертификат. Каждому браузеру придётся принять его заново.</string>
+    <string name="webui_certificate_regenerate_action">Создать</string>
+</resources>
