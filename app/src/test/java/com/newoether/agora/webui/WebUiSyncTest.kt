@@ -1,0 +1,795 @@
+package com.newoether.agora.webui
+import com.newoether.agora.data.CustomProviderConfig
+import com.newoether.agora.data.CustomEndpointProtocol
+
+import com.newoether.agora.automation.ConversationExecutionCoordinator
+import com.newoether.agora.data.local.MessageContextTopology
+import com.newoether.agora.data.local.DrawerConversationRow
+import com.newoether.agora.data.repository.ConversationRepository
+import com.newoether.agora.model.ChatConversation
+import com.newoether.agora.model.ChatMessage
+import com.newoether.agora.model.MessageStatus
+import com.newoether.agora.model.Participant
+import com.newoether.agora.model.ThinkingSegmentDisplayModes
+import com.newoether.agora.model.ToolCallDisplayModes
+import com.newoether.agora.viewmodel.ComposerSubmissionPhase
+import com.newoether.agora.viewmodel.ConversationComposerSubmissionSnapshot
+import com.newoether.agora.viewmodel.ConversationGenerationSnapshot
+import kotlinx.coroutines.flow.MutableSharedFlow
+import com.newoether.agora.viewmodel.ConversationGenerationState
+import com.newoether.agora.viewmodel.ConversationMessagePayloadHydration
+import com.newoether.agora.viewmodel.ConversationStateRegistry
+import io.mockk.coEvery
+import io.mockk.coVerify
+import com.newoether.agora.util.DebugLog
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runCurrent
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import io.ktor.http.HttpStatusCode
+import io.ktor.utils.io.ByteReadChannel
+import kotlinx.coroutines.cancelAndJoin
+import com.newoether.agora.model.SelectedAttachment
+import com.newoether.agora.model.AttachmentImportState
+import org.junit.Assert.assertFalse
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class WebUiSyncTest {
+    private val list = MutableStateFlow(
+        listOf(
+            ChatConversation(id = "a", title = "Alpha", selectedBranchesJson = """{"null":"root","root":"m1"}"""),
+            ChatConversation(id = "b", title = "Beta", hasUnreadGeneration = true),
+        ),
+    )
+    private val topology = MutableStateFlow(
+        listOf(
+            topology("root", parent = null, Participant.USER, timestamp = 1),
+            topology("m1", parent = "root", Participant.MODEL, timestamp = 2),
+            // Newer sibling: without the saved selection the path would take it.
+            topology("m2", parent = "root", Participant.MODEL, timestamp = 3),
+        ),
+    )
+    private val snapshot = MutableStateFlow(ConversationGenerationSnapshot())
+    private val bodies = mapOf(
+        "root" to message("root", null, Participant.USER, "question"),
+        "m1" to message("m1", "root", Participant.MODEL, "x \\(a^2\\) y"),
+        "m2" to message("m2", "root", Participant.MODEL, "other"),
+    )
+    private val todo = MutableStateFlow<String?>(null)
+    private val todoDao = mockk<com.newoether.agora.data.local.ChatDao> {
+        every { observeConversationTodo(any()) } returns todo
+    }
+    private val conversations = mockk<ConversationRepository> {
+        every { chatDao } returns todoDao
+        every { observeDrawerConversations(any()) } answers {
+            val limit = firstArg<Int>()
+            list.map { rows -> rows.take(limit).map { DrawerConversationRow(it.id, it.title, it.hasUnreadGeneration, it.isPinned) } }
+        }
+        every { observeConversation(any()) } answers { val id = firstArg<String>(); list.map { rows -> rows.find { it.id == id } } }
+        coEvery { setConversationPinned(any(), any()) } returns true
+        every { observeMessageTopology("a") } returns topology
+        coEvery { recoverConversationRuntime(any(), any()) } returns 0
+    }
+    private val state = mockk<ConversationGenerationState> {
+        every { generationSnapshot } returns snapshot
+    }
+    private val registry = mockk<ConversationStateRegistry> {
+        every { activeConversationIds } returns MutableStateFlow(setOf("b"))
+        every { getOrCreate("a") } returns state
+    }
+    private val hydration = mockk<ConversationMessagePayloadHydration> {
+        every { observeMessages(any(), any(), any()) } answers { flowOf(secondArg<List<String>>().mapNotNull(bodies::get)) }
+    }
+    private val display = MutableStateFlow(
+        WebDisplayContext(
+            resources = mockk(relaxed = true),
+            toolCallDisplayMode = ToolCallDisplayModes.DEFAULT,
+            thinkingSegmentDisplayMode = ThinkingSegmentDisplayModes.DEFAULT,
+            autoExpandActiveGroup = true,
+            parseInlineDollarMath = false,
+            autoWrapCodeBlocks = false,
+        ),
+    )
+
+    private val openTarget = MutableStateFlow(WebUiChatSession.OpenTarget(null, browserSeq = 0L, movedByServer = false))
+    private val snackbars = MutableSharedFlow<String>(extraBufferCapacity = 4)
+    private val scrollRequests = MutableSharedFlow<WebSyncEvent.ScrollToBottom>(extraBufferCapacity = 4)
+    private val composerState = MutableSharedFlow<WebUiChatSession.ComposerState>(extraBufferCapacity = 4)
+    private val customProviders = MutableStateFlow<List<CustomProviderConfig>>(emptyList())
+    private var search: suspend (String) -> List<Pair<com.newoether.agora.data.local.MessageEntity, Float>> = { emptyList() }
+    private val forkShare = mockk<com.newoether.agora.viewmodel.ConversationForkShareController>()
+    private val askUser = com.newoether.agora.viewmodel.AskUserController()
+    private val shell = com.newoether.agora.viewmodel.ShellConfirmationController(MutableStateFlow(true), {})
+    private val contextAccounting = WebUiContextAccounting(conversations, mockk(), { mockk() }, { it }, MutableStateFlow(90), MutableStateFlow(true))
+    private val session = mockk<WebUiChatSession> {
+        every { openTarget } returns this@WebUiSyncTest.openTarget
+        every { snackbars } returns this@WebUiSyncTest.snackbars
+        every { scrollRequests } returns this@WebUiSyncTest.scrollRequests
+        every { composerState } returns this@WebUiSyncTest.composerState
+        every { branchTransitions } returns com.newoether.agora.viewmodel.BranchReplacementTransitionCoordinator()
+        every { openConversationId } answers { this@WebUiSyncTest.openTarget.value.conversationId }
+        coEvery { start() } just Runs
+        coEvery { close() } just Runs
+        coEvery { endUploads() } just Runs
+        coEvery { send(any(), any(), any()) } just Runs
+        coEvery { edit(any(), any(), any()) } just Runs
+        coEvery { cancelWaiting(any(), any()) } just Runs
+        coEvery { selectModel(any(), any(), any()) } just Runs
+        coEvery { removeQueued(any(), any()) } just Runs
+        coEvery { sendQueued(any(), any()) } just Runs
+        coEvery { attachmentCommand(any()) } just Runs
+        coEvery { settingCommand(any()) } just Runs
+        coEvery { editorCommand(any()) } just Runs
+        every { stop(any()) } just Runs
+        coEvery { open(any(), any()) } answers {
+            this@WebUiSyncTest.openTarget.value =
+                WebUiChatSession.OpenTarget(firstArg(), secondArg(), movedByServer = false)
+        }
+    }
+
+    @Test
+    fun todoIsObservedOnlyForTheSelectedOwnerAndCarriesItsSequence() = sync { send, received ->
+        received()
+        io.mockk.verify(exactly = 0) { todoDao.observeConversationTodo(any()) }
+        send("""{"type":"open","conversationId":"a","seq":11}""")
+        val opened = received().single { it.type == "todo" }
+        assertEquals("a", opened.string("conversationId"))
+        assertEquals("11", opened.string("seq"))
+        todo.value = """[{"content":"Check result","status":"in_progress"}]"""
+        val changed = received().single { it.type == "todo" }
+        assertEquals("Check result", changed["items"]!!.jsonArray.single().jsonObject.string("content"))
+        send("""{"type":"open","seq":12}""")
+        val cleared = received().single { it.type == "todo" }
+        assertEquals("12", cleared.string("seq"))
+        todo.value = """[{"content":"Late result","status":"completed"}]"""
+        assertTrue(received().none { it.type == "todo" })
+        io.mockk.verify(exactly = 1) { todoDao.observeConversationTodo("a") }
+    }
+    @Test
+    fun drawerPagesAreBoundedAndDuplicateLoadRequestsDoNotAdvanceTwice() = sync { send, received ->
+        received()
+        list.value = (0 until 200).map { ChatConversation(id = "c$it", title = "Conversation $it", isPinned = it == 0) }
+        val first = received().single { it.type == "conversations" }
+        assertEquals(80, first["items"]!!.jsonArray.size)
+        assertEquals("true", first.string("hasMore"))
+        assertEquals("true", first["items"]!!.jsonArray.first().jsonObject.string("isPinned"))
+        send("""{"type":"list_more","tokens":80}""")
+        assertEquals(160, received().single { it.type == "conversations" }["items"]!!.jsonArray.size)
+        send("""{"type":"list_more","tokens":80}""")
+        assertTrue(received().none { it.type == "conversations" })
+        send("""{"type":"list_more","tokens":160}""")
+        val last = received().single { it.type == "conversations" }
+        assertEquals(200, last["items"]!!.jsonArray.size)
+        assertFalse(last["hasMore"]?.jsonPrimitive?.content?.toBoolean() == true)
+        verify(exactly = 0) { conversations.getAllConversations() }
+        coVerify(exactly = 0) { conversations.recoverConversationRuntime(any(), any()) }
+    }
+
+    @Test fun removedPromptEditorCommandsDoNothingAndExistingSelectionStillRoutes() = sync { send, received ->
+        received()
+        for (type in listOf("prompt_new", "prompt_preview", "prompt_create")) {
+            send("""{"type":"$type","actionId":1,"promptDraft":{"id":"removed","title":"Removed"}}""")
+        }
+        assertTrue(received().none { it.type == "page_action" })
+        coVerify(exactly = 0) { session.editorCommand(any()) }
+        send("""{"type":"system_prompt","value":"existing","actionId":2}""")
+        coVerify(exactly = 1) { session.editorCommand(WebSyncCommand("system_prompt", value = "existing", actionId = 2)) }
+    }
+
+    @Test
+    fun openingDoesNotDependOnLoadedPages() = sync { send, received ->
+        received()
+        list.value = (0 until 100).map { ChatConversation(id = "c$it", title = "Conversation $it") } + list.value
+        received()
+        send("""{"type":"open","conversationId":"a"}""")
+        assertEquals(listOf("root", "m1"), received().single { it.type == "path" }.ids())
+    }
+
+    @Test
+    fun interactionsFilterOwnersAndValidateChoicesBeforeCanonicalAtomicSubmission() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        val set = askUser.newSetId()
+        val first = askUser.open("a", "First", listOf("A", "B"), false, true, set)
+        val second = askUser.open("a", "Second", emptyList(), true, true, set)
+        val hidden = askUser.open("b", "Hidden", emptyList(), false, true)
+        val global = askUser.open(null, "Global", emptyList(), false, true)
+        send("""{"type":"open","conversationId":"a","seq":3}""")
+        val visible = received().last { it.type == "interactions" }["items"]!!.jsonArray
+        assertEquals(listOf(first.id, second.id, global.id).map(Long::toString), visible.map { it.jsonObject.string("id") })
+        val answers = """{"${first.id}":{"choices":["A"],"answered":true},"${second.id}":{}}"""
+        val valid = """{"type":"question_submit","connectionId":"$connection","conversationId":"a","seq":3,"actionId":7,"answers":$answers}"""
+        send(valid.replace(connection, "stale"))
+        send(valid.replace("\"seq\":3", "\"seq\":2"))
+        send(valid.replace("[\"A\"]", "[\"C\"]"))
+        assertEquals(4, askUser.requests.value.size)
+        assertEquals("7", received().last { it.type == "interactions" }.string("actionId"))
+        send(valid.replace("\"actionId\":7", "\"actionId\":8"))
+        assertEquals(listOf(hidden.id, global.id), askUser.requests.value.map { it.id })
+        assertEquals(listOf("A"), askUser.awaitAnswer(first).choices)
+        assertFalse(askUser.awaitAnswer(second).answered)
+        send(valid.replace("\"actionId\":7", "\"actionId\":8"))
+        assertEquals(2, askUser.requests.value.size)
+        send("""{"type":"question_skip","connectionId":"$connection","conversationId":"a","seq":3,"actionId":9,"requestId":"${hidden.id}"}""")
+        assertTrue(askUser.requests.value.any { it.id == hidden.id })
+        send("""{"type":"question_skip","connectionId":"$connection","conversationId":"a","seq":3,"actionId":10,"requestId":"${global.id}"}""")
+        assertFalse(askUser.awaitAnswer(global).answered)
+    }
+
+    @Test
+    fun shellDecisionsUseExactPendingRequestAndSessionTrustOwner() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        val result = kotlinx.coroutines.CompletableDeferred<Boolean>()
+        backgroundScope.launch { result.complete(shell.confirm("fixture", "echo fixture", "a")) }
+        runCurrent()
+        assertTrue(received().none { it.type == "interactions" })
+        send("""{"type":"open","conversationId":"a","seq":4}""")
+        val request = received().last { it.type == "interactions" }["items"]!!.jsonArray.first().jsonObject
+        assertEquals("shell", request.string("kind"))
+        val command = """{"type":"shell_decision","connectionId":"$connection","conversationId":"a","seq":4,"actionId":1,"requestId":"${request.string("id")}","enabled":true,"alwaysAllow":true}"""
+        send(command.replace("\"requestId\":\"${request.string("id")}\"", "\"requestId\":\"999\""))
+        assertFalse(result.isCompleted)
+        send(command.replace("\"actionId\":1", "\"actionId\":2"))
+        assertTrue(result.await())
+        assertTrue(shell.confirm("fixture", "another", "a"))
+        assertEquals(null, shell.pendingShellCommand.value)
+    }
+
+    @Test
+    fun sendAndStopCommandsGoToTheConnectionSession() = sync { send, _ ->
+        send("""{"type":"send","text":"hello"}""")
+        send("""{"type":"stop"}""")
+        coVerify(exactly = 1) { session.start() }
+        coVerify(exactly = 1) { session.send("hello", 0L, 0L) }
+        verify(exactly = 1) { session.stop(0L) }
+    }
+    @Test
+    fun draftAndCancelCommandsKeepTheirExactTargetAndActionIdentity() = sync { send, _ ->
+        send("""{"type":"draft","text":"later edit","revision":3,"seq":7}""")
+        send("""{"type":"cancel_waiting","seq":7,"actionId":9}""")
+        coVerify(exactly = 1) { session.edit("later edit", 3L, 7L) }
+        coVerify(exactly = 1) { session.cancelWaiting(7L, 9L) }
+    }
+    @Test
+    fun modelAndQueueCommandsKeepTheirExactTargetIdentity() = sync { send, _ ->
+        send("""{"type":"model","modelId":"provider:model","seq":4,"actionId":7}""")
+        send("""{"type":"remove_queued","queuedId":"queue-id","seq":4}""")
+        send("""{"type":"send_queued","seq":4,"actionId":8}""")
+        coVerify(exactly = 1) { session.selectModel("provider:model", 4L, 7L) }
+        coVerify(exactly = 1) { session.removeQueued("queue-id", 4L) }
+        coVerify(exactly = 1) { session.sendQueued(4L, 8L) }
+    }
+
+    @Test
+    fun editorCommandsAndProjectionUseTheExistingSessionAndStructuredSettings() = sync { send, received ->
+        send("""{"type":"advanced","seq":7,"actionId":9,"parameters":{"temperature":1.2}}""")
+        send("""{"type":"compact","seq":7,"actionId":10,"modelId":"m","text":"summary","retainCount":0}""")
+        coVerify(exactly = 1) { session.editorCommand(WebSyncCommand("advanced", seq = 7, actionId = 9, parameters = com.newoether.agora.data.ConversationSettings(temperature = 1.2f))) }
+        coVerify(exactly = 1) { session.editorCommand(WebSyncCommand("compact", seq = 7, actionId = 10, modelId = "m", text = "summary", retainCount = 0)) }
+        received()
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(),
+            generationParameters = com.newoether.agora.data.ConversationSettings(temperature = 1.2f),
+            compactDefaults = com.newoether.agora.viewmodel.CompactRequest("m", "summary", 4)))
+        val projected = received().single { it.type == "composer" }
+        assertEquals("1.2", projected["advanced"]!!.jsonObject["overrides"]!!.jsonObject.string("temperature"))
+        assertEquals("4096", projected["advanced"]!!.jsonObject["contextPresets"]!!.jsonArray.first().jsonPrimitive.content)
+        assertEquals("4K", projected["advanced"]!!.jsonObject["contextLabels"]!!.jsonArray.first().jsonPrimitive.content)
+        assertEquals("m", projected["compact"]!!.jsonObject.string("modelId"))
+    }
+    @Test
+    fun settingsCommandAndEffectiveControlsKeepCanonicalIdentityAndAvailability() = sync { send, received ->
+        send("""{"type":"setting","seq":7,"actionId":9,"setting":"webSearchEnabled","enabled":false}""")
+        coVerify(exactly = 1) { session.settingCommand(WebSyncCommand("setting", seq = 7, actionId = 9, setting = "webSearchEnabled", enabled = false)) }
+        received()
+        val global = com.newoether.agora.data.ConversationSettings(contextWindow = 32768, codeExecutionEnabled = false,
+            googleSearchEnabled = false, thinkingEnabled = true, thinkingLevel = "medium", thinkingBudgetEnabled = false,
+            thinkingBudgetTokens = 4096, openAiServiceTierEnabled = true, openAiServiceTier = "priority",
+            webSearchEnabled = true, shellEnabled = false, lowContextModeEnabled = true)
+        val controls = com.newoether.agora.ui.chat.resolveEffectiveConversationControls(null, null, global, com.newoether.agora.util.Constants.PROVIDER_OPENAI, true, emptyList())
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(), controls = controls))
+        val projected = received().single { it.type == "composer" }["controls"]!!.jsonObject
+        assertEquals("true", projected.string("openAiWebSearchAvailable"))
+        assertEquals("fast", projected.string("openAiServiceTier"))
+        assertEquals("false", projected.string("showLowContextMode"))
+        assertEquals("false", projected.string("shellAvailable"))
+        assertEquals("32768", projected.string("contextWindow"))
+        send("""{"type":"setting","seq":7,"actionId":10,"setting":"thinkingLevel","value":"high"}""")
+        coVerify { session.settingCommand(WebSyncCommand("setting", seq = 7, actionId = 10, setting = "thinkingLevel", value = "high")) }
+        received()
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(),
+            modelValid = true, modelId = "OpenAI:gpt-6-astra", controls = controls.copy(thinkingEnabled = false, thinkingLevel = "minimal", openAiServiceTierState = controls.openAiServiceTierState.copy(tier = "ultrafast"))))
+        val resolved = received().single { it.type == "composer" }["controls"]!!.jsonObject
+        assertEquals("false", resolved.string("thinkingEnabled"))
+        assertEquals("true", resolved.string("displayedThinkingEnabled"))
+        assertEquals("low", resolved.string("displayedThinkingLevel"))
+        assertEquals("false", resolved.string("thinkingCanDisable"))
+        assertEquals("false", resolved.string("thinkingSupportsBudget"))
+        assertEquals("fast", resolved.string("displayedServiceTier"))
+        assertEquals(listOf("auto", "default", "flex", "fast"), resolved["serviceTiers"]!!.jsonArray.map { it.jsonPrimitive.content })
+        val customId = "custom-provider-12345678-1234-4234-8234-123456789abc"
+        customProviders.value = listOf(CustomProviderConfig(name = "Relay", id = customId, responsesApiEnabled = true))
+        received()
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(),
+            modelValid = true, modelId = "$customId:unlisted", controls = controls))
+        assertEquals("true", received().single { it.type == "composer" }["controls"]!!.jsonObject.string("thinkingSupportsBudget"))
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(),
+            modelValid = true, modelId = "$customId:claude-opus-4-6", controls = controls))
+        assertEquals(listOf("minimal", "low", "medium", "high", "xhigh", "max"), received().single { it.type == "composer" }["controls"]!!.jsonObject["thinkingEfforts"]!!.jsonArray.map { it.jsonPrimitive.content })
+        customProviders.value = listOf(customProviders.value.single().copy(protocol = CustomEndpointProtocol.ANTHROPIC))
+        val updated = received().single { it.type == "composer" }["controls"]!!.jsonObject
+        assertEquals("true", updated.string("thinkingSupportsBudget"))
+        assertEquals(listOf("low", "medium", "high", "xhigh", "max"), updated["thinkingEfforts"]!!.jsonArray.map { it.jsonPrimitive.content })
+    }
+    @Test
+    fun attachmentCommandsKeepTheExactIdSelectionAndConfiguration() = sync { send, _ ->
+        for (type in listOf("attachment_remove", "attachment_retry", "attachment_pdf", "attachment_video")) {
+            send("""{"type":"$type","seq":7,"attachmentId":"pick","actionId":9,"pages":[0,2],"frameCount":3,"intervalMs":5000}""")
+            coVerify(exactly = 1) { session.attachmentCommand(WebSyncCommand(type, seq = 7, actionId = 9, attachmentId = "pick", pages = listOf(0, 2), frameCount = 3, intervalMs = 5000)) }
+        }
+    }
+
+    @Test
+    fun attachmentProjectionIncludesStatusAndProgressButNoPrivatePaths() = sync { _, received ->
+        received()
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(),
+            attachments = listOf(SelectedAttachment(localId = "pdf", uri = "private-uri", type = "pdf", localPath = "private-source",
+                importState = AttachmentImportState.PROCESSING, pageCount = 3, preRenderedPaths = listOf("private-page")),
+                SelectedAttachment(uri = "private-video", type = "video", videoDurationMs = 15_000)),
+            pdfProgress = mapOf("pdf" to (1 to 3))))
+        val event = received().single { it.type == "composer" }
+        val pdf = event["attachments"]!!.jsonArray.first().jsonObject
+        assertEquals("pdf", pdf.string("id"))
+        assertEquals("PROCESSING", pdf.string("state"))
+        assertEquals("1", pdf.string("previewDone"))
+        assertEquals("3", pdf.string("previewTotal"))
+        assertEquals("1", pdf.string("pagePreviewCount"))
+        assertEquals("5", event["attachments"]!!.jsonArray.last().jsonObject.string("defaultFrameCount"))
+        assertFalse(event.toString().contains("private-"))
+    }
+
+    @Test
+    fun fileProjectionUsesOnlyCanonicalPreparedTextAndNeverSandboxOrUnavailableContent() = sync { _, received ->
+        received()
+        val file = SelectedAttachment(uri = "private-uri", type = "file", preparedText = "prepared text")
+        composerState.emit(WebUiChatSession.ComposerState(null, ConversationComposerSubmissionSnapshot(), attachments = listOf(
+            file, file.copy(unavailable = true, preparedText = "secret-unavailable"),
+            file.copy(storage = com.newoether.agora.model.AttachmentStorage.LOCAL_SANDBOX_RUNTIME, preparedText = "secret-sandbox"))))
+        val event = received().single { it.type == "composer" }
+        assertEquals("prepared text", event["attachments"]!!.jsonArray.first().jsonObject.string("text"))
+        assertFalse(event.toString().contains("secret-"))
+        assertFalse(event.toString().contains("private-"))
+    }
+
+    @Test
+    fun aRuntimeMoveIsAnnouncedBeforeTheMovedConversationsEvents() = sync { send, received ->
+        send("""{"type":"open","conversationId":null,"seq":4}""")
+        received()
+        openTarget.value = WebUiChatSession.OpenTarget("a", browserSeq = 4L, movedByServer = true)
+        val events = received()
+        val opened = events.indexOfFirst { it.type == "opened" }
+        assertEquals("a", events[opened].string("conversationId"))
+        assertEquals("4", events[opened].string("seq"))
+        assertTrue(opened < events.indexOfFirst { it.type == "path" })
+    }
+
+    @Test
+    fun browserOpensAreNotEchoedAsMoves() = sync { send, received ->
+        send("""{"type":"open","conversationId":"a","seq":1}""")
+        val events = received()
+        assertTrue(events.none { it.type == "opened" })
+        assertEquals(listOf("root", "m1"), events.single { it.type == "path" }.ids())
+    }
+
+    @Test
+    fun snackbarsAndComposerPhasesAreForwarded() = sync { _, received ->
+        received()
+        snackbars.emit("No model selected")
+        composerState.emit(
+            WebUiChatSession.ComposerState(
+                conversationId = null,
+                snapshot = ConversationComposerSubmissionSnapshot(
+                    phase = ComposerSubmissionPhase.WAITING,
+                    acceptedVersion = 2L,
+                ),
+                text = "canonical draft",
+                editRevision = 3L,
+                actionId = 9L,
+            ),
+        )
+        val events = received()
+        assertEquals("No model selected", events.single { it.type == "snackbar" }.string("message"))
+        val composer = events.single { it.type == "composer" }
+        assertEquals("WAITING", composer.string("phase"))
+        assertEquals("2", composer.string("acceptedVersion"))
+        assertEquals("canonical draft", composer.string("text"))
+        assertEquals("3", composer.string("editRevision"))
+        assertEquals("9", composer.string("actionId"))
+    }
+
+    @Test
+    fun closingTheConnectionClosesItsSession() = runTest {
+        val incoming = Channel<String>(Channel.UNLIMITED)
+        incoming.close()
+        webUiSync(StandardTestDispatcher(testScheduler)).serve("login", incoming) { }
+        coVerify(exactly = 1) { session.close() }
+    }
+    @Test
+    fun uploadsRequireTheExactLoginAndLiveConnection() = runTest {
+        val sync = webUiSync(StandardTestDispatcher(testScheduler))
+        val incoming = Channel<String>()
+        val events = mutableListOf<JsonObject>()
+        val job = backgroundScope.launch { sync.serve("login", incoming) { events += Json.parseToJsonElement(it).jsonObject } }
+        runCurrent()
+        val id = events.single { it.type == "connection" }.string("connectionId")
+        coEvery { session.upload(any(), any(), any(), any(), any(), any()) } returns HttpStatusCode.Accepted
+        val bytes = ByteReadChannel(byteArrayOf(1))
+        assertEquals(HttpStatusCode.NotFound, sync.upload("other-login", id, 2, "f.txt", "text/plain", null, 1, bytes))
+        assertEquals(HttpStatusCode.NotFound, sync.upload("login", "other-connection", 2, "f.txt", "text/plain", null, 1, bytes))
+        assertEquals(HttpStatusCode.Accepted, sync.upload("login", id, 2, "f.txt", "text/plain", null, 1, bytes))
+        coVerify(exactly = 1) { session.upload(2, "f.txt", "text/plain", null, 1, bytes) }
+        coEvery { session.previewAttachment(any(), any(), any(), any(), any()) } returns true
+        val consume: suspend (java.io.File, String) -> Unit = { _, _ -> }
+        assertFalse(sync.previewAttachment("other-login", id, 2, "pick", "source", 0, consume))
+        assertFalse(sync.previewAttachment("login", "other-connection", 2, "pick", "source", 0, consume))
+        assertTrue(sync.previewAttachment("login", id, 2, "pick", "source", 0, consume))
+        coVerify(exactly = 1) { session.previewAttachment(2, "pick", "source", 0, consume) }
+        job.cancelAndJoin()
+        assertEquals(HttpStatusCode.NotFound, sync.upload("login", id, 2, "f.txt", "text/plain", null, 1, bytes))
+        assertFalse(sync.previewAttachment("login", id, 2, "pick", "source", 0, consume))
+    }
+    @Test
+    fun acceptedScrollRequestsKeepTheMessageAndBrowserTarget() = sync { _, received ->
+        received()
+        scrollRequests.emit(WebSyncEvent.ScrollToBottom("a", "accepted-message", 7L))
+        val event = received().single { it.type == "scroll_to_bottom" }
+        assertEquals("a", event.string("conversationId"))
+        assertEquals("accepted-message", event.string("messageId"))
+        assertEquals("7", event.string("seq"))
+    }
+
+    @Test
+    fun listThenOpenSendsTheSavedBranchAfterRecovery() = sync { send, received ->
+        val first = received()
+        assertEquals("false", first.single { it.type == "display" }.string("autoWrapCodeBlocks"))
+        assertEquals("true", first.single { it.type == "display" }.string("blurEffectsEnabled"))
+        assertEquals("false", first.single { it.type == "display" }.string("reduceMotion"))
+        val listed = first.single { it.type == "conversations" }
+        val items = listed["items"]!!.jsonArray.map { it.jsonObject }
+        assertEquals(listOf("a", "b"), items.map { it.string("id") })
+        assertEquals(listOf("false", "true"), items.map { it.string("generating") })
+        assertEquals("true", items[1].string("unread"))
+
+        send("""{"type":"open","conversationId":"a"}""")
+        val path = received().single { it.type == "path" }
+        assertEquals(listOf("root", "m1"), path.ids())
+        coVerify(exactly = 1) { conversations.recoverConversationRuntime("a", any()) }
+    }
+
+    @Test
+    fun onlyWatchedRowsOnThePathGetBodiesWithMathSplitOut() = sync { send, received ->
+        send("""{"type":"open","conversationId":"a"}""")
+        received()
+        send("""{"type":"watch","messageIds":["m1","m2"]}""")
+        val payloads = received().filter { it.type == "payload" }.map { it["message"]!!.jsonObject }
+        assertEquals(listOf("m1"), payloads.map { it.string("id") })
+        val text = payloads.single()["presentation"]!!.jsonObject["answer"]!!.jsonObject
+        // parseLatexSpans moves the spaces around inline math into the formula's source.
+        assertEquals("x${MATH_OPEN}0${MATH_CLOSE}y", text.string("markdown"))
+        val math = text["math"]!!.jsonArray.single().jsonObject
+        assertEquals("a^2", math.string("tex"))
+        assertEquals("false", math.string("display"))
+        verify(exactly = 0) { hydration.observeMessages("a", match { "m2" in it }, any()) }
+    }
+
+    @Test
+    fun streamingMessageJoinsThePathAndIsSentWithItsBody() = sync { send, received ->
+        send("""{"type":"open","conversationId":"a"}""")
+        received()
+        snapshot.value = ConversationGenerationSnapshot(
+            conversationId = "a",
+            streamingMessage = message("m3", "m1", Participant.MODEL, "partial", MessageStatus.SENDING),
+            isLoading = true,
+            isGenerating = true,
+        )
+        val events = received()
+        val path = events.single { it.type == "path" }
+        assertEquals(listOf("root", "m1", "m3"), path.ids())
+        assertEquals("true", path.string("generating"))
+        val streaming = events.single { it.type == "streaming" }["message"]!!.jsonObject
+        assertEquals("partial", streaming["text"]!!.jsonObject.string("markdown"))
+    }
+
+    @Test
+    fun openingAConversationThatIsGoneReportsItDeletedWithoutRecovery() = sync { send, received ->
+        send("""{"type":"open","conversationId":"gone"}""")
+        assertEquals("gone", received().single { it.type == "deleted" }.string("conversationId"))
+        coVerify(exactly = 0) { conversations.recoverConversationRuntime(any(), any()) }
+    }
+
+    @Test
+    fun rowRemovedFromTheListWhileOpenIsReportedDeleted() = sync { send, received ->
+        send("""{"type":"open","conversationId":"a"}""")
+        received()
+        list.value = list.value.filterNot { it.id == "a" }
+        assertTrue(received().any { it.type == "deleted" && it.string("conversationId") == "a" })
+    }
+
+    @Test
+    fun aFailedLoadEndsThatConversationButNotTheConnection() {
+        every { conversations.observeMessageTopology("a") } returns flow { error("broken graph") }
+        mockkObject(DebugLog)
+        every { DebugLog.e(any(), any(), any()) } just Runs
+        try {
+            sync { send, received ->
+                send("""{"type":"open","conversationId":"a"}""")
+                assertTrue(received().any { it.type == "load_failed" })
+                list.value = list.value.map { it.copy(title = it.title + "!") }
+                val titles = received().single { it.type == "conversations" }["items"]!!.jsonArray
+                    .map { it.jsonObject.string("title") }
+                assertEquals(listOf("Alpha!", "Beta!"), titles)
+            }
+        } finally {
+            unmockkObject(DebugLog)
+        }
+    }
+
+    @Test
+    fun appearanceChangesKeepTheOpenConversationAndExistingPayloadSubscription() = sync { send, received ->
+        received()
+        send("""{"type":"open","conversationId":"a"}""")
+        received()
+        send("""{"type":"watch","messageIds":["m1"]}""")
+        received()
+        for ((blur, reduceMotion) in listOf(false to true, false to false, true to true, true to false)) {
+            display.value = display.value.copy(blurEffectsEnabled = blur, reduceMotion = reduceMotion)
+            val events = received()
+            val appearance = events.single { it.type == "display" }
+            assertEquals(blur.toString(), appearance.string("blurEffectsEnabled"))
+            assertEquals(reduceMotion.toString(), appearance.string("reduceMotion"))
+            assertEquals("m1", events.single { it.type == "payload" }["message"]!!.jsonObject.string("id"))
+        }
+        coVerify(exactly = 1) { conversations.recoverConversationRuntime("a", any()) }
+        verify(exactly = 1) { hydration.observeMessages("a", listOf("m1"), any()) }
+        verify(exactly = 0) { hydration.observeMessages("a", match { "m2" in it }, any()) }
+    }
+
+    @Test
+    fun pageActionsRejectWrongSelectionAndDeduplicatePendingRequests() = sync { send, received ->
+        var complete: ((Boolean) -> Unit)? = null
+        every { forkShare.fork(session, any(), any(), any(), any()) } answers {
+            complete = arg(4)
+            true
+        }
+        received()
+        send("""{"type":"open","conversationId":"a","seq":3}""")
+        received()
+        send("""{"type":"fork","conversationId":"b","seq":3,"actionId":1}""")
+        send("""{"type":"fork","conversationId":"a","seq":2,"actionId":2}""")
+        verify(exactly = 0) { forkShare.fork(any(), any(), any(), any(), any()) }
+        send("""{"type":"fork","conversationId":"a","seq":3,"actionId":3}""")
+        send("""{"type":"fork","conversationId":"a","seq":3,"actionId":4}""")
+        verify(exactly = 1) { forkShare.fork(session, any(), any(), any(), any()) }
+        complete!!(false)
+        val result = received().single { it.type == "page_action" }
+        assertEquals("3", result.string("seq"))
+        assertEquals("3", result.string("actionId"))
+        send("""{"type":"fork","conversationId":"a","seq":3,"actionId":3}""")
+        verify(exactly = 1) { forkShare.fork(session, any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun searchDebouncesGroupsAndNeverLoadsConversationOwners() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        val queries = mutableListOf<String>()
+        search = { query ->
+            queries += query
+            (0 until 25).map { index ->
+                com.newoether.agora.data.local.MessageEntity(
+                    id = "search-$index", conversationId = if (index < 3) "a" else "b",
+                    text = "x".repeat(50) + "Needle" + "y".repeat(50), participant = Participant.USER,
+                    timestamp = index.toLong(), runId = "run-search",
+                ) to (0.9f - index * 0.01f)
+            }
+        }
+        coEvery { conversations.getDrawerConversations(any()) } returns listOf(
+            DrawerConversationRow("a", "Alpha", false, false), DrawerConversationRow("b", "Beta", false, false),
+        )
+        send("""{"type":"search","connectionId":"wrong","revision":1,"text":"ignored"}""")
+        assertTrue(received().none { it.type == "search" })
+        send("""{"type":"search","connectionId":"$connection","revision":1,"text":"old"}""")
+        assertEquals("true", received().single { it.type == "search" }.string("searching"))
+        advanceTimeBy(100)
+        send("""{"type":"search","connectionId":"$connection","revision":2,"text":"needle"}""")
+        received()
+        advanceTimeBy(199)
+        runCurrent()
+        assertTrue(queries.isEmpty())
+        advanceTimeBy(1)
+        val result = received().single { it.type == "search" }
+        assertEquals(listOf("needle"), queries)
+        val items = result["items"]!!.jsonArray
+        assertEquals(2, items.size)
+        assertEquals("Alpha", items[0].jsonObject.string("title"))
+        assertEquals(2, items[0].jsonObject["snippets"]!!.jsonArray.size)
+        assertEquals("…" + "x".repeat(20) + "Needle" + "y".repeat(20) + "…",
+            items[0].jsonObject["snippets"]!!.jsonArray[0].jsonObject.string("text"))
+        coVerify(exactly = 1) { conversations.getDrawerConversations(listOf("a", "b")) }
+        coVerify(exactly = 0) { conversations.recoverConversationRuntime(any(), any()) }
+        verify(exactly = 0) { conversations.observeConversation(any()) }
+        send("""{"type":"search","connectionId":"$connection","revision":1,"text":"old"}""")
+        assertTrue(received().none { it.type == "search" })
+    }
+    @Test
+    fun searchClearCancelsPendingAndFailureEndsLoading() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        val queries = mutableListOf<String>()
+        search = { query -> queries += query; error("synthetic failure") }
+        send("""{"type":"search","connectionId":"$connection","revision":1,"text":"cancel"}""")
+        received()
+        send("""{"type":"search","connectionId":"$connection","revision":2,"text":""}""")
+        assertEquals("", received().single { it.type == "search" }.string("query"))
+        advanceTimeBy(250)
+        runCurrent()
+        assertTrue(queries.isEmpty())
+        send("""{"type":"search","connectionId":"$connection","revision":3,"text":"fail"}""")
+        received()
+        advanceTimeBy(200)
+        val failure = received().single { it.type == "search" }
+        assertEquals("true", failure.string("failed"))
+        assertFalse(failure["searching"]?.jsonPrimitive?.content?.toBoolean() == true)
+        assertEquals(listOf("fail"), queries)
+    }
+    @Test
+    fun disconnectedSearchCannotCompleteOrReadTitles() = runTest {
+        val started = kotlinx.coroutines.CompletableDeferred<Unit>()
+        var cancelled = false
+        search = {
+            started.complete(Unit)
+            try { kotlinx.coroutines.awaitCancellation() } finally { cancelled = true }
+        }
+        val incoming = Channel<String>(Channel.UNLIMITED)
+        val events = mutableListOf<JsonObject>()
+        val job = backgroundScope.launch {
+            webUiSync(StandardTestDispatcher(testScheduler)).serve("login", incoming) {
+                events += Json.parseToJsonElement(it).jsonObject
+            }
+        }
+        runCurrent()
+        val connection = events.single { it.type == "connection" }.string("connectionId")
+        incoming.send("""{"type":"search","connectionId":"$connection","revision":1,"text":"pending"}""")
+        runCurrent()
+        advanceTimeBy(200)
+        runCurrent()
+        assertTrue(started.isCompleted)
+        incoming.close()
+        job.join()
+        assertTrue(cancelled)
+        coVerify(exactly = 0) { conversations.getDrawerConversations(any()) }
+        assertEquals(1, events.count { it.type == "search" })
+    }
+    @Test
+    fun conversationSearchUsesBoundedSelectedPathPagesAndCanonicalBodyMatches() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        val chain = (0 until 130).map { topology("s$it", if (it == 0) null else "s${it - 1}", Participant.USER, it.toLong()) }
+        topology.value = chain
+        list.value = list.value.map { if (it.id == "a") it.copy(selectedBranchesJson = null) else it }
+        val pages = mutableListOf<List<String>>()
+        coEvery { hydration.loadMessages("a", any(), any()) } answers {
+            val ids = secondArg<List<String>>()
+            pages += ids
+            ids.reversed().map { message(it, null, Participant.USER, "needle needle") }
+        }
+        send("""{"type":"open","conversationId":"a","seq":7}""")
+        received()
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":6,"revision":1,"text":"needle"}""")
+        assertTrue(received().none { it.type == "conversation_search" })
+        assertTrue(pages.isEmpty())
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":7,"revision":2,"text":"needle"}""")
+        val result = received().last { it.type == "conversation_search" }
+        assertEquals(listOf(64, 64, 2), pages.map { it.size })
+        val matches = result["matches"]!!.jsonArray
+        assertEquals(260, matches.size)
+        assertEquals("s0", matches.first().jsonObject.string("messageId"))
+        assertEquals("s129", matches.last().jsonObject.string("messageId"))
+        assertEquals("7", result.string("seq"))
+        assertEquals("2", result.string("revision"))
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":7,"revision":1,"text":"old"}""")
+        assertTrue(received().none { it.type == "conversation_search" })
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":7,"revision":3,"text":""}""")
+        assertTrue(received().last { it.type == "conversation_search" }["matches"] == null)
+        assertEquals(3, pages.size)
+        verify(exactly = 0) { hydration.observeMessage(any(), any()) }
+    }
+    @Test
+    fun conversationSearchCancelsReplacedQueryAndSelectionAndEndsFailure() = sync { send, received ->
+        val connection = received().single { it.type == "connection" }.string("connectionId")
+        coEvery { hydration.loadMessages("a", any(), any()) } coAnswers {
+            kotlinx.coroutines.delay(1000)
+            secondArg<List<String>>().map { message(it, null, Participant.USER, "needle") }
+        }
+        send("""{"type":"open","conversationId":"a","seq":1}""")
+        received()
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":1,"revision":1,"text":"needle"}""")
+        assertEquals("true", received().single { it.type == "conversation_search" }.string("searching"))
+        send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":1,"revision":2,"text":""}""")
+        received()
+        advanceTimeBy(1001)
+        assertTrue(received().none { it.type == "conversation_search" })
+        coEvery { hydration.loadMessages("a", any(), any()) } throws IllegalStateException("fixture")
+        mockkObject(DebugLog)
+        every { DebugLog.e(any(), any(), any()) } just Runs
+        try {
+            send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":1,"revision":3,"text":"needle"}""")
+            assertEquals("true", received().last { it.type == "conversation_search" }.string("failed"))
+            send("""{"type":"open","seq":2}""")
+            received()
+            send("""{"type":"conversation_search","connectionId":"$connection","conversationId":"a","seq":1,"revision":4,"text":"needle"}""")
+            assertTrue(received().none { it.type == "conversation_search" })
+        } finally { unmockkObject(DebugLog) }
+    }
+    private fun sync(
+        block: suspend TestScope.(send: suspend (String) -> Unit, received: () -> List<JsonObject>) -> Unit,
+    ) = runTest {
+        val sync = webUiSync(StandardTestDispatcher(testScheduler))
+        val incoming = Channel<String>(Channel.UNLIMITED)
+        val sent = Channel<String>(Channel.UNLIMITED)
+        backgroundScope.launch { sync.serve("login", incoming) { sent.send(it) } }
+        runCurrent()
+        block(
+            { text -> incoming.send(text); runCurrent() },
+            {
+                runCurrent()
+                generateSequence { sent.tryReceive().getOrNull() }
+                    .map { Json.parseToJsonElement(it).jsonObject }
+                    .toList()
+            },
+        )
+    }
+
+    private fun webUiSync(dispatcher: kotlinx.coroutines.CoroutineDispatcher) = WebUiSync(
+        conversations = conversations,
+        registry = registry,
+        executionCoordinator = ConversationExecutionCoordinator(),
+        hydration = hydration,
+        customProviders = customProviders,
+        display = display,
+        openChatSession = { session },
+        forkShare = forkShare,
+        conversationLifecycle = mockk(relaxed = true), generation = mockk(relaxed = true),
+        askUser = askUser,
+        shellConfirmation = shell,
+        contextAccounting = contextAccounting,
+        search = { search(it) },
+        projectionDispatcher = dispatcher,
+    )
+
+    private val JsonObject.type: String get() = string("type")
+
+    private fun JsonObject.string(key: String): String = this[key]!!.jsonPrimitive.content
+
+    private fun JsonObject.ids(): List<String> =
+        this["messages"]!!.jsonArray.map { it.jsonObject.string("id") }
+
+}

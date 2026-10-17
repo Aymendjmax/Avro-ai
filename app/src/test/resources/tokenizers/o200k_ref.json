@@ -1,0 +1,114 @@
+{
+ "ascii_sentence": {
+  "text": "The quick brown fox jumps over the lazy dog.",
+  "tokens": 10
+ },
+ "greeting": {
+  "text": "Hello, world!",
+  "tokens": 4
+ },
+ "chinese": {
+  "text": "今天天气很好，我想出门跑步。",
+  "tokens": 11
+ },
+ "chinese_mixed": {
+  "text": "Agora 是一个 Android 上的本地 AI 客户端。",
+  "tokens": 13
+ },
+ "emoji": {
+  "text": "🚀 ship it 🔥🔥",
+  "tokens": 7
+ },
+ "code": {
+  "text": "fun main() {\n    println(\"hi\")\n}\n",
+  "tokens": 10
+ },
+ "json_blob": {
+  "text": "{\"role\": \"user\", \"content\": [{\"type\": \"text\", \"text\": \"ok\"}]}",
+  "tokens": 22
+ },
+ "whitespace_runs": {
+  "text": "a    b\n\n\nc\t\td   ",
+  "tokens": 8
+ },
+ "numbers": {
+  "text": "1234567890 3.14159 0042",
+  "tokens": 12
+ },
+ "punctuation": {
+  "text": "!!!???...---***///\\\\\\",
+  "tokens": 8
+ },
+ "special_token_text": {
+  "text": "<|endoftext|> and <|im_start|>",
+  "tokens": 14
+ },
+ "repeated": {
+  "text": "hahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahaha",
+  "tokens": 33
+ },
+ "url": {
+  "text": "https://example.com/path?query=value&other=1#frag",
+  "tokens": 14
+ },
+ "single_char": {
+  "text": "a",
+  "tokens": 1
+ },
+ "single_cjk": {
+  "text": "中",
+  "tokens": 1
+ },
+ "accented": {
+  "text": "naïve café résumé über",
+  "tokens": 6
+ },
+ "cyrillic": {
+  "text": "Привет, мир!",
+  "tokens": 5
+ },
+ "arabic": {
+  "text": "مرحبا بالعالم",
+  "tokens": 4
+ },
+ "long_word": {
+  "text": "pneumonoultramicroscopicsilicovolcanoconiosis",
+  "tokens": 15
+ },
+ "newline_only": {
+  "text": "\n",
+  "tokens": 1
+ },
+ "space_only": {
+  "text": " ",
+  "tokens": 1
+ },
+ "mixed_case": {
+  "text": "CamelCaseIdentifier snake_case_name SCREAMING_CASE",
+  "tokens": 10
+ },
+ "markdown": {
+  "text": "# Title\n\n- item one\n- item two\n\n**bold** and `code`\n",
+  "tokens": 18
+ },
+ "quote_contractions": {
+  "text": "it's don't we've they'll I'm you'd she's",
+  "tokens": 7
+ },
+ "unicode_whitespace": {
+  "text": "a　b c   d\n　\n  x  y",
+  "tokens": 15
+ },
+ "line_separators": {
+  "text": "xy z  w\u000b\fv",
+  "tokens": 12
+ },
+ "contraction_case": {
+  "text": "It's HE'S He'Ll they'RE we'VE I'M she'D",
+  "tokens": 16
+ },
+ "contraction_long_s": {
+  "text": "Itſs he'ſ fine",
+  "tokens": 7
+ }
+}

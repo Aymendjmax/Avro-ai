@@ -1,0 +1,7 @@
+* Skills: reusable Markdown instructions with on-demand access and backup support
+* OpenAI Responses API, native web search, and source citations
+* Structured prompts with provider prompt caching
+* Local models: official chat templates, tool calls, KV cache reuse, and idle unloading
+* Automatic embedding backfill and faster access to large conversation histories
+* Expanded backup controls and ChatGPT branch import
+* Requires Android 8.0 or later

@@ -1,0 +1,476 @@
+site_name: Avro User Manual
+site_description: Guide for configuring and using Avro
+site_url: https://newo-ether.github.io/Avro/
+repo_url: https://github.com/newo-ether/Avro
+repo_name: newo-ether/Avro
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tracking
+    - navigation.top
+    - search.highlight
+    - search.share
+
+plugins:
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+        - locale: zh
+          name: 简体中文
+          build: true
+          nav_translations:
+            Home: 首页
+            Getting Started: 快速开始
+            Conversations: 对话
+            API Providers: API 提供商
+            System Prompts: 系统提示词
+            Agentic Tools: 代理工具
+            Overview: 概述
+            Web Search: 网络搜索
+            Remote Shell (Conch): 远程 Shell (Conch)
+            Knowledge Management: 知识管理
+            Conversation Search: 对话搜索
+            Embedding / RAG: 嵌入 / RAG
+            Memory & Cache: 记忆与缓存
+            Skills: 技能
+            Local Models: 本地模型
+            PDF Import: PDF 导入
+            Data Portability: 数据迁移
+            FAQ: 常见问题
+            Models: 模型
+            Manage Models: 管理模型
+            Generation: 生成参数
+            Context: 上下文
+            MCP: MCP
+            Automation: 自动化
+            Parameters: 生成设置
+            Title Generation: 标题生成
+            Image Transcription: 图像转录
+            Image Generation: 图像生成
+            Appearance: 外观
+            Appearance & Language: 外观与语言
+            Language: 语言
+            Shell Setup: Shell 设置
+            Sandbox: 沙盒
+            Privacy & Security: 隐私与安全
+            About: 关于
+        - locale: zh-Hant
+          name: 繁體中文
+          build: true
+          nav_translations:
+            Home: 首頁
+            Getting Started: 快速開始
+            Conversations: 對話
+            API Providers: API 服務商
+            System Prompts: 系統提示詞
+            Agentic Tools: 代理工具
+            Overview: 概述
+            Web Search: 網路搜尋
+            Remote Shell (Conch): 遠端 Shell (Conch)
+            Knowledge Management: 知識管理
+            Conversation Search: 對話搜尋
+            Embedding / RAG: 嵌入 / RAG
+            Memory & Cache: 記憶與快取
+            Skills: 技能
+            Local Models: 本機模型
+            PDF Import: PDF 匯入
+            Data Portability: 資料可攜性
+            FAQ: 常見問題
+            Models: 模型
+            Manage Models: 管理模型
+            Generation: 生成參數
+            Context: 上下文
+            MCP: MCP
+            Automation: 自動化
+            Parameters: 生成設定
+            Title Generation: 標題生成
+            Image Transcription: 圖像轉錄
+            Image Generation: 圖像生成
+            Appearance: 外觀
+            Appearance & Language: 外觀與語言
+            Language: 語言
+            Shell Setup: Shell 設定
+            Sandbox: 沙盒
+            Privacy & Security: 隱私與安全
+            About: 關於
+        - locale: es
+          name: Español
+          build: true
+          nav_translations:
+            Home: Inicio
+            Getting Started: Primeros Pasos
+            Conversations: Conversaciones
+            API Providers: Proveedores API
+            System Prompts: Prompts del Sistema
+            Agentic Tools: Herramientas Agentes
+            Overview: Descripción General
+            Web Search: Búsqueda Web
+            Remote Shell (Conch): Shell Remoto (Conch)
+            Knowledge Management: Gestión de Conocimiento
+            Conversation Search: Búsqueda de Conversaciones
+            Embedding / RAG: Embedding / RAG
+            Memory & Cache: Memoria y Caché
+            Skills: Habilidades
+            Local Models: Modelos Locales
+            PDF Import: Importación PDF
+            Data Portability: Portabilidad de Datos
+            FAQ: Preguntas Frecuentes
+            Models: Modelos
+            Manage Models: Gestionar Modelos
+            Generation: Generación
+            Context: Contexto
+            MCP: MCP
+            Automation: Automatización
+            Parameters: Parámetros
+            Title Generation: Generación de Títulos
+            Image Transcription: Transcripción de Imágenes
+            Image Generation: Generación de Imágenes
+            Appearance: Apariencia
+            Appearance & Language: Apariencia e Idioma
+            Language: Idioma
+            Shell Setup: Configuración Shell
+            Sandbox: Sandbox
+            About: Acerca de
+        - locale: fr
+          name: Français
+          build: true
+          nav_translations:
+            Home: Accueil
+            Getting Started: Démarrage
+            Conversations: Conversations
+            API Providers: Fournisseurs API
+            System Prompts: Prompts Système
+            Agentic Tools: Outils Agentiques
+            Overview: Aperçu
+            Web Search: Recherche Web
+            Remote Shell (Conch): Shell Distant (Conch)
+            Knowledge Management: Gestion des Connaissances
+            Conversation Search: Recherche de Conversations
+            Embedding / RAG: Embedding / RAG
+            Memory & Cache: Mémoire et Cache
+            Skills: Compétences
+            Local Models: Modèles Locaux
+            PDF Import: Importation PDF
+            Data Portability: Portabilité des Données
+            FAQ: FAQ
+            Models: Modèles
+            Manage Models: Gérer les Modèles
+            Generation: Génération
+            Context: Contexte
+            MCP: MCP
+            Automation: Automatisation
+            Parameters: Paramètres
+            Title Generation: Génération de Titres
+            Image Transcription: Transcription d'Images
+            Image Generation: Génération d'Images
+            Appearance: Apparence
+            Appearance & Language: Apparence et Langue
+            Language: Langue
+            Shell Setup: Configuration Shell
+            Sandbox: Sandbox
+            About: À propos
+        - locale: de
+          name: Deutsch
+          build: true
+          nav_translations:
+            Home: Startseite
+            Getting Started: Erste Schritte
+            Conversations: Unterhaltungen
+            API Providers: API-Anbieter
+            System Prompts: System-Prompts
+            Agentic Tools: Agenten-Tools
+            Overview: Übersicht
+            Web Search: Websuche
+            Remote Shell (Conch): Remote Shell (Conch)
+            Knowledge Management: Wissensverwaltung
+            Conversation Search: Unterhaltungssuche
+            Embedding / RAG: Embedding / RAG
+            Memory & Cache: Speicher & Cache
+            Skills: Fähigkeiten
+            Local Models: Lokale Modelle
+            PDF Import: PDF-Import
+            Data Portability: Datenportabilität
+            FAQ: FAQ
+            Models: Modelle
+            Manage Models: Modelle Verwalten
+            Generation: Generierung
+            Context: Kontext
+            MCP: MCP
+            Automation: Automatisierung
+            Parameters: Parameter
+            Title Generation: Titelgenerierung
+            Image Transcription: Bildtranskription
+            Image Generation: Bildgenerierung
+            Appearance: Erscheinungsbild
+            Appearance & Language: Erscheinungsbild & Sprache
+            Language: Sprache
+            Shell Setup: Shell-Einrichtung
+            Sandbox: Sandbox
+            About: Über
+        - locale: ru
+          name: Русский
+          build: true
+          nav_translations:
+            Home: Главная
+            Getting Started: Начало Работы
+            Conversations: Диалоги
+            API Providers: API Провайдеры
+            System Prompts: Системные Подсказки
+            Agentic Tools: Агентные Инструменты
+            Overview: Обзор
+            Web Search: Веб-Поиск
+            Remote Shell (Conch): Удалённый Shell (Conch)
+            Knowledge Management: Управление Знаниями
+            Conversation Search: Поиск по Диалогам
+            Embedding / RAG: Эмбеддинг / RAG
+            Memory & Cache: Память и Кэш
+            Skills: Навыки
+            Local Models: Локальные Модели
+            PDF Import: Импорт PDF
+            Data Portability: Переносимость Данных
+            FAQ: ЧаВо
+            Models: Модели
+            Manage Models: Управление Моделями
+            Generation: Генерация
+            Context: Контекст
+            MCP: MCP
+            Automation: Автоматизация
+            Parameters: Параметры
+            Title Generation: Генерация Заголовков
+            Image Transcription: Транскрипция Изображений
+            Image Generation: Генерация Изображений
+            Appearance: Внешний Вид
+            Appearance & Language: Внешний Вид и Язык
+            Language: Язык
+            Shell Setup: Настройка Shell
+            Sandbox: Песочница
+            About: О Приложении
+        - locale: pt-BR
+          name: Português (Brasil)
+          build: true
+          nav_translations:
+            Home: Início
+            Getting Started: Primeiros Passos
+            Conversations: Conversas
+            API Providers: Provedores API
+            System Prompts: Prompts do Sistema
+            Agentic Tools: Ferramentas Agentes
+            Overview: Visão Geral
+            Web Search: Busca na Web
+            Remote Shell (Conch): Shell Remoto (Conch)
+            Knowledge Management: Gestão de Conhecimento
+            Conversation Search: Busca de Conversas
+            Embedding / RAG: Embedding / RAG
+            Memory & Cache: Memória e Cache
+            Skills: Habilidades
+            Local Models: Modelos Locais
+            PDF Import: Importação PDF
+            Data Portability: Portabilidade de Dados
+            FAQ: Perguntas Frequentes
+            Models: Modelos
+            Manage Models: Gerenciar Modelos
+            Generation: Geração
+            Context: Contexto
+            MCP: MCP
+            Automation: Automação
+            Parameters: Parâmetros
+            Title Generation: Geração de Títulos
+            Image Transcription: Transcrição de Imagens
+            Image Generation: Geração de Imagens
+            Appearance: Aparência
+            Appearance & Language: Aparência e Idioma
+            Language: Idioma
+            Shell Setup: Configuração do Shell
+            Sandbox: Sandbox
+            About: Sobre
+        - locale: ja
+          name: 日本語
+          build: true
+          nav_translations:
+            Home: ホーム
+            Getting Started: はじめに
+            Conversations: 会話
+            API Providers: API プロバイダー
+            System Prompts: システムプロンプト
+            Agentic Tools: エージェントツール
+            Overview: 概要
+            Web Search: ウェブ検索
+            Remote Shell (Conch): リモートシェル (Conch)
+            Knowledge Management: ナレッジ管理
+            Conversation Search: 会話検索
+            Embedding / RAG: 埋め込み / RAG
+            Memory & Cache: メモリとキャッシュ
+            Skills: スキル
+            Local Models: ローカルモデル
+            PDF Import: PDF インポート
+            Data Portability: データポータビリティ
+            FAQ: よくある質問
+            Models: モデル
+            Manage Models: モデル管理
+            Generation: 生成
+            Context: コンテキスト
+            MCP: MCP
+            Automation: オートメーション
+            Parameters: パラメータ
+            Title Generation: タイトル生成
+            Image Transcription: 画像文字起こし
+            Image Generation: 画像生成
+            Appearance: 外観
+            Appearance & Language: 外観と言語
+            Language: 言語
+            Shell Setup: シェル設定
+            Sandbox: サンドボックス
+            About: について
+        - locale: ko
+          name: 한국어
+          build: true
+          nav_translations:
+            Home: 홈
+            Getting Started: 시작하기
+            Conversations: 대화
+            API Providers: API 제공자
+            System Prompts: 시스템 프롬프트
+            Agentic Tools: 에이전트 도구
+            Overview: 개요
+            Web Search: 웹 검색
+            Remote Shell (Conch): 원격 셸 (Conch)
+            Knowledge Management: 지식 관리
+            Conversation Search: 대화 검색
+            Embedding / RAG: 임베딩 / RAG
+            Memory & Cache: 메모리 및 캐시
+            Skills: 스킬
+            Local Models: 로컬 모델
+            PDF Import: PDF 가져오기
+            Data Portability: 데이터 이식성
+            FAQ: 자주 묻는 질문
+            Models: 모델
+            Manage Models: 모델 관리
+            Generation: 생성
+            Context: 컨텍스트
+            MCP: MCP
+            Automation: 자동화
+            Parameters: 매개변수
+            Title Generation: 제목 생성
+            Image Transcription: 이미지 트랜스크립션
+            Image Generation: 이미지 생성
+            Appearance: 외관
+            Appearance & Language: 외관 및 언어
+            Language: 언어
+            Shell Setup: 셸 설정
+            Sandbox: 샌드박스
+            About: 정보
+        - locale: vi
+          name: Tiếng Việt
+          build: true
+        - locale: ar
+          name: العربية
+          build: true
+          nav_translations:
+            Home: الرئيسية
+            Getting Started: البدء
+            Conversations: المحادثات
+            API Providers: مزودو API
+            System Prompts: توجيهات النظام
+            Agentic Tools: أدوات الوكيل
+            Overview: نظرة عامة
+            Web Search: بحث الويب
+            Remote Shell (Conch): الصدفة البعيدة (Conch)
+            Knowledge Management: إدارة المعرفة
+            Conversation Search: بحث المحادثات
+            Embedding / RAG: التضمين / RAG
+            Memory & Cache: الذاكرة والتخزين المؤقت
+            Skills: المهارات
+            Local Models: النماذج المحلية
+            PDF Import: استيراد PDF
+            Data Portability: نقل البيانات
+            FAQ: الأسئلة الشائعة
+            Models: النماذج
+            Manage Models: إدارة النماذج
+            Generation: التوليد
+            Context: السياق
+            MCP: MCP
+            Automation: الأتمتة
+            Parameters: المعاملات
+            Title Generation: توليد العناوين
+            Image Transcription: نسخ الصور
+            Image Generation: توليد الصور
+            Appearance: المظهر
+            Appearance & Language: المظهر واللغة
+            Language: اللغة
+            Shell Setup: إعداد الصدفة
+            Sandbox: الصندوق الرملي
+            About: حول
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Conversations: conversations.md
+  - API Providers: provider.md
+  - Models:
+      - Manage Models: models.md
+  - Generation:
+      - Context: context.md
+      - Parameters: generation.md
+      - Title Generation: title-generation.md
+  - Image Transcription: transcription.md
+  - Image Generation: image-generation.md
+  - System Prompts: system-prompts.md
+  - Agentic Tools:
+      - Overview: tools.md
+      - MCP: mcp.md
+      - Automation: automation.md
+      - Web Search: web-search.md
+      - Remote Shell (Conch):
+          - Shell Setup: shell.md
+          - Sandbox: sandbox.md
+  - Knowledge Management:
+      - Conversation Search: search.md
+      - Embedding / RAG: embedding.md
+      - Memory & Cache: memory.md
+      - Skills: skills.md
+  - Local Models: local-model.md
+  - PDF Import: pdf-import.md
+  - Data Portability: import-export.md
+  - Network Proxy: proxy.md
+  - Appearance & Language:
+      - Appearance: appearance.md
+      - Language: language.md
+  - Privacy & Security: privacy.md
+  - FAQ: faq.md
+  - About: about.md
