@@ -1,122 +1,136 @@
 <div align="center">
-  <img src="avro-brand-kit/logo/png/avro-app-icon-dark.png" alt="Avro Logo" width="120" />
 
-  # Avro
-
-  **High-Performance Autonomous AI Android Client with Native Linux Sandbox, Agentic Tool Execution, and Complete Data Sovereignty.**
-
-  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-  [![Platform: Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com)
-  [![Kotlin](https://img.shields.io/badge/Kotlin-Native-blue.svg)](https://kotlinlang.org/)
-  [![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose%20M3-brightgreen.svg)](https://developer.android.com/jetpack/compose)
+  <img src="avro-brand-kit/logo/png/avro-lockup-black.png" alt="Avro Logo" width="220" />
 
   <br />
 
-  <img src="avro-brand-kit/cover/avro-cover-B-dark-left.png" alt="Avro Cover" width="100%" />
+  **Autonomous AI Client with Embedded Linux Environment and Zero-Intermediary Execution**
+
+  <br />
+
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-black.svg)](LICENSE)
+  [![Platform: Android](https://img.shields.io/badge/Platform-Android-black.svg)](https://developer.android.com)
+  [![Kotlin](https://img.shields.io/badge/Kotlin-Native-black.svg)](https://kotlinlang.org/)
+  [![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose%20M3-black.svg)](https://developer.android.com/jetpack/compose)
+
+  <br />
+
+  [ English ](README.md) · [ العربية ](docs/ar/index.md) · [ 简体中文 ](docs/zh/index.md) · [ 繁體中文 ](docs/zh-Hant/mcp.md)
+
+  <br />
+
+  <img src="avro-brand-kit/cover/avro-cover-A-light-left.png" alt="Avro Interface Cover" width="100%" />
 
 </div>
 
 ---
 
-## 🌟 About Avro
+## Overview
 
-**Avro** is a modern, privacy-first Android client and autonomous AI agent platform. It puts you in direct control of your AI models and data sovereignty:
-- **No intermediary servers**: Your requests flow directly from your device to your configured AI providers using your own API keys (BYOK - Bring Your Own Key).
-- **Embedded Alpine Linux Sandbox**: Execute real Linux shell commands, install packages via `apk add`, and run offline automation scripts directly on your phone using PRoot.
-- **Agentic Workflows**: Web search, past-conversation RAG, long-term memory, MCP (Model Context Protocol), local GGUF execution, and background scheduled tasks.
-- **Multi-lingual & RTL-first**: Full support for Arabic, English, and 10+ international languages with natural bi-directional layout adaptations.
+Avro is a local-first Android client and autonomous AI agent runtime. It connects directly from your device to AI model providers using your own credentials (Bring Your Own Key), bypassing third-party proxy servers.
+
+The application embeds an Alpine Linux sandbox, enabling code execution, system package management, and multi-step tool calls on-device.
 
 ---
 
-## 🚀 Key Features
+## Architecture Principles
 
-### 🧠 Model Providers & Multi-LLM Access
-- **10+ Native Providers**: OpenAI, Anthropic Claude, Google Gemini, DeepSeek, Qwen / DashScope, Groq, Ollama, OpenRouter, OpenCode, and local llama.cpp.
-- **Custom Endpoints**: Connect to any OpenAI-compatible, Google Gemini, or Anthropic-compatible self-hosted or reverse-proxy endpoint.
-- **Local GGUF Runtime**: Run quantized models completely offline on your device using embedded `llama.cpp` and local embedding models.
-
-### 🛠️ Agentic Tools & Autonomous Capabilities
-- **Integrated Linux Terminal**: Real Alpine Linux mini-rootfs with package management (`apk add python3 git curl...`) powered by PRoot.
-- **Web Search & Retrieval**: Built-in DuckDuckGo and Brave Search integrations with automatic streaming citation extraction.
-- **Long-term Memory & Context RAG**: Semantic similarity search and memory storage across your historical conversations.
-- **Model Context Protocol (MCP)**: Connect to external MCP tools and servers over HTTP and SSE.
-- **Background Tasks & Autonomous Loops**: Automated agent execution loops and scheduled notifications.
-
-### 🎨 Design & Visual Identity
-- **Material 3 Design**: Dynamic M3 color palette, smooth spatial transitions, customizable typography, and full dark/light theme support.
-- **Brand Identity**: Complete brand assets and guidelines located in [`avro-brand-kit/`](avro-brand-kit/).
-- **Tree-Structured Conversations**: Branching chat trees allow editing previous prompts without losing alternative generation branches.
-- **Context Budgeting**: Granular context window management (4K to 1M+ tokens) with smart compaction and thinking-tag streaming.
+- **Direct Transport**: All API requests originate on-device and terminate at the official provider endpoints. No telemetric relays or middleman services exist.
+- **Embedded PRoot Sandbox**: Runs an Alpine Linux userland natively on Android without root permissions. Supports package installation via apk and execution of Python, shell, and compiled binaries.
+- **Bi-directional Layout Engine**: Built with native RTL (Right-to-Left) and LTR support, ensuring natural alignment and typographic hierarchy in Arabic, English, and Asian scripts.
+- **Persistent State Control**: Conversations, tools, context memory, and cryptographic secrets remain in encrypted local storage.
 
 ---
 
-## 📂 Project Structure
+## Capabilities
+
+### Model Connectivity
+- **Native Provider Integrations**: OpenAI, Anthropic Claude, Google Gemini, DeepSeek, Qwen / DashScope, Groq, Ollama, OpenRouter, OpenCode, and local llama.cpp.
+- **Custom Protocol Adapters**: Configurable base URLs for OpenAI-compatible, Gemini, and Anthropic proxies.
+- **Local GGUF Inference**: On-device model execution and vector embeddings powered by embedded llama.cpp runtime.
+
+### Autonomous Tools and Protocols
+- **Linux Terminal Environment**: Isolated container execution with persistent filesystem access and job management.
+- **Web Retrieval**: Real-time DuckDuckGo and Brave Search query execution with automatic streaming citation synthesis.
+- **Model Context Protocol (MCP)**: Client implementation for connecting remote and local MCP tool servers over SSE and HTTP.
+- **Retrieval-Augmented Generation (RAG)**: Semantic vector similarity search over conversation history and stored memories.
+- **Background Execution**: Long-running loops, shell background jobs, and scheduled tasks using Android foreground services.
+
+### Interface and Experience
+- **Material 3 Monochrome**: High-contrast, typography-focused interface following the Avro-MN design language.
+- **Non-Linear Conversation Trees**: Branch, edit, and fork message histories without losing previous alternative responses.
+- **Context Budget Accounting**: Real-time token counter with configurable ceiling limits (4K to 1M+ tokens) and non-destructive context compaction.
+
+---
+
+## Repository Structure
 
 ```text
-├── app/                      # Android Application module
-│   ├── src/main/java/        # Full Kotlin source tree (MVVM / Clean Architecture)
+├── app/                      # Android application module
+│   ├── src/main/java/        # Kotlin source hierarchy (Clean Architecture)
 │   │   └── com/newoether/agora/
-│   │       ├── api/          # LLM Providers (OpenAI, Gemini, Claude, Ollama, DeepSeek)
-│   │       ├── automation/   # Background jobs, shell workers, tasks
-│   │       ├── data/         # Repositories, Room Database, DataStore, encryption
-│   │       ├── diagnostics/  # Diagnostics and telemetry
-│   │       ├── mcp/          # Model Context Protocol client
-│   │       ├── model/        # Domain entities, conversation state, message trees
+│   │       ├── api/          # Model provider clients and streaming parsers
+│   │       ├── automation/   # Background jobs, shell workers, and tasks
+│   │       ├── data/         # Repositories, Room Database, and DataStore
+│   │       ├── diagnostics/  # Local telemetry and diagnostics
+│   │       ├── mcp/          # Model Context Protocol implementation
+│   │       ├── model/        # Domain entities and conversation tree models
 │   │       ├── remote/       # Remote server connection and device pairing
-│   │       ├── sandbox/      # Alpine Linux sandbox & PRoot engine
-│   │       ├── service/      # Foreground services and background execution
-│   │       ├── tool/         # Agentic tools (web search, memory, file ops)
-│   │       ├── ui/           # Jetpack Compose UI (Chat, Settings, Components, Motion)
-│   │       ├── util/         # Tokens, parsers, formatters, localization
+│   │       ├── sandbox/      # Alpine Linux PRoot manager and filesystem
+│   │       ├── service/      # Foreground service lifecycle controllers
+│   │       ├── tool/         # Agent tools (search, memory, file IO)
+│   │       ├── ui/           # Jetpack Compose UI components and screens
+│   │       ├── util/         # Encoders, tokenizers, and formatters
 │   │       ├── viewmodel/    # StateFlow viewmodels
 │   │       └── webui/        # Embedded local WebUI server
-│   ├── src/main/res/         # Resources, drawables, fonts, multi-language strings
+│   ├── src/main/res/         # UI resources, vector assets, and localization
 │   └── src/test/             # Unit and Robolectric JVM test suite
-├── avro-brand-kit/           # Complete Brand Kit (Logos, SVGs, Videos, Tokens, Guidelines)
-├── docs/                     # Full Documentation site (Markdown for MkDocs)
+├── avro-brand-kit/           # Brand assets, vectors, tokens, and guidelines
+├── docs/                     # Documentation sources (ar, en, zh, zh-Hant)
 ├── development/              # Architecture specifications and technical RFCs
-├── scripts/                  # Development scripts (Python, PowerShell)
-├── server/                   # Optional sync and companion server scripts
-├── thirdparty/               # PRoot, talloc, and llama.cpp native references
-└── build.gradle.kts          # Top-level Gradle Kotlin DSL build configuration
+├── scripts/                  # Automation and build utility scripts
+├── server/                   # Optional companion sync services
+├── thirdparty/               # PRoot, talloc, and llama.cpp native dependencies
+└── build.gradle.kts          # Top-level Gradle Kotlin build configuration
 ```
 
 ---
 
-## 🛠️ Building & Running
+## Build Instructions
 
-### Requirements
-- **JDK 17 or JDK 21**
-- **Android SDK** (API Level 36 / Android 16 compatible)
-- **Gradle 9+**
+### Prerequisites
+- JDK 17 or JDK 21
+- Android SDK (API 36 / Android 16 compatible)
+- Gradle 9+
 
-### Build Commands
+### Commands
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/fifikoridek2-boop/Avro.git
 cd Avro
 
-# Assemble Debug APK
+# Build Debug APK
 gradle assembleDebug
 
-# Run Unit & Robolectric Tests
+# Execute JVM Tests
 gradle :app:testDebugUnitTest
 ```
 
 ---
 
-## 📖 Documentation & Architecture
+## Documentation
 
-Full documentation is available in the [`docs/`](docs/) directory and [`development/`](development/):
-- **[Architecture Deep-Dive](ARCHITECTURE.md)**: System design, data flow, and security boundaries.
-- **[User Guide & Manual](docs/en/)**: Comprehensive feature guides, configuration, and tips.
-- **[Brand Guide](avro-brand-kit/docs/BRAND-GUIDE.md)**: Color tokens, logo usage, and typography rules.
-- **[Privacy Policy](PRIVACY.md)**: Local-first security and data handling policies.
+Comprehensive guides are maintained in the docs directory:
+- [System Architecture](ARCHITECTURE.md)
+- [Arabic Documentation](docs/ar/index.md)
+- [English User Guide](docs/en/index.md)
+- [Brand Guide](avro-brand-kit/docs/BRAND-GUIDE.md)
+- [Privacy Policy](PRIVACY.md)
 
 ---
 
-## 📄 License & Attribution
+## License and Provenance
 
-Avro is licensed under the **GNU General Public License v3.0 (GPL-3.0)** ([LICENSE](LICENSE)).  
-Derived from and compatible with the Agora open-source project by Newo Ether, with customized brand identity and enhancements.
+Avro is licensed under the GNU General Public License v3.0 (GPL-3.0) (see LICENSE).
+Derived from and compatible with the Agora open-source project by Newo Ether, with customized identity, Arabic bidirectional layout fixes, and brand enhancements.
