@@ -1,6 +1,10 @@
 <div align="center">
 
-  <img src="avro-brand-kit/logo/png/avro-lockup-black.png" alt="Avro Logo" width="220" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="avro-brand-kit/logo/png/avro-lockup-white.png">
+    <source media="(prefers-color-scheme: light)" srcset="avro-brand-kit/logo/png/avro-lockup-black.png">
+    <img src="avro-brand-kit/logo/png/avro-lockup-white.png" alt="Avro Logo" width="220" />
+  </picture>
 
   <br />
 
@@ -15,7 +19,7 @@
 
   <br />
 
-  [ English ](README.md) · [ العربية ](docs/ar/index.md) · [ 简体中文 ](docs/zh/index.md) · [ 繁體中文 ](docs/zh-Hant/mcp.md)
+  [ English ](README.md) · [ العربية ](README.ar.md) · [ 简体中文 ](README.zh.md) · [ 繁體中文 ](README.zh-Hant.md)
 
   <br />
 
