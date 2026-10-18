@@ -1,7 +1,5 @@
 package com.newoether.agora.ui.settings
 
-import com.newoether.agora.util.AvroEndpoints
-
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
@@ -12,36 +10,35 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.newoether.agora.R
+import com.newoether.agora.util.AvroEndpoints
 
 @Composable
 fun DocumentationFab(docPath: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val locale = LocalConfiguration.current.locales[0]
     val langTag = locale.toLanguageTag()
-    val baseUrl = AvroEndpoints.DOCUMENTATION_URL + "/"
-    // Map the resolved locale to the docs URL prefix.
-    // "en" and anything unrecognised → root (English); each supported
-    // language maps to its own subdirectory under the docs site.
-    val langPrefix = when {
-        langTag == "zh-Hant"  -> "zh-Hant/"
-        langTag.startsWith("zh") -> "zh/"
-        else -> {
-            val lang = locale.language
-            when (lang) {
-                "es", "fr", "de", "ru", "ja", "ko", "ar" -> "$lang/"
-                "pt" -> "pt-BR/"
-                else -> ""  // en or unknown → root (English)
-            }
-        }
+    val baseDocsUrl = AvroEndpoints.DOCUMENTATION_URL.trimEnd('/')
+
+    val lang = when {
+        langTag == "zh-Hant" -> "zh-Hant"
+        langTag.startsWith("zh") -> "zh"
+        locale.language == "ar" -> "ar"
+        else -> "en"
     }
 
     AnimatedActionFab(
         label = stringResource(R.string.documentation),
         icon = Icons.AutoMirrored.Filled.MenuBook,
         onClick = {
-            val page = docPath.removeSuffix(".md") + "/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl$langPrefix$page"))
-            context.startActivity(intent)
+            val url = if (baseDocsUrl.contains("github.com")) {
+                val repoBase = baseDocsUrl.substringBefore("/tree/").substringBefore("/blob/")
+                "$repoBase/blob/main/docs/$lang/$docPath"
+            } else {
+                val page = docPath.removeSuffix(".md") + "/"
+                val prefix = if (lang == "en") "" else "$lang/"
+                "$baseDocsUrl/$prefix$page"
+            }
+            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         },
         modifier = modifier,
     )
