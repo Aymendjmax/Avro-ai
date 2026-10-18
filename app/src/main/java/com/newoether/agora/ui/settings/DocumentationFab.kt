@@ -1,5 +1,7 @@
 package com.newoether.agora.ui.settings
 
+import com.newoether.agora.util.AvroEndpoints
+
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
@@ -16,7 +18,7 @@ fun DocumentationFab(docPath: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val locale = LocalConfiguration.current.locales[0]
     val langTag = locale.toLanguageTag()
-    val baseUrl = "https://newo-ether.github.io/Agora/"
+    val baseUrl = AvroEndpoints.DOCUMENTATION_URL + "/"
     // Map the resolved locale to the docs URL prefix.
     // "en" and anything unrecognised → root (English); each supported
     // language maps to its own subdirectory under the docs site.

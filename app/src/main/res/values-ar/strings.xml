@@ -344,7 +344,7 @@
     <string name="about_license_history">الإصدارات حتى v2.1.0 صدرت بموجب رخصة MIT.</string>
     <string name="about_version">الإصدار</string>
     <string name="about_rating">قيّم التطبيق</string>
-    <string name="about_rating_desc">طُوِّر هذا المشروع بواسطة شخص واحد. أقدّر ملاحظاتك حقًا.</string>
+    <string name="about_rating_desc">طُوِّر هذا المشروع بواسطة Akio co. أقدّر ملاحظاتك حقًا.</string>
     <string name="about_updates">التحديثات</string>
     <string name="about_check_updates">التحقق من التحديثات</string>
     <string name="about_check_updates_desc">تحقق من أحدث إصدار على GitHub</string>

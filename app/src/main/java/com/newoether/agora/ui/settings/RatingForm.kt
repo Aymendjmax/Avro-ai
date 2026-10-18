@@ -89,49 +89,8 @@ fun RatingForm(
             modifier = Modifier.padding(bottom = 20.dp)
         )
 
-        if (modifiedPackage) {
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
-            ) {
-                Column(Modifier.padding(12.dp)) {
-                    Text(
-                        text = decodeRatingOriginText(stringResource(R.string.rating_origin_modified_title_b64)),
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        text = decodeRatingOriginText(stringResource(R.string.rating_origin_modified_body_b64)),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-        Text(
-            text = decodeRatingOriginText(stringResource(R.string.rating_origin_credit_b64)),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        TextButton(
-            onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(projectUrl))) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
-        ) {
-            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.width(8.dp))
-            Text(
-                text = decodeRatingOriginText(stringResource(
-                    if (modifiedPackage) R.string.rating_origin_view_project_b64
-                    else R.string.rating_origin_project_b64
-                )),
-                style = MaterialTheme.typography.labelLarge
-            )
-        }
-
         // Stars
+
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,

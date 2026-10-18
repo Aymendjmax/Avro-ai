@@ -1,5 +1,7 @@
 package com.newoether.agora.ui.settings
 
+import com.newoether.agora.util.AvroEndpoints
+
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
@@ -22,7 +24,7 @@ import com.newoether.agora.R
 import com.newoether.agora.ui.components.clearFocusOnTap
 
 private const val LICENSE_ASSET = "licenses/LICENSE-GPL-3.0.txt"
-private const val LICENSE_URL = "https://github.com/newo-ether/Agora/blob/master/LICENSE"
+private val LICENSE_URL = AvroEndpoints.GITHUB_REPO_URL + "/blob/main/LICENSE"
 
 /**
  * Shows the license text that ships inside the APK, so a recipient can read it without

@@ -387,7 +387,7 @@
     <string name="about_license_history">Versions up to v2.1.0 were released under the MIT License.</string>
     <string name="about_version">Version</string>
     <string name="about_rating">Rate the App</string>
-    <string name="about_rating_desc">This project was developed by a single person. I truly appreciate your feedback.</string>
+    <string name="about_rating_desc">This project is developed by Akio co. I truly appreciate your feedback.</string>
     <string name="about_updates">Updates</string>
     <string name="about_check_updates">Check for Updates</string>
     <string name="about_check_updates_desc">Check GitHub for the latest release</string>

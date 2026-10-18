@@ -1,5 +1,7 @@
 package com.newoether.agora.api.openai
 
+import com.newoether.agora.util.AvroEndpoints
+
 import com.newoether.agora.api.*
 import com.newoether.agora.api.util.resolvedThinking
 import com.newoether.agora.model.ThinkingProviderFamily
@@ -36,7 +38,7 @@ class OpenRouterProvider : BaseOpenAiProvider() {
     }
 
     override fun getExtraHeaders(config: ProviderConfig): Map<String, String> = mapOf(
-        "HTTP-Referer" to "https://github.com/newo-ether/Agora",
+        "HTTP-Referer" to AvroEndpoints.GITHUB_REPO_URL,
         "X-Title" to "Avro"
     )
 
