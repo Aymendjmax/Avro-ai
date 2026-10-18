@@ -22,8 +22,8 @@ def load(name, relative):
     return module
 
 
-rating = load("rating_receiver", "rating/agora-rating-api.py")
-crash = load("crash_receiver", "crash/agora-crash.py")
+rating = load("rating_receiver", "rating/avro-rating-api.py")
+crash = load("crash_receiver", "crash/avro-crash.py")
 
 
 class SubmissionMessagesTest(unittest.TestCase):

@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from submission_messages import message_for
 
-DB_PATH = os.environ.get("AGORA_RATING_DB", "/var/lib/agora-rating/ratings.db")
+DB_PATH = os.environ.get("AVRO_RATING_DB", "/var/lib/avro-rating/ratings.db")
 LISTEN_ADDR = os.environ.get("AGORA_RATING_HOST", "127.0.0.1")
 LISTEN_PORT = int(os.environ.get("AGORA_RATING_PORT", "8091"))
 MAX_CONTENT_LENGTH = 64 * 1024
@@ -39,7 +39,7 @@ def connect_db():
 
 
 class RatingHandler(BaseHTTPRequestHandler):
-    server_version = "agora-rating/1.0"
+    server_version = "avro-rating/1.0"
 
     def do_OPTIONS(self):
         if self._path() != "/api/rating":

@@ -250,8 +250,8 @@ and WebUI share this contract.
 
 ## Rating upstream attribution
 
-- The shared RatingForm always identifies Avro and newo-ether and offers an explicit link to
-  https://github.com/newo-ether/Avro. Both About and the scheduled rating dialog use this owner.
+- The shared RatingForm always identifies Avro and Akio co and offers an explicit link to
+  https://github.com/Akio co/Avro. Both About and the scheduled rating dialog use this owner.
 - Compare the actual runtime package against the independently Base64-encoded upstream package
   com.newoether.avro. Do not derive the expected identity from BuildConfig or the current app ID.
 - A mismatch displays a neutral, bold Modified Version heading and localized explanation above

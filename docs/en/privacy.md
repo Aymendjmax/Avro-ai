@@ -17,8 +17,8 @@ Only features you use create their corresponding traffic:
 - MCP calls go to enabled MCP servers
 - Conch or SSH operations go to configured devices
 - update checks retrieve release metadata at app startup, at most once per day
-- the optional rating form sends only the rating, name, email, and comment you submit to `https://newoether.com/api/rating`
-- after a crash, one report is stored locally; on next launch you may explicitly send its stack trace, app/Android version, device manufacturer/model, timestamp, and bounded diagnostic tags to `https://newoether.com/crash`
+- the optional rating form sends only the rating, name, email, and comment you submit to `https://avro.app/api/rating`
+- after a crash, one report is stored locally; on next launch you may explicitly send its stack trace, app/Android version, device manufacturer/model, timestamp, and bounded diagnostic tags to `https://avro.app/api/crash`
 
 Crash reports are never uploaded automatically and do not contain conversation text, credentials, or device identifiers. Avro has no general analytics/telemetry path.
 

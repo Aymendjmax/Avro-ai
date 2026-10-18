@@ -8,7 +8,7 @@
 
 ## 反馈
 
-评分表单只会把你主动填写的评分、姓名、邮箱和评论发送到 `https://newoether.com/api/rating`。
+评分表单只会把你主动填写的评分、姓名、邮箱和评论发送到 `https://avro.app/api/rating`。
 
 发生意外崩溃后，Avro 会在本地保留一份待处理报告，并在下次啟動时询问是否发送；没有明确操作就不会上传。报告包含堆栈、應用程式/Android 版本、裝置厂商/型号、时间戳和有界诊断事件，不包含對話文本、凭据或裝置标识符。
 
@@ -16,6 +16,6 @@
 
 ## 许可证
 
-Avro v2.2.0 及后续版本采用 [GNU GPL v3.0](https://github.com/newo-ether/Avro/blob/master/LICENSE)。
+Avro v2.2.0 及后续版本采用 [GNU GPL v3.0](https://github.com/fifikoridek2-boop/Avro/blob/main/LICENSE)。
 
-v2.1.0 及更早版本仍按其[原 MIT 许可证](https://github.com/newo-ether/Avro/blob/9fc92fc3518c880158111ae1e9534ed8ffd09c6d/LICENSE)提供。这是按版本划分的许可历史，不表示当前项目可在 MIT 与 GPL 之间任选。
+v2.1.0 及更早版本仍按其[原 MIT 许可证](https://github.com/fifikoridek2-boop/Avro/blob/main/LICENSE)提供。这是按版本划分的许可历史，不表示当前项目可在 MIT 与 GPL 之间任选。

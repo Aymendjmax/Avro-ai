@@ -27,7 +27,7 @@ MAX_LOG_BYTES = 50 * 1024 * 1024  # rotate crashes.jsonl past this size
 RATE_LIMIT = 60                   # max accepted reports per ROLLING window
 RATE_WINDOW = 60.0                # seconds
 
-DATA_DIR = "/var/lib/agora-crash"
+DATA_DIR = "/var/lib/avro-crash"
 LOG_FILE = os.path.join(DATA_DIR, "crashes.jsonl")
 ALLOWED_FIELDS = (
     "trace", "packageName", "appVersion", "versionCode",
@@ -73,7 +73,7 @@ def _sanitize(data):
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "agora-crash/1.0"
+    server_version = "avro-crash/1.0"
 
     def _send(self, code, payload=None):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8") if payload is not None else b""

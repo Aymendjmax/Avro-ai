@@ -1,20 +1,21 @@
 [Unit]
-Description=Agora rating API
+Description=Agora anonymous crash-report receiver
 After=network.target
 
 [Service]
 Type=simple
-User=agora-rating
-Group=agora-rating
-ExecStart=/usr/bin/python3 /opt/agora-rating/agora-rating-api.py
+User=newoether
+Group=newoether
+ExecStart=/usr/bin/python3 /opt/avro-crash/avro-crash.py
 Restart=on-failure
 RestartSec=2
 
+# Sandboxing — the service only needs to bind loopback and write its data dir.
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/var/lib/agora-rating
+ReadWritePaths=/var/lib/avro-crash
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true

@@ -20,8 +20,8 @@ Data leaves the device only through features you use:
 - MCP calls go to enabled MCP servers;
 - Conch and SSH operations go to configured remote devices;
 - release metadata can be checked when the app starts, at most once per day;
-- the optional rating form sends only the rating, name, email, and comment you explicitly submit to `https://newoether.com/api/rating`;
-- after a crash, one pending report is stored locally and the next launch asks whether to send it to `https://newoether.com/crash`. It contains the stack trace, app/Android version, device manufacturer/model, timestamp, and bounded diagnostic event tags, but no conversation text, credentials, or device identifiers.
+- the optional rating form sends only the rating, name, email, and comment you explicitly submit to `https://avro.app/api/rating`;
+- after a crash, one pending report is stored locally and the next launch asks whether to send it to `https://avro.app/api/crash`. It contains the stack trace, app/Android version, device manufacturer/model, timestamp, and bounded diagnostic event tags, but no conversation text, credentials, or device identifiers.
 
 Crash reports are never submitted automatically. Avro does not include a general analytics path. Third-party endpoints have their own privacy and retention policies.
 
