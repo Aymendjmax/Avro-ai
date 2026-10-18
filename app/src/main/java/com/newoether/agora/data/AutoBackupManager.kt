@@ -109,14 +109,14 @@ class AutoBackupManager(
             if (!dir.exists() && !dir.mkdirs()) return@withContext null
 
             val sdf = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US)
-            val filename = "Avro_backup_${sdf.format(Date())}.agora"
+            val filename = "Avro_backup_${sdf.format(Date())}.avro"
             val file = File(dir, filename)
             val tmpFile = File(dir, "$filename.tmp")
             cleanupTarget = tmpFile
             val baselineFile = dir.listFiles { candidate ->
                 candidate.isFile &&
                     (candidate.name.startsWith("Avro_backup_") || candidate.name.startsWith("Agora_backup_")) &&
-                    candidate.name.endsWith(".agora")
+                    (candidate.name.endsWith(".avro") || candidate.name.endsWith(".agora"))
             }?.maxByOrNull(File::lastModified)
 
             val categoryKeys = settingsManager.autoBackupCategories.safeRead("conversations,memories,system_prompts,settings")
@@ -209,7 +209,7 @@ class AutoBackupManager(
         val dir = resolveBackupDir() ?: return
 
         dir.listFiles { f ->
-            f.isFile && (f.name.startsWith("Avro_backup_") || f.name.startsWith("Agora_backup_")) && f.name.endsWith(".agora")
+            f.isFile && (f.name.startsWith("Avro_backup_") || f.name.startsWith("Agora_backup_")) && (f.name.endsWith(".avro") || f.name.endsWith(".agora"))
         }?.forEach { file ->
             if (file.lastModified() < cutoffTime) {
                 runCatching { file.delete() }

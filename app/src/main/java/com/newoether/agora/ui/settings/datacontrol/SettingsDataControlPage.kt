@@ -309,7 +309,7 @@ fun SettingsDataControlPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                 showExportDialog = false
                 pendingExportCategories = categories
                 pendingExportIncludeApiKeys = includeApiKeys
-                val filename = "Avro_export_${java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(java.util.Date())}.agora"
+                val filename = "Avro_export_${java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(java.util.Date())}.avro"
                 exportLauncher.launch(filename)
             }
         )

@@ -1,4 +1,5 @@
 package com.newoether.agora.ui.settings
+import com.newoether.agora.util.AvroEndpoints
 
 import android.content.Intent
 import android.net.Uri
@@ -202,7 +203,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
             SettingsGroup(title = stringResource(R.string.about_links), items = listOf({
                 SettingsItem(
                     headlineContent = { Text(stringResource(R.string.about_website)) },
-                    supportingContent = { Text("agora.newoether.com") },
+                    supportingContent = { Text(AvroEndpoints.WEBSITE_DISPLAY) },
                     leadingContent = { Icon(Icons.Default.Language, contentDescription = null) },
                     trailingContent = {
                         Icon(
@@ -211,7 +212,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                             modifier = Modifier.size(18.dp),
                         )
                     },
-                    modifier = Modifier.clickable { openUrl("https://agora.newoether.com") }
+                    modifier = Modifier.clickable { openUrl(AvroEndpoints.WEBSITE_URL) }
                 )
             }, {
                 SettingsItem(
@@ -224,7 +225,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                             modifier = Modifier.size(18.dp),
                         )
                     },
-                    modifier = Modifier.clickable { openUrl("https://github.com/newo-ether/Agora") }
+                    modifier = Modifier.clickable { openUrl(AvroEndpoints.GITHUB_REPO_URL) }
                 )
             }, {
                 SettingsItem(
@@ -237,7 +238,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                             modifier = Modifier.size(18.dp),
                         )
                     },
-                    modifier = Modifier.clickable { openUrl("https://github.com/newo-ether/Agora/issues") }
+                    modifier = Modifier.clickable { openUrl(AvroEndpoints.GITHUB_ISSUES_URL) }
                 )
             }, {
                 SettingsItem(
@@ -250,7 +251,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                             modifier = Modifier.size(18.dp),
                         )
                     },
-                    modifier = Modifier.clickable { openUrl("https://github.com/newo-ether/Agora/pulls") }
+                    modifier = Modifier.clickable { openUrl(AvroEndpoints.GITHUB_CONTRIBUTE_URL) }
                 )
             }, {
                 SettingsItem(
@@ -263,7 +264,7 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                             modifier = Modifier.size(18.dp),
                         )
                     },
-                    modifier = Modifier.clickable { openUrl("https://github.com/newo-ether/Agora/blob/master/PRIVACY.md") }
+                    modifier = Modifier.clickable { openUrl(AvroEndpoints.PRIVACY_POLICY_URL) }
                 )
             }, {
                 SettingsItem(

@@ -33,6 +33,7 @@ import android.os.Build
 import com.newoether.agora.data.claimSubmissionMessage
 import com.newoether.agora.ui.components.SubmissionMessageDialog
 import com.newoether.agora.util.SubmissionMessage
+import com.newoether.agora.util.AvroEndpoints
 import com.newoether.agora.util.submitFeedback
 import java.io.IOException
 import kotlinx.coroutines.CancellationException
@@ -268,7 +269,7 @@ fun RatingForm(
                                     if (submittedEmail.isNotBlank()) put("email", submittedEmail)
                                     if (submittedComment.isNotBlank()) put("comment", submittedComment)
                                 }
-                                submitFeedback("https://newoether.com/api/rating", json.toString())
+                                submitFeedback(AvroEndpoints.RATING_API_ENDPOINT, json.toString())
                             }
                             if (!result.accepted) error("Rating endpoint rejected the request")
                             submitted = true

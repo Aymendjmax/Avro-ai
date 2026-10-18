@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentLinkedDeque
 object CrashReporter {
 
     /** Cloudflare-fronted public endpoint. The origin server address is never referenced here. */
-    private const val ENDPOINT = "https://newoether.com/crash"
+    private val ENDPOINT = AvroEndpoints.CRASH_REPORT_ENDPOINT
     private const val DIR = "crash"
     private const val FILE = "pending.json"
     private const val MAX_TRACE_CHARS = 60_000

@@ -375,7 +375,7 @@
     <string name="about_info">Info</string>
     <string name="about_links">Links</string>
     <string name="about_developer">Developer</string>
-    <string name="about_developer_name">Newo Ether · Solo developer</string>
+    <string name="about_developer_name">Akio co · Independent developer</string>
     <string name="about_website">Website</string>
     <string name="about_github">GitHub</string>
     <string name="about_issue_tracker">Issue Tracker</string>
@@ -408,7 +408,7 @@
     <string name="rating_submitting">Submitting…</string>
     <string name="rating_success">Thanks for your feedback!</string>
     <string name="rating_failed">Failed to submit. Please try again.</string>
-    <string name="rating_privacy">Your rating will be uploaded anonymously to newoether.com. Only the fields you fill in are transmitted. No other data is collected.</string>
+    <string name="rating_privacy">Your rating will be uploaded anonymously to the feedback server. Only the fields you fill in are transmitted. No other data is collected.</string>
 
     <!-- Data Control -->
     <string name="settings_data_control">Data Control</string>
@@ -416,7 +416,7 @@
     <string name="data_export_title">Export Data</string>
     <string name="data_export_subtitle">Save conversations, memories, prompts, and settings to a file.</string>
     <string name="data_import_title">Import Data</string>
-    <string name="data_import_subtitle">Restore from a previous .agora export file.</string>
+    <string name="data_import_subtitle">Restore from a previous .avro or .agora export file.</string>
     <string name="export_category_conversations">Conversations &amp; Messages</string>
     <string name="export_category_memories">Memories</string>
     <string name="export_category_system_prompts">System Prompts</string>
@@ -446,7 +446,7 @@
     <string name="loading_label">Loading…</string>
     <string name="import_success">Import complete: %1$s</string>
     <string name="import_failed">Import failed: %1$s</string>
-    <string name="import_invalid_file">Invalid .agora file. Please select a valid export.</string>
+    <string name="import_invalid_file">Invalid .avro or .agora file. Please select a valid export.</string>
     <string name="import_no_data">This export file contains no importable data.</string>
 
     <!-- Claude Chat Import -->
@@ -632,7 +632,7 @@
     <string name="crash_message">Sorry about that. You can help fix this by sending an anonymous crash report.</string>
     <string name="crash_submit">Submit report</string>
     <string name="crash_dismiss">Don\'t send</string>
-    <string name="crash_privacy_note">Only the crash log is sent to newoether.com. No other information is collected.</string>
+    <string name="crash_privacy_note">Only the crash log is sent to the diagnostics server. No other information is collected.</string>
     <string name="crash_submitted">Crash report sent. Thank you!</string>
     <string name="context_title">Context</string>
     <string name="context_desc">Context management</string>

@@ -332,7 +332,7 @@
     <string name="about_info">معلومات</string>
     <string name="about_links">روابط</string>
     <string name="about_developer">المطوّر</string>
-    <string name="about_developer_name">Newo Ether · مطوّر منفرد</string>
+    <string name="about_developer_name">Akio co · مطوّر مستقل</string>
     <string name="about_website">الموقع الإلكتروني</string>
     <string name="about_github">GitHub</string>
     <string name="about_issue_tracker">متتبّع المشكلات</string>
@@ -365,7 +365,7 @@
     <string name="rating_submitting">جارٍ الإرسال…</string>
     <string name="rating_success">شكرًا على ملاحظاتك!</string>
     <string name="rating_failed">فشل الإرسال. يرجى المحاولة مرة أخرى.</string>
-    <string name="rating_privacy">سيتم رفع تقييمك بشكل مجهول إلى newoether.com. تُرسَل الحقول التي تملؤها فقط. لا يتم جمع أي بيانات أخرى.</string>
+    <string name="rating_privacy">سيتم رفع تقييمك بشكل مجهول إلى خادم الملاحظات. تُرسَل الحقول التي تملؤها فقط. لا يتم جمع أي بيانات أخرى.</string>
 
     <!-- Data Control -->
     <string name="settings_data_control">التحكم في البيانات</string>
@@ -373,7 +373,7 @@
     <string name="data_export_title">تصدير البيانات</string>
     <string name="data_export_subtitle">احفظ المحادثات والذكريات والموجّهات والإعدادات في ملف.</string>
     <string name="data_import_title">استيراد البيانات</string>
-    <string name="data_import_subtitle">الاستعادة من ملف تصدير .agora سابق.</string>
+    <string name="data_import_subtitle">الاستعادة من ملف تصدير .avro أو .agora سابق.</string>
     <string name="export_category_conversations">المحادثات والرسائل</string>
     <string name="export_category_memories">الذكريات</string>
     <string name="export_category_system_prompts">موجّهات النظام</string>
@@ -403,7 +403,7 @@
     <string name="loading_label">جارٍ التحميل…</string>
     <string name="import_success">اكتمل الاستيراد: %1$s</string>
     <string name="import_failed">فشل الاستيراد: %1$s</string>
-    <string name="import_invalid_file">ملف .agora غير صالح. يرجى اختيار تصدير صالح.</string>
+    <string name="import_invalid_file">ملف .avro أو .agora غير صالح. يرجى اختيار تصدير صالح.</string>
     <string name="import_no_data">لا يحتوي ملف التصدير هذا على بيانات قابلة للاستيراد.</string>
 
     <!-- Claude Chat Import -->
@@ -585,7 +585,7 @@
     <string name="crash_message">نعتذر عن ذلك. يمكنك المساعدة في إصلاح هذا بإرسال تقرير تعطّل مجهول.</string>
     <string name="crash_submit">إرسال التقرير</string>
     <string name="crash_dismiss">عدم الإرسال</string>
-    <string name="crash_privacy_note">يُرسَل سجل التعطّل فقط إلى newoether.com. لا يتم جمع أي معلومات أخرى.</string>
+    <string name="crash_privacy_note">يُرسَل سجل التعطّل فقط إلى خادم التشخيص. لا يتم جمع أي معلومات أخرى.</string>
     <string name="crash_submitted">تم إرسال تقرير التعطّل. شكرًا لك!</string>
     <string name="conversation_fork">تفريع المحادثة؟</string>
     <string name="conversation_fork_menu">تفريع المحادثة</string>
