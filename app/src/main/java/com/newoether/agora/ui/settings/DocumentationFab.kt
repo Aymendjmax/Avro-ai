@@ -30,13 +30,12 @@ fun DocumentationFab(docPath: String, modifier: Modifier = Modifier) {
         label = stringResource(R.string.documentation),
         icon = Icons.AutoMirrored.Filled.MenuBook,
         onClick = {
+            val page = docPath.removeSuffix(".md")
             val url = if (baseDocsUrl.contains("github.com")) {
                 val repoBase = baseDocsUrl.substringBefore("/tree/").substringBefore("/blob/")
-                "$repoBase/blob/main/docs/$lang/$docPath"
+                "$repoBase/blob/main/docs/$lang/$page.md"
             } else {
-                val page = docPath.removeSuffix(".md") + "/"
-                val prefix = if (lang == "en") "" else "$lang/"
-                "$baseDocsUrl/$prefix$page"
+                "$baseDocsUrl/$lang/$page"
             }
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         },
