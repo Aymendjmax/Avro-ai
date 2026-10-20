@@ -216,7 +216,8 @@ fun SettingsAboutPage(viewModel: ChatViewModel, onBack: () -> Unit) {
                 )
             }, {
                 SettingsItem(
-                    headlineContent = { Text(stringResource(R.string.about_github), modifier = Modifier.padding(vertical = 6.dp)) },
+                    headlineContent = { Text(stringResource(R.string.about_github)) },
+                    supportingContent = { Text(AvroEndpoints.GITHUB_REPO_DISPLAY) },
                     leadingContent = { Icon(Icons.Default.Code, contentDescription = null) },
                     trailingContent = {
                         Icon(

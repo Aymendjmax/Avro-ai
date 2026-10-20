@@ -87,7 +87,7 @@ Avro 是一款注重本地隐私的 Android 客户端与自主 AI Agent 运行�
 ### 常用命令
 
 ```bash
-git clone https://github.com/fifikoridek2-boop/Avro.git
+git clone https://github.com/Aymendjmax/Avro-ai.git
 cd Avro
 gradle assembleDebug
 gradle :app:testDebugUnitTest

@@ -111,7 +111,7 @@ The application embeds an Alpine Linux sandbox, enabling code execution, system 
 
 ```bash
 # Clone repository
-git clone https://github.com/fifikoridek2-boop/Avro.git
+git clone https://github.com/Aymendjmax/Avro-ai.git
 cd Avro
 
 # Build Debug APK

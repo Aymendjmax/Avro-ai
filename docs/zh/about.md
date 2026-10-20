@@ -16,6 +16,6 @@
 
 ## 许可证
 
-Avro v2.2.0 及后续版本采用 [GNU GPL v3.0](https://github.com/fifikoridek2-boop/Avro/blob/main/LICENSE)。
+Avro v2.2.0 及后续版本采用 [GNU GPL v3.0](https://github.com/Aymendjmax/Avro-ai/blob/main/LICENSE)。
 
-v2.1.0 及更早版本仍按其[原 MIT 许可证](https://github.com/fifikoridek2-boop/Avro/blob/main/LICENSE)提供。这是按版本划分的许可历史，不表示当前项目可在 MIT 与 GPL 之间任选。
+v2.1.0 及更早版本仍按其[原 MIT 许可证](https://github.com/Aymendjmax/Avro-ai/blob/main/LICENSE)提供。这是按版本划分的许可历史，不表示当前项目可在 MIT 与 GPL 之间任选。

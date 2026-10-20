@@ -32,17 +32,18 @@ object AvroEndpoints {
     /**
      * GitHub Repository URL (مستودع الكود على جيت هب)
      */
-    const val GITHUB_REPO_URL = "https://github.com/fifikoridek2-boop/Avro"
+    const val GITHUB_REPO_URL = "https://github.com/Aymendjmax/Avro-ai"
+    const val GITHUB_REPO_DISPLAY = "Aymendjmax/Avro-ai"
 
     /**
      * GitHub Issues Tracker (متتبع المشاكل والاقتراحات)
      */
-    const val GITHUB_ISSUES_URL = "https://github.com/fifikoridek2-boop/Avro/issues"
+    const val GITHUB_ISSUES_URL = "https://github.com/Aymendjmax/Avro-ai/issues"
 
     /**
      * GitHub Pull Requests / Contribution (رابط المساهمة)
      */
-    const val GITHUB_CONTRIBUTE_URL = "https://github.com/fifikoridek2-boop/Avro/pulls"
+    const val GITHUB_CONTRIBUTE_URL = "https://github.com/Aymendjmax/Avro-ai/pulls"
 
     /**
      * Privacy Policy URL (رابط سياسة الخصوصية)
@@ -57,5 +58,5 @@ object AvroEndpoints {
     /**
      * GitHub Releases API for Checking Updates (رابط فحص التحديثات الرسمية)
      */
-    const val UPDATE_CHECK_API_URL = "https://api.github.com/repos/fifikoridek2-boop/Avro/releases/latest"
+    const val UPDATE_CHECK_API_URL = "https://api.github.com/repos/Aymendjmax/Avro-ai/releases/latest"
 }

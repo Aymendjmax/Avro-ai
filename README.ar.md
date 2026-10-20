@@ -111,7 +111,7 @@ Avro هو تطبيق أندرويد محلي وبيئة تشغيل لوكلاء 
 
 ```bash
 # استنساخ المستودع
-git clone https://github.com/fifikoridek2-boop/Avro.git
+git clone https://github.com/Aymendjmax/Avro-ai.git
 cd Avro
 
 # بناء نسخة تصحيح الأخطاء (Debug APK)

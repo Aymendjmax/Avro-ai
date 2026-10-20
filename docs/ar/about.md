@@ -7,9 +7,9 @@
 
 ## المطور والمشروع
 - **فريق التطوير**: يتم تطوير وصيانة المشروع بواسطة **Akio co**.
-- **المستودع الرسمي**: [https://github.com/fifikoridek2-boop/Avro](https://github.com/fifikoridek2-boop/Avro)
+- **المستودع الرسمي**: [https://github.com/Aymendjmax/Avro-ai](https://github.com/Aymendjmax/Avro-ai)
 - **منصة الويب والتوثيق**: [https://avro-app.vercel.app](https://avro-app.vercel.app)
-- **الإبلاغ عن المشاكل والاقتراحات**: [https://github.com/fifikoridek2-boop/Avro/issues](https://github.com/fifikoridek2-boop/Avro/issues)
+- **الإبلاغ عن المشاكل والاقتراحات**: [https://github.com/Aymendjmax/Avro-ai/issues](https://github.com/Aymendjmax/Avro-ai/issues)
 
 ## الفلسفة التقنية
 - **الخصوصية أولاً**: لا توجد خوادم تجمع بياناتك أو محادثاتك. محادثاتك وسجلاتك مخزنة على جهازك عبر قاعدة بيانات مشفرة ومؤمنة.
