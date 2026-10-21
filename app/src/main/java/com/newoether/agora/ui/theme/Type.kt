@@ -35,6 +35,23 @@ val OutfitFamily = FontFamily(
     miOutfitFont(FontWeight.Bold),
 )
 
+@OptIn(ExperimentalTextApi::class)
+private fun notoArabicFont(weight: FontWeight) = Font(
+    resId = R.font.noto_sans_arabic,
+    weight = weight,
+    variationSettings = FontVariation.Settings(
+        FontVariation.weight(weight.weight),
+    ),
+)
+
+val NotoArabicFamily = FontFamily(
+    notoArabicFont(FontWeight.ExtraLight), // 200
+    notoArabicFont(FontWeight.Light),      // 300
+    notoArabicFont(FontWeight.Normal),     // 400
+    notoArabicFont(FontWeight.Medium),     // 500
+    notoArabicFont(FontWeight.Bold),       // 700
+)
+
 // Geometric (modular) type scale: every distinct size is a term of a geometric
 // sequence anchored at body = 16sp with common ratio r = 1.2 (minor third).
 // Sizes: 11, 13, 16, 19, 23, 28, 33, 40, 48, 57. Line heights scale per tier
@@ -144,6 +161,116 @@ val Typography = Typography(
         fontSize = 11.sp,
         lineHeight = 15.sp,
         letterSpacing = 0.5.sp
+    )
+)
+
+// Arabic Typography: Noto Sans Arabic, letterSpacing = 0 always to preserve ligatures,
+// line heights scaled ~1.15-1.25x for Arabic diacritics and ascenders/descenders.
+val TypographyAr = Typography(
+    displayLarge = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 57.sp,
+        lineHeight = 72.sp,
+        letterSpacing = 0.sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 48.sp,
+        lineHeight = 62.sp,
+        letterSpacing = 0.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 40.sp,
+        lineHeight = 52.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 33.sp,
+        lineHeight = 45.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        lineHeight = 38.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 23.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.sp
+    ),
+    titleLarge = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 19.sp,
+        lineHeight = 26.sp,
+        letterSpacing = 0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 23.sp,
+        letterSpacing = 0.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 26.sp,
+        letterSpacing = 0.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 13.sp,
+        lineHeight = 21.sp,
+        letterSpacing = 0.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp,
+        lineHeight = 17.sp,
+        letterSpacing = 0.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 13.sp,
+        lineHeight = 19.sp,
+        letterSpacing = 0.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = NotoArabicFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
     )
 )
 

@@ -42,6 +42,8 @@ import com.newoether.agora.ui.components.latexSourceForLink
 import com.newoether.agora.ui.chat.caseInsensitiveMatchRanges
 import com.newoether.agora.ui.chat.visibleMarkdownMatchRanges
 import com.newoether.agora.ui.theme.ChatType
+import com.newoether.agora.ui.theme.containsArabic
+import com.newoether.agora.ui.theme.OutfitFamily
 import com.mikepenz.markdown.compose.LocalMarkdownColors
 import com.mikepenz.markdown.compose.LocalMarkdownDimens
 import com.mikepenz.markdown.compose.LocalMarkdownPadding
@@ -119,7 +121,22 @@ internal fun buildCitationAwareMarkdownAnnotatedString(
             annotatorSettings = annotatorSettings,
         )
     }
-    return annotated.replaceCitationInlineTokens(citationTokens)
+    val replaced = annotated.replaceCitationInlineTokens(citationTokens)
+    if (!replaced.text.containsArabic()) {
+        return replaced
+    }
+    // Avro Brand Guide rule: Latin names (Claude, Gemini, Avro, OpenAI...) inside Arabic copy preserve OutfitFamily
+    val latinPattern = java.util.regex.Pattern.compile("[A-Za-z0-9]+(?:[-_.:/][A-Za-z0-9]+)*")
+    val matcher = latinPattern.matcher(replaced.text)
+    val builder = AnnotatedString.Builder(replaced)
+    while (matcher.find()) {
+        builder.addStyle(
+            SpanStyle(fontFamily = OutfitFamily),
+            matcher.start(),
+            matcher.end()
+        )
+    }
+    return builder.toAnnotatedString()
 }
 
 private const val MARKDOWN_LINE_HEIGHT_MULTIPLIER = 1.1f

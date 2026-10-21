@@ -18,6 +18,8 @@ import java.io.File
 
 enum class ThemeMode { LIGHT, DARK, FOLLOW_DEVICE }
 
+val LocalIsArabic = androidx.compose.runtime.compositionLocalOf { false }
+
 /**
  * Returns the effective [FontFamily] for non-mono typography based on the font preference.
  */
@@ -104,13 +106,29 @@ fun AgoraTheme(
         baseColorScheme.withAmoledBackground(darkTheme, amoledEnabled)
     }
 
-    val fontFamily = effectiveFontFamily(fontPreference, customFontPath)
-    chatFontFamily = fontFamily
-    val typography = remember(fontFamily) { typographyWithFont(fontFamily) }
+    val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+    val isArabic = remember(configuration) {
+        configuration.locales[0].language == "ar"
+    }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = typography,
-        content = content
-    )
+    val baseFontFamily = effectiveFontFamily(fontPreference, customFontPath)
+    val fontFamily = if (isArabic && fontPreference == "app_default") NotoArabicFamily else baseFontFamily
+    chatFontFamily = fontFamily
+    val typography = remember(fontFamily, isArabic) {
+        if (isArabic && fontPreference == "app_default") {
+            TypographyAr
+        } else {
+            typographyWithFont(fontFamily)
+        }
+    }
+
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalIsArabic provides isArabic
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = typography,
+            content = content
+        )
+    }
 }

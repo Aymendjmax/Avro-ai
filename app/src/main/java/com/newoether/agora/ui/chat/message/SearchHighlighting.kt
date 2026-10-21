@@ -106,15 +106,20 @@ internal fun SearchHighlightedPlainText(
         ranges.indexOfFirst { it.first == active.first && it.last == active.last }
             .takeIf { it >= 0 }
     }
+    val isArabic = com.newoether.agora.ui.theme.LocalIsArabic.current
+    val baseAnnotated = remember(text, isArabic) {
+        com.newoether.agora.ui.theme.formatBilingualText(text, isArabicMode = isArabic)
+    }
     val highlighted = remember(
         text,
+        baseAnnotated,
         spec?.query,
         activeOccurrence,
         highlightColor,
         activeHighlightColor,
     ) {
         highlightedSearchText(
-            text = AnnotatedString(text),
+            text = baseAnnotated,
             query = spec?.query.orEmpty(),
             activeOccurrence = activeOccurrence,
             highlightColor = highlightColor,
