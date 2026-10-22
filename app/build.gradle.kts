@@ -17,8 +17,8 @@ android {
     applicationId = "com.newoether.agora"
     minSdk = 26
     targetSdk = 36
-    versionCode = 31
-    versionName = "2.1.0"
+    versionCode = 33
+    versionName = "2.3.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
