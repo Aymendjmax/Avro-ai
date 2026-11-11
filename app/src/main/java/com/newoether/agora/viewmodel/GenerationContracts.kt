@@ -21,6 +21,8 @@ data class GenerationPromptTemplate(
      * cache stable. Mid-Run edits become visible through read_active_memory and land next Run.
      */
     val activeMemory: String = "",
+    val conversationMode: com.newoether.agora.model.ConversationMode = com.newoether.agora.model.ConversationMode.DEFAULT,
+    val conversationId: String = "",
 )
 
 data class GenerationConfig(
@@ -63,6 +65,7 @@ data class GenerationConfig(
 
 data class GenerationContext(
     val conversationId: String? = null,
+    val conversationMode: com.newoether.agora.model.ConversationMode = com.newoether.agora.model.ConversationMode.DEFAULT,
     val accessSavedMemories: Boolean = true,
     val accessActiveMemory: Boolean = true,
     val skillReadAccess: Boolean = true,
@@ -93,6 +96,7 @@ data class GenerationContext(
     val shellDevices: List<com.newoether.agora.data.ShellDeviceConfig> = emptyList(),
     val sandboxEnabled: Boolean = false,
     val sandboxSharedStorageEnabled: Boolean = false,
+    val requestWorkToolEnabled: Boolean = true,
     val imageTranscriptionEnabled: Boolean = false,
     val imageTranscriptionModel: String? = null,
     val imageTranscriptionBatchSize: Int = 3,
@@ -103,6 +107,7 @@ data class GenerationContext(
     val transcriptionBaseUrl: String? = null,
     val transcriptionAnthropicCacheEnabled: Boolean = true,
     val transcriptionAnthropicCacheTtl: String = "1h",
+    val mentionedMcpServers: Set<String> = emptySet(),
     /** Wall-clock budget for a single tool execution; downgrades a blocking tool from a
      *  permanent generation hang to a recoverable tool error (#49). */
     val toolTimeoutMs: Long = Constants.TOOL_EXECUTION_TIMEOUT_MS

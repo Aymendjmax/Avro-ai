@@ -14,6 +14,10 @@ Configure host, port, user, authentication, and host-key verification/pinning. D
 
 ## Confirmation
 
-Commands can require confirmation or be always allowed per configured server. Treat both shell types as high-trust capabilities: the remote account's permissions define what the model can change.
+## Operating Modes & Shell Isolation
+
+In Avro 2.3.0 and newer, conversations use dedicated operating modes:
+- **Ask Mode (Conversational)**: Standard chat mode. Shell execution and terminal tools are explicitly disabled across all Ask conversations (including legacy conversations), preventing hallucinated command invocations and unwanted execution.
+- **Work Mode (Autonomous Agent)**: Enables the local PRoot Alpine Linux sandbox, terminal execution (`execute_shell_command`), remote shells, FileStore attachments, and file manipulation tools. Switch to Work mode from the composer plus menu or Work mode chip when terminal capabilities are needed.
 
 See [Agentic Tools](tools.md), [Network Proxy](proxy.md), and [Privacy & Security](privacy.md).

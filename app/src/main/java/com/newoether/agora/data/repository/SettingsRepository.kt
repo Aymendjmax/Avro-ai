@@ -207,6 +207,10 @@ class SettingsRepository(
     val sandboxEnabled: StateFlow<Boolean> = hot(settingsManager.sandboxEnabled, false)
     val sandboxSharedStorageEnabled: StateFlow<Boolean> =
         hot(settingsManager.sandboxSharedStorageEnabled, false)
+    val defaultConversationMode: StateFlow<String> =
+        hot(settingsManager.defaultConversationMode, "ask")
+    val requestWorkToolEnabled: StateFlow<Boolean> =
+        hot(settingsManager.requestWorkToolEnabled, true)
     val defaultTemperature: StateFlow<Float?> = hot(settingsManager.defaultTemperature, null)
     val defaultMaxTokens: StateFlow<Int?> = hot(settingsManager.defaultMaxTokens, null)
     val defaultTopP: StateFlow<Float?> = hot(settingsManager.defaultTopP, null)
@@ -662,6 +666,8 @@ class SettingsRepository(
     fun setProxyBypass(bypass: String) = scope.launch { settingsManager.saveProxyBypass(bypass) }
     fun setSandboxEnabled(enabled: Boolean) = scope.launch { settingsManager.saveSandboxEnabled(enabled) }
     fun setSandboxSharedStorageEnabled(enabled: Boolean) = scope.launch { settingsManager.saveSandboxSharedStorageEnabled(enabled) }
+    fun setDefaultConversationMode(mode: String) = scope.launch { settingsManager.saveDefaultConversationMode(mode) }
+    fun setRequestWorkToolEnabled(enabled: Boolean) = scope.launch { settingsManager.saveRequestWorkToolEnabled(enabled) }
     fun setThinkingEnabled(enabled: Boolean) = scope.launch { settingsManager.saveThinkingEnabled(enabled) }
     fun setThinkingLevel(level: String) = scope.launch { settingsManager.saveThinkingLevel(level) }
     fun setThinkingBudgetEnabled(enabled: Boolean) = scope.launch { settingsManager.saveThinkingBudgetEnabled(enabled) }

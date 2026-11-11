@@ -12,8 +12,8 @@ Depending on settings, build, and provider support, tools include:
 - past-conversation search
 - MCP servers
 - Tasks and Loops automation
-- remote Conch/SSH commands, durable job management, file operations, and `view_image`
-- the F-Droid Alpine sandbox
+- remote Conch/SSH commands, durable job management, file operations, and `view_image` (supporting both the local Alpine sandbox and remote Conch servers with direct vision or secondary reader fallback)
+- the on-device Alpine Linux sandbox (F-Droid build)
 
 ## Permissions and defaults
 

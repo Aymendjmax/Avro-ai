@@ -23,7 +23,7 @@ class WebUiToolDetailTest {
     private fun resources(language: String = "en") =
         ApplicationProvider.getApplicationContext<Application>().appLanguageResources(language)
 
-    private fun webToolDocument(text: String) = resources().webToolDocument(text)
+    private fun webToolDocument(text: String) = com.newoether.agora.webui.webToolDocument(text)
 
     @Test fun shellContentAndFailureTextMatchTheSharedOwnerInBothLanguages() {
         for (language in listOf("en", "zh")) {
@@ -47,32 +47,20 @@ class WebUiToolDetailTest {
         assertEquals(2, webToolDocument("{\"a\":1}\n{\"a\":2}").roots.size)
     }
 
-    @Test fun emptyContainersCarryLocalizedLabelsOnlyWhenComplete() {
-        for ((language, label) in listOf("en" to "No content", "zh" to "\u65e0\u5185\u5bb9")) {
-            val resources = resources(language)
-            assertEquals(label, resources.getString(R.string.tool_json_empty_container))
-            for (literal in listOf("[]", "{}")) {
-                val node = resources.webToolDocument(literal).roots.single()
-                assertEquals(
-                    if (literal == "[]") WebToolNode.Array(emptyList(), true, label)
-                    else WebToolNode.Object(emptyList(), true, label),
-                    node,
-                )
-                val encoded = WebUiSync.json.encodeToString(WebToolNode.serializer(), node)
-                assertEquals(node, WebUiSync.json.decodeFromString(WebToolNode.serializer(), encoded))
-            }
-            val nested = resources.webToolDocument("{\"array\":[],\"object\":{}}").roots.single() as WebToolNode.Object
-            assertNull(nested.emptyText)
-            assertEquals(resources.getString(R.string.tool_json_empty_container),
-                (nested.entries[0].value as WebToolNode.Array).emptyText)
-            assertEquals(resources.getString(R.string.tool_json_empty_container),
-                (nested.entries[1].value as WebToolNode.Object).emptyText)
-            assertNull((resources.webToolDocument("[").roots.single() as WebToolNode.Array).emptyText)
-            assertNull((resources.webToolDocument("{").roots.single() as WebToolNode.Object).emptyText)
-            val todo = MessageSegment(type = "tool", toolName = "read_todo", toolResult = "[]")
-            val body = resources.webToolDetail(todo).body as WebToolBody.Documents
-            assertEquals(resources.webToolDocument("[]"), body.values.single())
+    @Test fun emptyContainersCarryCompleteState() {
+        for (literal in listOf("[]", "{}")) {
+            val node = webToolDocument(literal).roots.single()
+            assertEquals(
+                if (literal == "[]") WebToolNode.Array(emptyList(), true)
+                else WebToolNode.Object(emptyList(), true),
+                node,
+            )
+            val encoded = WebUiSync.json.encodeToString(WebToolNode.serializer(), node)
+            assertEquals(node, WebUiSync.json.decodeFromString(WebToolNode.serializer(), encoded))
         }
+        val todo = MessageSegment(type = "tool", toolName = "read_todo", toolResult = "[]")
+        val body = resources().webToolDetail(todo).body as WebToolBody.Documents
+        assertEquals(webToolDocument("[]"), body.values.single())
     }
 
     @Test fun onlyExactTerminalMarkersAreOutOfBand() {

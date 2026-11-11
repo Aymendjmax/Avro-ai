@@ -203,12 +203,43 @@ class ChatViewModel(
         sandboxFactory?.create()
     }
     val isSandboxFlavor: Boolean = sandboxFactory?.isAvailable() == true
+    val requestWork: RequestWorkController get() = chatRuntime.requestWork
+
+    fun resolveWorkRequest(id: Long, allow: Boolean) {
+        if (!allow) {
+            requestWork.resolve(id, false)
+            return
+        }
+        val current = requestWork.pendingWorkRequest.value ?: return
+        val conversationId = current.conversationId
+        updateConversationSetting(conversationId) { it.copy(conversationMode = com.newoether.agora.model.ConversationMode.WORK.id) }
+        val sandbox = sandboxManager
+        if (sandbox != null && !sandbox.isAvailableSync()) {
+            viewModelScope.launch {
+                sandbox.installRootfs()
+                kotlinx.coroutines.delay(200)
+                if (sandbox.isInstallingRootfs.value) {
+                    sandbox.isInstallingRootfs.first { !it }
+                }
+                requestWork.resolve(id, true)
+            }
+        } else {
+            requestWork.resolve(id, true)
+        }
+    }
+
     val mcpServerSnapshots: StateFlow<Map<String, com.newoether.agora.mcp.McpServerSnapshot>>
         get() = mcpRegistry.snapshots
 
     fun refreshMcpServer(serverId: String) = mcpRegistry.refresh(serverId)
 
     fun refreshMcpServersOnPageEntry() = mcpRegistry.refreshOnPageEntry()
+
+    val availableSkills: List<com.newoether.agora.data.SkillManager.SkillFileInfo>
+        get() = skillManager.listFiles()
+
+    val mcpServers: StateFlow<List<com.newoether.agora.data.McpServerConfig>>
+        get() = settings.mcpServers
 
     override fun onCleared() {
         super.onCleared()
@@ -516,7 +547,13 @@ class ChatViewModel(
                 generationController.prepareForegroundSend(target, composer, phoneClient)
             },
             send = { admission, text, attachments, onAccepted ->
-                generationController.sendMessage(admission, text, attachments, onAccepted, phoneClient)
+                requestWork.resetTurn(admission.target.conversationId)
+                val resolved = com.newoether.agora.data.MentionParser.resolve(
+                    rawText = text,
+                    availableSkills = skillManager.listFiles(),
+                    availableMcpServers = settings.mcpServers.value,
+                )
+                generationController.sendMessage(admission, resolved.augmentedText, attachments, onAccepted, phoneClient)
             },
             onAcceptedClearFailed = { _, retry ->
                 emitSnackbar(
@@ -531,7 +568,10 @@ class ChatViewModel(
     fun updateConversationSetting(
         convId: String?,
         update: (ConversationSettings) -> ConversationSettings,
-    ) = conversationWorkspaces.updateConversationSettings(convId ?: NEW_CHAT_WORKSPACE_ID, update)
+    ) {
+        convId?.let(requestWork::resetTurn)
+        conversationWorkspaces.updateConversationSettings(convId ?: NEW_CHAT_WORKSPACE_ID, update)
+    }
 
     val switchingScrollRequest: StateFlow<SwitchingScrollRequest?> =
         selectionController.switchingScrollRequest

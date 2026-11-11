@@ -103,6 +103,15 @@ internal fun ToolDetailContent(
             Spacer(Modifier.height(12.dp))
         }
     }
+    if (presentation.kind == ToolKind.PRESENT_FILES) {
+        Column(modifier = contentAlignmentModifier.fillMaxWidth()) {
+            PresentedFilesBlock(
+                segment = segment,
+                onMediaClick = onMediaClick,
+            )
+        }
+        return
+    }
     val body = presentation.body
     if (body is ToolDetailBody.Search) {
         WebSearchResult(body)

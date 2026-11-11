@@ -193,21 +193,19 @@ internal class WebUiSync(
                         val visible = com.newoether.agora.ui.chat.interaction.userInteractions(target.conversationId, questions, shell)
                         WebSyncEvent.Interactions(target.conversationId, target.browserSeq, actionId,
                             visible.flatMap { request -> when (request) {
-                                is com.newoether.agora.ui.chat.interaction.UserInteraction.Question -> request.requests.map { question ->
+                                is com.newoether.agora.ui.chat.interaction.UserInteraction.Question -> request.requests.map { q ->
                                     buildJsonObject {
-                                        put("kind", "question")
-                                        put("id", question.id.toString())
-                                        put("question", question.question)
-                                        put("options", JsonArray(question.options.map(::JsonPrimitive)))
-                                        put("allowMultiple", question.allowMultiple)
-                                        put("blocking", question.blocking)
+                                        put("kind", "question"); put("id", q.id.toString()); put("question", q.question)
+                                        put("options", JsonArray(q.options.map(::JsonPrimitive)))
+                                        put("allowMultiple", q.allowMultiple); put("blocking", q.blocking)
                                     }
                                 }
                                 is com.newoether.agora.ui.chat.interaction.UserInteraction.ShellCommand -> listOf(buildJsonObject {
-                                    put("kind", "shell")
-                                    put("id", request.pending.id.toString())
-                                    put("server", request.pending.server)
-                                    put("summary", request.pending.summary)
+                                    put("kind", "shell"); put("id", request.pending.id.toString())
+                                    put("server", request.pending.server); put("summary", request.pending.summary)
+                                })
+                                is com.newoether.agora.ui.chat.interaction.UserInteraction.WorkTransition -> listOf(buildJsonObject {
+                                    put("kind", "work"); put("id", request.pending.id.toString()); put("reason", request.pending.reason)
                                 })
                             } })
                     }.distinctUntilChanged().collect { outbound.send(it) }

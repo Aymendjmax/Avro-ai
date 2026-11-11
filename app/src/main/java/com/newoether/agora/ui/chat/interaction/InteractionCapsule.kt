@@ -60,12 +60,14 @@ private const val MorphDurationMs = 320
 internal enum class InteractionKind(val icon: ImageVector, val titleRes: Int) {
     Question(Icons.AutoMirrored.Outlined.HelpOutline, R.string.interaction_ask_user),
     Approval(Icons.Default.Terminal, R.string.interaction_approval),
+    WorkMode(Icons.Default.Terminal, R.string.interaction_work_mode),
 }
 
 internal val UserInteraction.kind: InteractionKind
     get() = when (this) {
         is UserInteraction.Question -> InteractionKind.Question
         is UserInteraction.ShellCommand -> InteractionKind.Approval
+        is UserInteraction.WorkTransition -> InteractionKind.WorkMode
     }
 
 /**

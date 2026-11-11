@@ -461,7 +461,7 @@
     <string name="pdf_render_failed">Échec du rendu du PDF</string>
     <string name="pdf_selected">Sélectionné</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d sur %2$d messages non mis en cache.</string>
     <string name="cache_now">Mettre en cache</string>
     <string name="no_messages_to_cache">Aucun message à mettre en cache.</string>
@@ -573,6 +573,11 @@
     <string name="ask_user_next">Suivant</string>
     <string name="interaction_ask_user">Question</string>
     <string name="interaction_approval">Approbation</string>
+    <string name="interaction_work_mode">Demande du mode Travail</string>
+    <string name="work_mode_enable_and_continue">Activer Work et continuer</string>
+    <string name="work_mode_stay_in_ask">Rester en Ask</string>
+    <string name="work_mode_sandbox_needed">Le mode Travail requiert le bac à sable Alpine Linux (~50Mo).</string>
+    <string name="work_mode_installing_sandbox">Installation du bac à sable Alpine Linux…</string>
     <string name="interaction_minimize">Réduire</string>
     <string name="interaction_expand">Développer</string>
     <string name="ask_user_custom_answer">Répondez avec vos mots</string>
@@ -815,4 +820,36 @@
     <string name="message_source_loop">Boucle</string>
     <string name="message_source_ask_user">Question</string>
     <string name="message_source_unanswered">Sans réponse</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">Chat standard, recherche, pièces jointes &amp; outils MCP</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">Agent autonome: sandbox, shell et fichiers</string>
+    <string name="conversation_mode_title">Mode</string>
+    <string name="skills_row_label">Compétences (Skills)</string>
+    <string name="mcp_row_label">Serveurs MCP</string>
+    <string name="work_mode_chip_desc">Mode Work actif : appuyer pour modifier</string>
+    <string name="work_mode_chip_warning_cd">Mode Travail actif : outils shell indisponibles, appuyer pour modifier</string>
+    <string name="work_mode_sandbox_unavailable_warning">Outils shell ou sandbox local indisponibles. Exécution désactivée.</string>
+    <string name="work_mode_prompt_section_title">Directives du mode Work d\'Avro</string>
+    <string name="work_mode_managed_badge">Géré</string>
+    <string name="work_mode_prompt_section_desc">Lorsque le mode Work est actif, Avro injecte automatiquement l\'environnement sandbox et les règles d\'exécution autonome dans le prompt système. Vous pouvez aussi placer {work_environment} ou {work_rules} dans votre modèle.</string>
+    <string name="var_work_environment">Environnement de travail</string>
+    <string name="var_work_rules">Directives de travail</string>
+    <string name="mention_no_skills_found">Aucune compétence correspondante trouvée</string>
+    <string name="mention_no_mcp_found">Aucun serveur MCP correspondant trouvé</string>
+    <string name="tool_present_files">Présenter les fichiers</string>
+    <string name="tool_present_files_single">%1$s présenté</string>
+    <string name="tool_present_files_count">%1$d fichiers présentés</string>
+    <string name="present_files_open">Ouvrir</string>
+    <string name="present_files_save">Enregistrer</string>
+    <string name="present_files_share">Partager</string>
+    <string name="present_files_saved_to_downloads">Enregistré dans Téléchargements/Avro</string>
+    <string name="present_files_save_failed">Échec de l\'enregistrement du fichier</string>
+    <string name="present_files_not_found">Fichier introuvable</string>
+    <string name="present_files_copy">Copier</string>
+    <string name="present_files_copied">Copié dans le presse-papier</string>
+    <string name="present_files_preview">Aperçu</string>
+    <string name="present_files_view_code">Voir le code</string>
+    <string name="present_files_binary_notice">Le fichier binaire ne peut pas être affiché sous forme de texte</string>
+    <string name="present_files_download">Télécharger</string>
 </resources>

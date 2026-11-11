@@ -364,6 +364,7 @@ internal fun SettingsDestination(
         "context" -> SettingsContextPage(viewModel, onBack)
         "websearch" -> SettingsWebSearchPage(viewModel, onBack)
         "imagegen" -> SettingsImageGenPage(viewModel, onBack)
+        "work" -> SettingsWorkPage(viewModel, onBack)
         "shell" -> SettingsShellPage(viewModel, onBack)
         "interaction" -> SettingsInteractionPage(viewModel, onBack)
         "mcp" -> SettingsMcpPage(viewModel, onBack)

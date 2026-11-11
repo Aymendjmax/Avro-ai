@@ -186,15 +186,19 @@ internal object ShellToolDefinitions {
             ))
         )
 
-        val imageTools = if (conchDeviceNames.isEmpty()) {
+        val imageDeviceNames = buildList {
+            if (hasLocal) add("Local Sandbox")
+            addAll(conchDeviceNames)
+        }
+        val imageTools = if (imageDeviceNames.isEmpty()) {
             emptyList()
         } else {
-            val imageServerDescription = if (conchDeviceNames.size == 1) {
-                "Conch server name (optional; defaults to ${conchDeviceNames.single()})."
+            val imageServerDescription = if (imageDeviceNames.size == 1) {
+                "Server or local sandbox name (optional; defaults to ${imageDeviceNames.single()})."
             } else {
-                "Conch server name. Available: ${conchDeviceNames.joinToString(", ")}."
+                "Server or local sandbox name. Available: ${imageDeviceNames.joinToString(", ")}."
             }
-            val imageRequired = if (conchDeviceNames.size == 1) {
+            val imageRequired = if (imageDeviceNames.size == 1) {
                 listOf("path")
             } else {
                 listOf("path", "server")
@@ -204,14 +208,30 @@ internal object ShellToolDefinitions {
                     function = ToolFunction(
                         name = "view_image",
                         description =
-                            "Load an image from a Conch device and return it as visual context.",
+                            "Load and inspect an image from the local sandbox or a Conch server. Supports direct visual inspection or secondary image reader with presets and bounded instructions.",
                         parameters = ToolParameters(
                             properties = mapOf(
                                 "path" to ToolProperty(
                                     "string",
-                                    "Absolute path to the image file.",
+                                    "Absolute path to the image file in the local sandbox or remote server (e.g. /home/uploads/<chat>/... or /home/outputs/...).",
                                 ),
                                 "server" to ToolProperty("string", imageServerDescription),
+                                "focus" to ToolProperty(
+                                    "string",
+                                    "Specific visual element, section, or area of interest to focus on (e.g. 'chart legend', 'error modal', 'table header').",
+                                ),
+                                "preset" to ToolProperty(
+                                    "string",
+                                    "Inspection preset: 'document', 'ui', 'code', 'diagram', or 'general' (default).",
+                                ),
+                                "instructions" to ToolProperty(
+                                    "string",
+                                    "Specific analysis questions or instructions for the image reader (maximum 500 characters).",
+                                ),
+                                "crop" to ToolProperty(
+                                    "string",
+                                    "Optional bounding crop box as 'x,y,width,height' in normalized coordinates (0.0 to 1.0) or integer pixel coordinates.",
+                                ),
                             ),
                             required = imageRequired,
                         ),

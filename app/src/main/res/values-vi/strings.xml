@@ -463,7 +463,7 @@
     <string name="pdf_render_failed">Hiển thị PDF thất bại</string>
     <string name="pdf_selected">Đã chọn</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d trên %2$d tin nhắn chưa được lưu bộ đệm.</string>
     <string name="cache_now">Lưu bộ đệm ngay</string>
     <string name="no_messages_to_cache">Không có tin nhắn nào để lưu bộ đệm.</string>
@@ -582,6 +582,11 @@
     <string name="ask_user_next">Tiếp</string>
     <string name="interaction_ask_user">Hỏi người dùng</string>
     <string name="interaction_approval">Phê duyệt</string>
+    <string name="interaction_work_mode">Yêu cầu chế độ Làm việc</string>
+    <string name="work_mode_enable_and_continue">Bật Work và tiếp tục</string>
+    <string name="work_mode_stay_in_ask">Ở lại chế độ Ask</string>
+    <string name="work_mode_sandbox_needed">Chế độ Làm việc yêu cầu hộp cát Alpine Linux (~50MB).</string>
+    <string name="work_mode_installing_sandbox">Đang cài đặt hộp cát Alpine Linux…</string>
     <string name="interaction_minimize">Thu nhỏ</string>
     <string name="interaction_expand">Mở rộng</string>
     <string name="ask_user_custom_answer">Trả lời bằng lời của bạn</string>
@@ -821,4 +826,36 @@
     <string name="message_source_loop">Vòng lặp</string>
     <string name="message_source_ask_user">Hỏi người dùng</string>
     <string name="message_source_unanswered">Chưa trả lời</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">Trò chuyện chuẩn, tìm kiếm, tệp đính kèm &amp; công cụ MCP</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">Đại lý tự động: sandbox, shell và tệp</string>
+    <string name="conversation_mode_title">Chế độ</string>
+    <string name="skills_row_label">Kỹ năng (Skills)</string>
+    <string name="mcp_row_label">Máy chủ MCP</string>
+    <string name="work_mode_chip_desc">Chế độ Work đang hoạt động: nhấn để thay đổi</string>
+    <string name="work_mode_chip_warning_cd">Chế độ làm việc đang hoạt động: công cụ shell không khả dụng, nhấn để thay đổi</string>
+    <string name="work_mode_sandbox_unavailable_warning">Công cụ shell hoặc sandbox cục bộ không khả dụng. Quá trình thực thi bị vô hiệu hóa.</string>
+    <string name="work_mode_prompt_section_title">Chỉ thị chế độ Work của Avro</string>
+    <string name="work_mode_managed_badge">Được quản lý</string>
+    <string name="work_mode_prompt_section_desc">Khi chế độ Work đang hoạt động, Avro sẽ tự động chèn đường dẫn môi trường sandbox và quy tắc thực thi tự động vào lời nhắc hệ thống. Bạn cũng có thể đặt {work_environment} hoặc {work_rules} vào mẫu ở trên.</string>
+    <string name="var_work_environment">Môi trường làm việc</string>
+    <string name="var_work_rules">Chỉ thị làm việc</string>
+    <string name="mention_no_skills_found">Không tìm thấy kỹ năng phù hợp</string>
+    <string name="mention_no_mcp_found">Không tìm thấy máy chủ MCP phù hợp</string>
+    <string name="tool_present_files">Giao tệp</string>
+    <string name="tool_present_files_single">Đã giao %1$s</string>
+    <string name="tool_present_files_count">Đã giao %1$d tệp</string>
+    <string name="present_files_open">Mở</string>
+    <string name="present_files_save">Lưu</string>
+    <string name="present_files_share">Chia sẻ</string>
+    <string name="present_files_saved_to_downloads">Đã lưu vào Tải xuống/Avro</string>
+    <string name="present_files_save_failed">Lưu tệp thất bại</string>
+    <string name="present_files_not_found">Không tìm thấy tệp</string>
+    <string name="present_files_copy">Sao chép</string>
+    <string name="present_files_copied">Đã sao chép vào bộ nhớ tạm</string>
+    <string name="present_files_preview">Xem trước</string>
+    <string name="present_files_view_code">Xem mã nguồn</string>
+    <string name="present_files_binary_notice">Tệp nhị phân không thể hiển thị dưới dạng văn bản</string>
+    <string name="present_files_download">Tải xuống</string>
 </resources>

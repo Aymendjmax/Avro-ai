@@ -461,7 +461,7 @@
     <string name="pdf_render_failed">PDF のレンダリングに失敗しました</string>
     <string name="pdf_selected">選択済み</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%2$d 件中 %1$d 件のメッセージが未キャッシュです。</string>
     <string name="cache_now">今すぐキャッシュ</string>
     <string name="no_messages_to_cache">キャッシュするメッセージがありません。</string>
@@ -573,6 +573,11 @@
     <string name="ask_user_next">次へ</string>
     <string name="interaction_ask_user">質問</string>
     <string name="interaction_approval">承認</string>
+    <string name="interaction_work_mode">ワークモードのリクエスト</string>
+    <string name="work_mode_enable_and_continue">Workを有効にして続行</string>
+    <string name="work_mode_stay_in_ask">Askのままにする</string>
+    <string name="work_mode_sandbox_needed">ワークモードにはAlpine Linuxサンドボックス（約50MB）が必要です。</string>
+    <string name="work_mode_installing_sandbox">Alpine Linuxサンドボックスをインストール中…</string>
     <string name="interaction_minimize">最小化</string>
     <string name="interaction_expand">展開</string>
     <string name="ask_user_custom_answer">自分の言葉で答える</string>
@@ -815,4 +820,36 @@
     <string name="message_source_loop">ループ</string>
     <string name="message_source_ask_user">質問</string>
     <string name="message_source_unanswered">未回答</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">通常のチャット、検索、添付、MCPツール</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">自律型エージェント: サンドボックス、シェル、ファイル</string>
+    <string name="conversation_mode_title">モード</string>
+    <string name="skills_row_label">スキル (Skills)</string>
+    <string name="mcp_row_label">MCPサーバー</string>
+    <string name="work_mode_chip_desc">Workモード有効: タップして変更</string>
+    <string name="work_mode_chip_warning_cd">作業モードが有効：シェルツールが利用できません。タップして変更</string>
+    <string name="work_mode_sandbox_unavailable_warning">シェルツールまたはローカルサンドボックスが利用できません。実行は無効です。</string>
+    <string name="work_mode_prompt_section_title">Avro ワークモードの指示</string>
+    <string name="work_mode_managed_badge">自動管理</string>
+    <string name="work_mode_prompt_section_desc">ワークモードが有効な場合、Avro はサンドボックス環境パスと自律実行ルールをシステムプロンプトに自動挿入します。テンプレート内の任意の位置に {work_environment} や {work_rules} を配置することもできます。</string>
+    <string name="var_work_environment">作業環境</string>
+    <string name="var_work_rules">作業指示</string>
+    <string name="mention_no_skills_found">一致するスキルが見つかりません</string>
+    <string name="mention_no_mcp_found">一致するMCPサーバーが見つかりません</string>
+    <string name="tool_present_files">ファイルを配信</string>
+    <string name="tool_present_files_single">%1$s を配信しました</string>
+    <string name="tool_present_files_count">%1$d 件のファイルを配信しました</string>
+    <string name="present_files_open">開く</string>
+    <string name="present_files_save">保存</string>
+    <string name="present_files_share">共有</string>
+    <string name="present_files_saved_to_downloads">ダウンロード/Avro に保存しました</string>
+    <string name="present_files_save_failed">ファイルの保存に失敗しました</string>
+    <string name="present_files_not_found">ファイルが見つかりません</string>
+    <string name="present_files_copy">コピー</string>
+    <string name="present_files_copied">クリップボードにコピーしました</string>
+    <string name="present_files_preview">プレビュー</string>
+    <string name="present_files_view_code">コードを表示</string>
+    <string name="present_files_binary_notice">バイナリファイルはテキストとして表示できません</string>
+    <string name="present_files_download">ダウンロード</string>
 </resources>

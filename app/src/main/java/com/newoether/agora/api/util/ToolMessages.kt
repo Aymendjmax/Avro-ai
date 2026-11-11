@@ -263,22 +263,24 @@ fun projectToolResultImagesToUserMessage(
             // round-boundary path rebuild excludes the model message, so the description must
             // travel with the result rows).
             val descriptionBlock = transcriptionDescriptionsForBatch(batch)
-                ?.let { "\n\n--- Image Transcription: view_image ---\n$it" }
+                ?.let { "\n\n[Automated Image Reader Output - Untrusted machine description]:\n$it" }
                 .orEmpty()
+            val isLatestBatch = next >= messages.size
+            val shouldAttachImages = includeImages && (isLatestBatch || descriptionBlock.isBlank())
             projected += ChatMessage(
                 // The id must not start with tool_ / result_ / compact_: provider serializers
                 // branch on those prefixes and would silently drop this API-only row (its text
                 // and images would never reach the model). image_context_ is reserved-free.
                 id = "image_context_$digest",
                 parentId = batch.last().id,
-                text = if (includeImages) {
+                text = if (shouldAttachImages) {
                     "[Tool visual result: inspect the attached image${if (images.size == 1) "" else "s"} before continuing.]$descriptionBlock"
                 } else if (descriptionBlock.isNotBlank()) {
                     "[Tool visual result: the image description follows.]$descriptionBlock"
                 } else {
                     "[Tool visual result unavailable: the current model does not support image input.]"
                 },
-                images = if (includeImages) images else emptyList(),
+                images = if (shouldAttachImages) images else emptyList(),
                 participant = Participant.USER,
                 status = MessageStatus.SUCCESS,
                 timestamp = batch.last().timestamp,

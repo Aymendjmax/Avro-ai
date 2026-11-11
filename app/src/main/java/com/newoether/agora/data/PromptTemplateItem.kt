@@ -26,6 +26,8 @@ object PredefinedVariables {
     const val SENT_DATE_PATTERN = "yyyy-MM-dd EEE"
     const val ACTIVE_MEMORY = "active_memory"
     const val SKILL_CATALOG = "skill_catalog"
+    const val WORK_ENVIRONMENT = "work_environment"
+    const val WORK_RULES = "work_rules"
     const val CURRENT_MODEL_ID = "current_model_id"
     const val MESSAGE_MODEL_ID = "message_model_id"
     // Legacy alias retained for saved templates. New templates use CURRENT_MODEL_ID.
@@ -40,6 +42,8 @@ object PredefinedVariables {
         SENT_DATE,
         ACTIVE_MEMORY,
         SKILL_CATALOG,
+        WORK_ENVIRONMENT,
+        WORK_RULES,
         CURRENT_MODEL_ID,
         MESSAGE_MODEL_ID,
     )
@@ -54,6 +58,8 @@ object PredefinedVariables {
         SENT_DATE to "2026-05-09 Sat",
         ACTIVE_MEMORY to "[Example memory content]",
         SKILL_CATALOG to "- example.md: Example skill description",
+        WORK_ENVIRONMENT to "[Local Sandbox: Alpine Linux 3.21 PRoot with apk, /home/uploads, /home/outputs]",
+        WORK_RULES to "[Autonomous execution directives, inspect first, non-interactive execution]",
         CURRENT_MODEL_ID to Constants.EXAMPLE_MODEL_ID,
         MESSAGE_MODEL_ID to "gpt-4.1",
         MODEL_ID to Constants.EXAMPLE_MODEL_ID,

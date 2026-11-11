@@ -461,7 +461,7 @@
     <string name="pdf_render_failed">Не удалось отрисовать PDF</string>
     <string name="pdf_selected">Выбрано</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d из %2$d сообщений не кэшированы.</string>
     <string name="cache_now">Кэшировать сейчас</string>
     <string name="no_messages_to_cache">Нет сообщений для кэширования.</string>
@@ -573,6 +573,11 @@
     <string name="ask_user_next">Далее</string>
     <string name="interaction_ask_user">Вопрос</string>
     <string name="interaction_approval">Подтверждение</string>
+    <string name="interaction_work_mode">Запрос режима работы</string>
+    <string name="work_mode_enable_and_continue">Включить Work и продолжить</string>
+    <string name="work_mode_stay_in_ask">Остаться в Ask</string>
+    <string name="work_mode_sandbox_needed">Для режима работы требуется песочница Alpine Linux (~50МБ).</string>
+    <string name="work_mode_installing_sandbox">Установка песочницы Alpine Linux…</string>
     <string name="interaction_minimize">Свернуть</string>
     <string name="interaction_expand">Развернуть</string>
     <string name="ask_user_custom_answer">Ответьте своими словами</string>
@@ -815,4 +820,36 @@
     <string name="message_source_loop">Цикл</string>
     <string name="message_source_ask_user">Вопрос</string>
     <string name="message_source_unanswered">Без ответа</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">Обычный чат, поиск, вложения и инструменты MCP</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">Автономный агент: песочница, shell и файлы</string>
+    <string name="conversation_mode_title">Режим</string>
+    <string name="skills_row_label">Навыки (Skills)</string>
+    <string name="mcp_row_label">Серверы MCP</string>
+    <string name="work_mode_chip_desc">Режим Work активен: нажмите для изменения</string>
+    <string name="work_mode_chip_warning_cd">Режим работы активен: инструменты оболочки недоступны, нажмите, чтобы изменить</string>
+    <string name="work_mode_sandbox_unavailable_warning">Инструменты оболочки или локальная песочница недоступны. Выполнение отключено.</string>
+    <string name="work_mode_prompt_section_title">Директивы режима Work Avro</string>
+    <string name="work_mode_managed_badge">Управляется</string>
+    <string name="work_mode_prompt_section_desc">При активном режиме Work Avro автоматически внедряет пути изолированной среды и правила автономного выполнения в системный промпт. Вы также можете явно разместить {work_environment} или {work_rules} в шаблоне выше.</string>
+    <string name="var_work_environment">Среда работы</string>
+    <string name="var_work_rules">Директивы работы</string>
+    <string name="mention_no_skills_found">Подходящие навыки не найдены</string>
+    <string name="mention_no_mcp_found">Подходящие серверы MCP не найдены</string>
+    <string name="tool_present_files">Предоставить файлы</string>
+    <string name="tool_present_files_single">Файл %1$s предоставлен</string>
+    <string name="tool_present_files_count">Предоставлено %1$d файлов</string>
+    <string name="present_files_open">Открыть</string>
+    <string name="present_files_save">Сохранить</string>
+    <string name="present_files_share">Поделиться</string>
+    <string name="present_files_saved_to_downloads">Сохранено в Загрузки/Avro</string>
+    <string name="present_files_save_failed">Не удалось сохранить файл</string>
+    <string name="present_files_not_found">Файл не найден</string>
+    <string name="present_files_copy">Копировать</string>
+    <string name="present_files_copied">Скопировано в буфер обмена</string>
+    <string name="present_files_preview">Предпросмотр</string>
+    <string name="present_files_view_code">Просмотр кода</string>
+    <string name="present_files_binary_notice">Двоичный файл не может быть отображен как текст</string>
+    <string name="present_files_download">Скачать</string>
 </resources>

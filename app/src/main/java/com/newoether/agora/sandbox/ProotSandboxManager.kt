@@ -381,6 +381,7 @@ class ProotSandboxManager(
             "--bind=/dev/urandom:/dev/random",
             "--bind=${homeMountDir.absolutePath}:$homeMountPath",
         ).apply {
+            listOf("uploads", "outputs", "projects", "notes", ".avro").forEach { add("--bind=${File(homeMountDir, it).apply { mkdirs() }.absolutePath}:/home/$it") }
             sharedStorageHostDir()?.let { host ->
                 add("--bind=${host.absolutePath}:$sharedStorageMountPath")
             }
@@ -768,7 +769,7 @@ class ProotSandboxManager(
 
     private fun ensureSandboxMountTargets() = pathResolver.ensureSandboxMountTargets()
     private fun resolveSandboxPath(path: String): ResolvedSandboxPath = pathResolver.resolveSandboxPath(path)
-    private fun resolvePath(path: String): File = pathResolver.resolvePath(path)
+    override fun resolvePath(path: String): File? = runCatching { pathResolver.resolvePath(path) }.getOrNull()
 
     private fun sharedStorageHostDir(): File? {
         if (!settings.sandboxSharedStorageEnabled.value) return null

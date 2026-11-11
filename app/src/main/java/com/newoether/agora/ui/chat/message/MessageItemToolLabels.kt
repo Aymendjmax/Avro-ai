@@ -145,6 +145,7 @@ private fun Resources.toolBaseDisplayName(
     ToolKind.LOOP_START -> getString(R.string.tool_start_loop)
     ToolKind.LOOP_STOP -> getString(R.string.tool_stop_loop)
     ToolKind.ASK_USER -> getString(R.string.tool_ask_user)
+    ToolKind.PRESENT_FILES -> getString(R.string.tool_present_files)
     ToolKind.MCP -> "MCP"
     ToolKind.UNKNOWN -> if (toolName == "code_execution") {
         getString(R.string.code_execution)
@@ -321,6 +322,7 @@ private fun Resources.runningSummary(
     ToolKind.LOOP_START -> getString(R.string.tool_progress_starting)
     ToolKind.LOOP_STOP -> getString(R.string.tool_progress_stopping)
     ToolKind.ASK_USER -> getString(R.string.tool_waiting_for_answers)
+    ToolKind.PRESENT_FILES -> getString(R.string.tool_present_files)
     ToolKind.MCP,
     ToolKind.UNKNOWN -> getString(R.string.tool_calling_ellipsis)
 }
@@ -644,6 +646,13 @@ private fun Resources.completedSummary(
     ToolKind.LOOP_STOP -> getString(if (presentation.outcome == "already_stopped")
         R.string.tool_loop_already_stopped else R.string.tool_stopped_loop)
     ToolKind.ASK_USER -> questionOutcomeSummary(presentation)
+    ToolKind.PRESENT_FILES -> presentation.count?.takeIf { it > 1 }?.let {
+        getString(R.string.tool_present_files_count, it)
+    } ?: optionalSubjectSummary(
+        subject,
+        R.string.tool_present_files_single,
+        R.string.tool_present_files,
+    )
     ToolKind.MCP,
     ToolKind.UNKNOWN -> getString(R.string.tool_done)
 }
@@ -693,6 +702,8 @@ private fun Resources.failedSummary(
         ToolKind.LOOP_START -> getString(R.string.tool_loop_start_failed)
         ToolKind.LOOP_STOP -> getString(R.string.tool_loop_stop_failed)
         ToolKind.ASK_USER -> getString(R.string.tool_ask_user_failed)
+        ToolKind.PRESENT_FILES,
         ToolKind.MCP, ToolKind.UNKNOWN -> reason ?: getString(R.string.tool_call_failed)
     }
 }
+

@@ -418,12 +418,22 @@ internal class MessageGenerationController(
             }
         }
         markStage("placement")
+        val effectiveAttachments = if (target.wasNewChat && attachments.isNotEmpty()) {
+            com.newoether.agora.sandbox.FileStore.migrateChatUploads(
+                context = application,
+                fromChatId = target.ownerId,
+                toChatId = target.conversationId,
+                attachments = attachments,
+            )
+        } else {
+            attachments
+        }
         sendInto(
             genId = target.conversationId,
             wasNewChat = target.wasNewChat,
             newConversation = admission.newConversation,
             text = text,
-            attachments = attachments,
+            attachments = effectiveAttachments,
             modelId = admission.generationSnapshot.selectedModelId,
             touchConversationOnAdmission = true,
             onAccepted = onAccepted,

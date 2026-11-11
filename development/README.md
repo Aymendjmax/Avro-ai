@@ -156,6 +156,10 @@ Never:
 | Application-level onboarding motion, settings category copy, or other non-message global UI behavior | [application-ui.md](application-ui.md) |
 | Native `.avro` archive categories, settings portability, import strategies, secrets, or backup compatibility | [import-export.md](import-export.md) |
 | Shared Settings page structure, interaction, copy, localization, or documentation entry points | [settings-ui-ux.md](settings-ui-ux.md) |
+| Conversation operating modes (Ask vs Work), shell tool gating, Alpine Linux environment, local visual inspection | [work-mode.md](work-mode.md) |
+| Local PRoot workspace storage, upload bounds, Unicode sanitization, new chat migration | [file-store.md](file-store.md) |
+| Deliverable files presentation (`present_files`), artifact cards, candidate resolver, and full-page previewer | [deliverables-presentation.md](deliverables-presentation.md) |
+| MCP tool file bridging (`file:<path>`), parameter translation, and workspace boundary security | [mcp-shell-bridge.md](mcp-shell-bridge.md) |
 
 Add a module document when a user defines durable behavior for another subsystem. Each module
 document must describe current code ownership, allowed and forbidden responsibilities, concrete

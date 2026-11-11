@@ -273,44 +273,6 @@ class GenerationToolBatchEffectExecutorTest {
     }
 
     @Test
-    fun `committed response state is released only from the root overlay copy`() {
-        val tools = GenerationToolExecutor.forTest(emptyList())
-        val overlay = GenerationToolOverlay(tools, "provider")
-        val continuation = Json.parseToJsonElement(
-            """{"id":"rs_1","type":"reasoning","encrypted_content":"opaque"}""",
-        ).jsonObject
-        val requestCall = call(responseOutputItems = listOf(continuation))
-        overlay.upsert("stream", "call", "tool", "{}", null)
-        overlay.start(requestCall)
-        val completed = overlay.complete(requestCall, ToolExecutionResult(text = "done"))
-
-        overlay.markCommittedRound(setOf("call"), toolRoundId = "tool_round")
-
-        val rootSegment = overlay.snapshot().single { it.type == "tool" }
-        assertEquals("tool_round", rootSegment.toolRoundId)
-        assertNull(completed.segment.toolRoundId)
-        assertTrue(rootSegment.responseOutputItems.isEmpty())
-        assertNull(rootSegment.responseOutputItemProvider)
-        assertEquals(listOf(continuation), completed.data.responseOutputItems)
-        assertEquals("provider", completed.data.responseOutputItemProvider)
-    }
-
-    @Test
-    fun `later round with a reused call id cannot reassign committed history`() {
-        val overlay = GenerationToolOverlay(GenerationToolExecutor.forTest(emptyList()), "provider")
-        overlay.upsert("first", "call", "tool", "{}", null)
-        overlay.markCommittedRound(setOf("call"), "tool_first")
-        val committed = overlay.snapshot()
-        overlay.upsert("second", "call", "tool", "{}", null)
-
-        overlay.markCommittedRound(setOf("call"), "tool_second")
-
-        assertEquals(committed, overlay.snapshot().take(committed.size))
-        assertEquals(listOf("tool_first", "tool_second"),
-            overlay.snapshot().filter { it.type == "tool" }.map { it.toolRoundId })
-    }
-
-    @Test
     fun `declared tool images are transcribed into consecutive thinking segments without polluting the result`() = runTest {
         val provider = ImageResultToolProvider()
         val tools = GenerationToolExecutor.forTest(listOf(provider))

@@ -461,7 +461,7 @@
     <string name="pdf_render_failed">PDF konnte nicht gerendert werden</string>
     <string name="pdf_selected">Ausgewählt</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d von %2$d Nachrichten nicht zwischengespeichert.</string>
     <string name="cache_now">Jetzt zwischenspeichern</string>
     <string name="no_messages_to_cache">Keine Nachrichten zum Zwischenspeichern.</string>
@@ -573,6 +573,11 @@
     <string name="ask_user_next">Weiter</string>
     <string name="interaction_ask_user">Rückfrage</string>
     <string name="interaction_approval">Freigabe</string>
+    <string name="interaction_work_mode">Arbeitsmodus-Anfrage</string>
+    <string name="work_mode_enable_and_continue">Work aktivieren &amp; fortfahren</string>
+    <string name="work_mode_stay_in_ask">In Ask bleiben</string>
+    <string name="work_mode_sandbox_needed">Arbeitsmodus erfordert die Alpine Linux Sandbox (~50MB).</string>
+    <string name="work_mode_installing_sandbox">Alpine Linux Sandbox wird installiert…</string>
     <string name="interaction_minimize">Minimieren</string>
     <string name="interaction_expand">Erweitern</string>
     <string name="ask_user_custom_answer">Mit eigenen Worten antworten</string>
@@ -815,4 +820,36 @@
     <string name="message_source_loop">Schleife</string>
     <string name="message_source_ask_user">Rückfrage</string>
     <string name="message_source_unanswered">Nicht beantwortet</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">Standard-Chat, Suche, Anhänge &amp; MCP-Tools</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">Autonomer Agent: Sandbox, Shell &amp; Dateien</string>
+    <string name="conversation_mode_title">Modus</string>
+    <string name="skills_row_label">Skills</string>
+    <string name="mcp_row_label">MCP-Server</string>
+    <string name="work_mode_chip_desc">Work-Modus aktiv: Tippen zum Ändern</string>
+    <string name="work_mode_chip_warning_cd">Arbeitsmodus aktiv: Shell-Tools nicht verfügbar, Tippen zum Ändern</string>
+    <string name="work_mode_sandbox_unavailable_warning">Shell-Tools oder lokale Sandbox nicht verfügbar. Ausführung deaktiviert.</string>
+    <string name="work_mode_prompt_section_title">Avro-Arbeitsmodus-Direktiven</string>
+    <string name="work_mode_managed_badge">Verwaltet</string>
+    <string name="work_mode_prompt_section_desc">Wenn der Arbeitsmodus aktiv ist, fügt Avro automatisch die Sandbox-Pfade und autonome Ausführungsregeln in den System-Prompt ein. Sie können {work_environment} oder {work_rules} auch direkt in Ihrer Vorlage platzieren.</string>
+    <string name="var_work_environment">Arbeitsumgebung</string>
+    <string name="var_work_rules">Arbeitsdirektiven</string>
+    <string name="mention_no_skills_found">Keine passenden Skills gefunden</string>
+    <string name="mention_no_mcp_found">Keine passenden MCP-Server gefunden</string>
+    <string name="tool_present_files">Dateien bereitstellen</string>
+    <string name="tool_present_files_single">%1$s bereitgestellt</string>
+    <string name="tool_present_files_count">%1$d Dateien bereitgestellt</string>
+    <string name="present_files_open">Öffnen</string>
+    <string name="present_files_save">Speichern</string>
+    <string name="present_files_share">Teilen</string>
+    <string name="present_files_saved_to_downloads">In Downloads/Avro gespeichert</string>
+    <string name="present_files_save_failed">Datei konnte nicht gespeichert werden</string>
+    <string name="present_files_not_found">Datei nicht gefunden</string>
+    <string name="present_files_copy">Kopieren</string>
+    <string name="present_files_copied">In die Zwischenablage kopiert</string>
+    <string name="present_files_preview">Vorschau</string>
+    <string name="present_files_view_code">Code anzeigen</string>
+    <string name="present_files_binary_notice">Binärdatei kann nicht als Text angezeigt werden</string>
+    <string name="present_files_download">Herunterladen</string>
 </resources>

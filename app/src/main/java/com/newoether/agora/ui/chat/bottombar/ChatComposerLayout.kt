@@ -45,6 +45,7 @@ internal fun ChatComposerLayout(
     scrollState: ScrollState = rememberScrollState(),
     statusContent: @Composable () -> Unit = {},
     attachmentContent: @Composable () -> Unit = {},
+    popupContent: @Composable () -> Unit = {},
     controls: @Composable RowScope.() -> Unit,
 ) {
     val allowSpatialTransitions = LocalAgoraMotionPolicy.current.allowSpatialTransitions
@@ -52,6 +53,7 @@ internal fun ChatComposerLayout(
     val composerOcclusionShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
     Box(modifier = modifier.fillMaxWidth().then(if (isExpanded) Modifier.fillMaxHeight() else Modifier).padding(start = COMPOSER_HOST_SIDE_PADDING, end = COMPOSER_HOST_SIDE_PADDING, top = COMPOSER_HOST_TOP_PADDING, bottom = COMPOSER_CONTROLS_INSET)) {
         Column(modifier = Modifier.fillMaxWidth().then(if (isExpanded) Modifier.fillMaxHeight() else Modifier)) {
+            popupContent()
             AnimatedVisibility(
                 visible = isExpanded,
                 enter = EnterTransition.None,

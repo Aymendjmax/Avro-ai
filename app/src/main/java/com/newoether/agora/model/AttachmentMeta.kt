@@ -68,6 +68,7 @@ data class AttachmentItem(
     val storage: AttachmentStorage = AttachmentStorage.APP_PRIVATE,
     @SerialName("sandbox_path") val sandboxPath: String? = null,
     @SerialName("file_size") val fileSize: Long? = null,
+    @SerialName("sha256") val sha256: String? = null,
     val unavailable: Boolean = false,
 )
 
@@ -97,6 +98,7 @@ data class SelectedAttachment(
     val localPath: String? = null,  // copied into storage owned by [storage] at pick time
     val storage: AttachmentStorage = AttachmentStorage.APP_PRIVATE,
     val sandboxPath: String? = null,
+    val sha256: String? = null,
     val importState: AttachmentImportState = AttachmentImportState.READY,
     val preparedText: String? = null,
     val unavailable: Boolean = false,

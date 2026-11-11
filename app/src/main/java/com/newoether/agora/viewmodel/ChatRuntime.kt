@@ -15,6 +15,8 @@ import com.newoether.agora.sandbox.SandboxManagerFactory
 import com.newoether.agora.tool.AskUserToolProvider
 import com.newoether.agora.tool.AutomationToolProvider
 import com.newoether.agora.tool.McpToolProvider
+import com.newoether.agora.tool.PresentFilesToolProvider
+import com.newoether.agora.tool.RequestWorkToolProvider
 import com.newoether.agora.util.SnackbarEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
@@ -78,6 +80,8 @@ class ChatRuntime(
         scope = scope,
     ) { _snackbarEvents.emit(it) }
 
+    val requestWork = RequestWorkController()
+
     internal val generationManager: GenerationManager by lazy {
         GenerationManager(
             app = application,
@@ -90,6 +94,8 @@ class ChatRuntime(
                 automationToolProvider,
                 mcpToolProvider,
                 AskUserToolProvider(askUser),
+                RequestWorkToolProvider(requestWork),
+                PresentFilesToolProvider(appContext, sandboxFactory),
             ),
             customProviders = { settings.customProviders.value },
         ).also { gm ->
@@ -108,6 +114,7 @@ class ChatRuntime(
         providerRegistry = providerRegistry,
         ragManager = ragManager,
         appContext = appContext,
+        isSandboxReady = { sandboxFactory?.isAvailable() == true },
     )
 
     internal val messageGeneration: MessageGenerationController by lazy {
@@ -148,7 +155,10 @@ class ChatRuntime(
         tryWithConversationLock = { conversationId, block ->
             executionCoordinator.tryWithConversationLock(conversationId) { block() }
         },
-        removeRuntime = registry::remove,
+        removeRuntime = { conversationId ->
+            registry.remove(conversationId)
+            com.newoether.agora.sandbox.FileStore.deleteChatFolders(application, conversationId)
+        },
         stopGeneration = { conversationId, origin -> generationStop.stop(conversationId, origin) },
         deletedElsewhereText = { appContext.getString(R.string.conversation_deleted_elsewhere) },
     )

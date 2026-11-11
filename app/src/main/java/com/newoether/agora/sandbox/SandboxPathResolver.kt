@@ -19,19 +19,42 @@ internal class SandboxPathResolver(
         homeMountDir.mkdirs()
         File(rootfsDir, homeMountPath.trimStart('/')).mkdirs()
         File(rootfsDir, sharedStorageMountPath.trimStart('/')).mkdirs()
+        listOf("uploads", "outputs", "projects", "notes", ".avro").forEach {
+            File(homeMountDir, it).mkdirs()
+            File(rootfsDir, "home/$it").mkdirs()
+        }
+        val indexFile = File(homeMountDir, "notes/INDEX.md")
+        if (!indexFile.exists()) {
+            runCatching {
+                indexFile.writeText("# Avro Notes Index\n\nGlobal notes and workspace index across conversations.\n")
+            }
+        }
     }
 
     fun resolveSandboxPath(path: String): ResolvedSandboxPath {
         val normalized = normalizeVirtualPath(path)
-        if (normalized == homeMountPath || normalized.startsWith("$homeMountPath/")) {
+        val isFileStoreHome = normalized == "/home" ||
+            normalized.startsWith("/home/uploads/") || normalized == "/home/uploads" ||
+            normalized.startsWith("/home/outputs/") || normalized == "/home/outputs" ||
+            normalized.startsWith("/home/projects/") || normalized == "/home/projects" ||
+            normalized.startsWith("/home/notes/") || normalized == "/home/notes" ||
+            normalized.startsWith("/home/.avro/") || normalized == "/home/.avro"
+
+        if (normalized == homeMountPath || normalized.startsWith("$homeMountPath/") || isFileStoreHome) {
             ensureSandboxMountTargets()
             val root = homeMountDir.canonicalFile
-            val suffix = normalized.removePrefix(homeMountPath).trimStart('/')
+            val suffix = when {
+                normalized.startsWith("$homeMountPath/") -> normalized.removePrefix(homeMountPath).trimStart('/')
+                normalized == homeMountPath -> ""
+                normalized.startsWith("/home/") -> normalized.removePrefix("/home/").trimStart('/')
+                normalized == "/home" -> ""
+                else -> normalized.trimStart('/')
+            }
             val resolved = File(root, suffix).canonicalFile
             require(resolved.absolutePath == root.absolutePath || resolved.absolutePath.startsWith(root.absolutePath + File.separator)) {
                 "Path traversal: $path"
             }
-            return ResolvedSandboxPath(resolved, root, homeMountPath)
+            return ResolvedSandboxPath(resolved, root, if (isFileStoreHome) "/home" else homeMountPath)
         }
         if (
             normalized == sharedStorageMountPath ||

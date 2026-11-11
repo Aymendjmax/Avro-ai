@@ -37,9 +37,12 @@ internal fun BoxScope.ChatUserInteractionBar(
 ) {
     val questions by viewModel.askUser.requests.collectAsState()
     val shellCommand by viewModel.shellConfirmation.pendingShellCommand.collectAsState()
-    val interactions = remember(questions, shellCommand, conversationId) {
-        userInteractions(conversationId, questions, shellCommand)
+    val workRequest by viewModel.requestWork.pendingWorkRequest.collectAsState()
+    val interactions = remember(questions, shellCommand, workRequest, conversationId) {
+        userInteractions(conversationId, questions, shellCommand, workRequest)
     }
+    val isInstallingSandbox by (viewModel.sandboxManager?.isInstallingRootfs?.collectAsState() ?: remember { mutableStateOf(false) })
+    val sandboxProgress by (viewModel.sandboxManager?.downloadProgress?.collectAsState() ?: remember { mutableStateOf<Float?>(null) })
     // Requests of other conversations are never shown here; the notifiers surface them instead,
     // so they need to know which conversation is on screen.
     DisposableEffect(conversationId) {
@@ -80,6 +83,10 @@ internal fun BoxScope.ChatUserInteractionBar(
         onShellDecision = { id, allow, alwaysAllowServer ->
             viewModel.shellConfirmation.resolve(id, allow, alwaysAllowServer)
         },
+        onWorkDecision = { id, allow -> viewModel.resolveWorkRequest(id, allow) },
+        isSandboxReady = viewModel.sandboxManager?.isAvailableSync() == true,
+        isInstallingSandbox = isInstallingSandbox,
+        sandboxInstallProgress = sandboxProgress,
         onHeightChanged = onHeightChanged,
         modifier = Modifier
             .align(Alignment.BottomCenter)

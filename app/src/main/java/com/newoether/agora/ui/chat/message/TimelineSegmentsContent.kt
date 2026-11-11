@@ -166,6 +166,13 @@ internal fun TimelineSegmentsContent(
                             onMediaClick = onMediaClick,
                         )
                     }
+                    val presentFilesSeg = block.segments.find { it.toolName == "present_files" }
+                    if (presentFilesSeg != null) {
+                        PresentedFilesBlock(
+                            segment = presentFilesSeg,
+                            onMediaClick = onMediaClick,
+                        )
+                    }
                 }
                 is TimelineBlock.InfoCard -> {
                     val seg = block.segment
@@ -196,6 +203,12 @@ internal fun TimelineSegmentsContent(
                             detailIndex = currentDetailIndex,
                             isStreaming = isStreaming,
                             segmentAppearanceRegistry = segmentAppearanceRegistry,
+                            onMediaClick = onMediaClick,
+                        )
+                    }
+                    if (seg.toolName == "present_files") {
+                        PresentedFilesBlock(
+                            segment = seg,
                             onMediaClick = onMediaClick,
                         )
                     }

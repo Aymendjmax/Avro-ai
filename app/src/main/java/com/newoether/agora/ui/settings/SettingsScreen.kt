@@ -259,6 +259,7 @@ internal val baseSettingsGroups = listOf(
         SettingsCategory("imagegen", R.string.settings_image_gen, R.string.settings_image_gen_desc, Icons.Default.AddPhotoAlternate),
     )),
     SettingsGroupData(titleRes = R.string.settings_group_tools, items = listOf(
+        SettingsCategory("work", R.string.settings_work_title, R.string.settings_work_desc, Icons.Default.Terminal),
         SettingsCategory("websearch", R.string.settings_web_search, R.string.settings_web_search_desc, Icons.Default.Language),
         SettingsCategory("search", R.string.search_title, R.string.search_desc, Icons.Default.Search),
         SettingsCategory("shell", R.string.shell_title, R.string.shell_desc, Icons.Default.Terminal),

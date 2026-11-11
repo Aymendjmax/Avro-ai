@@ -24,6 +24,9 @@ import androidx.compose.material.icons.automirrored.outlined.PlaylistAdd
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -32,6 +35,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -65,6 +69,8 @@ private fun variableDisplayName(key: String): String = when (key) {
     PredefinedVariables.SENT_DATE -> "Send Date"
     PredefinedVariables.ACTIVE_MEMORY -> "Active Memory"
     PredefinedVariables.SKILL_CATALOG -> "Skill Catalog"
+    PredefinedVariables.WORK_ENVIRONMENT -> "Work Environment"
+    PredefinedVariables.WORK_RULES -> "Work Directives"
     PredefinedVariables.CURRENT_MODEL_ID -> "Current Model ID"
     PredefinedVariables.MESSAGE_MODEL_ID -> "Message Model ID"
     PredefinedVariables.MODEL_ID -> "Current Model ID (Legacy)"
@@ -79,6 +85,8 @@ private fun variableIcon(key: String): ImageVector = when (key) {
     PredefinedVariables.SENT_DATE -> Icons.Default.CalendarMonth
     PredefinedVariables.ACTIVE_MEMORY -> Icons.Default.Memory
     PredefinedVariables.SKILL_CATALOG -> Icons.Default.Extension
+    PredefinedVariables.WORK_ENVIRONMENT -> Icons.Default.Terminal
+    PredefinedVariables.WORK_RULES -> Icons.Default.Code
     PredefinedVariables.CURRENT_MODEL_ID,
     PredefinedVariables.MESSAGE_MODEL_ID,
     PredefinedVariables.MODEL_ID -> Icons.Default.Info
@@ -326,6 +334,28 @@ fun SystemPromptEditorPage(
                         }
                     )
 
+                    if (selectedTab == 0) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        WorkModePromptSection(
+                            onInsertEnvironment = {
+                                currentItems.add(
+                                    PromptTemplateItem(
+                                        type = PromptItemType.PREDEFINED,
+                                        value = PredefinedVariables.WORK_ENVIRONMENT,
+                                    )
+                                )
+                            },
+                            onInsertRules = {
+                                currentItems.add(
+                                    PromptTemplateItem(
+                                        type = PromptItemType.PREDEFINED,
+                                        value = PredefinedVariables.WORK_RULES,
+                                    )
+                                )
+                            },
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(4.dp))
                 }
             }
@@ -538,3 +568,102 @@ private fun TemplateItemRow(
         }
     }
 }
+
+@Composable
+private fun WorkModePromptSection(
+    onInsertEnvironment: () -> Unit,
+    onInsertRules: () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+        ),
+        shape = RoundedCornerShape(12.dp),
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = !expanded },
+            ) {
+                Icon(
+                    Icons.Default.Terminal,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.work_mode_prompt_section_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f),
+                )
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                ) {
+                    Text(
+                        text = stringResource(R.string.work_mode_managed_badge),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Icon(
+                    if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            if (expanded) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.work_mode_prompt_section_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    OutlinedButton(
+                        onClick = onInsertEnvironment,
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(14.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "{${PredefinedVariables.WORK_ENVIRONMENT}}",
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    OutlinedButton(
+                        onClick = onInsertRules,
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(14.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "{${PredefinedVariables.WORK_RULES}}",
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+

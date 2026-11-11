@@ -65,7 +65,7 @@ fun ChatApp(
     onNavigateBack: (() -> Unit)? = null,
     drawerEnabled: Boolean = true,
     openDrawerOnStart: Boolean = false, initialScrollToTop: Boolean = false,
-    onOpenSettings: () -> Unit,
+    onOpenSettings: (String?) -> Unit = {},
     onOpenTasks: (String?) -> Unit = {},
     onOpenRemote: () -> Unit = {},
     onMediaClick: (List<String>, Int) -> Unit,
@@ -359,7 +359,7 @@ fun ChatApp(
                 drawerVisible = drawerState.isVisible,
                 onRequestClose = onRequestClose,
                 onSettingsButtonTop = { settingsButtonTopDp = it },
-                onOpenSettings = onOpenSettings,
+                onOpenSettings = { onOpenSettings(null) },
                 onOpenTasks = { onOpenTasks(null) },
                 onOpenRemote = onOpenRemote,
                 onRequestRename = dialogState::requestRename,
@@ -726,14 +726,15 @@ fun ChatApp(
                         onShellToggle = { enabled -> haptics.toggle(enabled); viewModel.updateConversationSetting(conversationControls.settingsOwnerId) { it.copy(shellEnabled = enabled) } },
                         showLowContextMode = conversationControls.showLowContextMode,
                         lowContextModeEnabled = conversationControls.lowContextModeEnabled,
-                        onLowContextModeToggle = { enabled ->
-                            haptics.toggle(enabled)
-                            viewModel.updateConversationSetting(conversationControls.settingsOwnerId) {
-                                it.copy(lowContextModeEnabled = enabled)
-                            }
-                        },
-                        // The model row owns its selection tick. Repeating it here produced the
-                        // previous double buzz for one physical tap.
+                        onLowContextModeToggle = { enabled -> haptics.toggle(enabled); viewModel.updateConversationSetting(conversationControls.settingsOwnerId) { it.copy(lowContextModeEnabled = enabled) } },
+                        conversationMode = conversationControls.conversationMode,
+                        shellReady = conversationControls.shellReady,
+                        onConversationModeChange = { mode -> haptics.selection(); viewModel.updateConversationSetting(conversationControls.settingsOwnerId) { it.copy(conversationMode = mode.id) } },
+                        availableSkills = viewModel.availableSkills,
+                        availableMcpServers = viewModel.mcpServers.collectAsState().value,
+                        onSkillsClick = { onOpenSettings("skills") },
+                        onMcpClick = { onOpenSettings("mcp") },
+                        onWorkSettingsClick = { onOpenSettings("work") },
                         onModelSelect = { viewModel.setActiveModel(it) },
                         onAllMediaClick = { urls, idx -> onMediaClick(urls, idx) },
                         onFileContentClick = { name, content -> viewModel.mediaPreview.showFile(name, content) },
@@ -741,9 +742,7 @@ fun ChatApp(
                         textFieldState = textFieldState,
                         composerState = composer,
                         focusRequester = inputFocusRequester,
-                        onInputFocusChanged = { focused ->
-                            scrollCoordinator.setComposerInputFocused(focused)
-                        },
+                        onInputFocusChanged = { scrollCoordinator.setComposerInputFocused(it) },
                         isExpanded = isExpanded,
                         isExpandAnimating = isExpandAnimating,
                         onCollapse = { isExpanded = false },

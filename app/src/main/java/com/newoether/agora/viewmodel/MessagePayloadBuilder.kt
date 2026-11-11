@@ -14,8 +14,8 @@ internal fun SelectedAttachment.hasCanonicalReadyArtifact(): Boolean =
                 processedFrames.orEmpty().any(String::isNotBlank)
             "pdf" -> !localPath.isNullOrBlank() &&
                 preRenderedPaths.orEmpty().any(String::isNotBlank)
-            "file" -> if (storage.isLocalSandbox) {
-                !sandboxPath.isNullOrBlank()
+            "file" -> if (storage.isLocalSandbox || !sandboxPath.isNullOrBlank()) {
+                !sandboxPath.isNullOrBlank() || (!localPath.isNullOrBlank() && preparedText != null)
             } else {
                 !localPath.isNullOrBlank() && preparedText != null
             }
@@ -59,6 +59,8 @@ internal class MessagePayloadBuilder {
                         pixelWidth = attachment.pixelWidth,
                         pixelHeight = attachment.pixelHeight,
                         fileSize = attachment.fileSize,
+                        sandboxPath = attachment.sandboxPath,
+                        sha256 = attachment.sha256,
                     )
                 }
 
@@ -82,6 +84,8 @@ internal class MessagePayloadBuilder {
                         pixelWidth = attachment.pixelWidth,
                         pixelHeight = attachment.pixelHeight,
                         fileSize = attachment.fileSize,
+                        sandboxPath = attachment.sandboxPath,
+                        sha256 = attachment.sha256,
                     )
                 }
 
@@ -105,11 +109,13 @@ internal class MessagePayloadBuilder {
                         pixelWidth = attachment.pixelWidth,
                         pixelHeight = attachment.pixelHeight,
                         fileSize = attachment.fileSize,
+                        sandboxPath = attachment.sandboxPath,
+                        sha256 = attachment.sha256,
                     )
                 }
 
                 "file" -> {
-                    if (attachment.storage.isLocalSandbox) {
+                    if (attachment.storage.isLocalSandbox || attachment.preparedText == null) {
                         val sandboxPath = attachment.sandboxPath
                             ?.takeIf(String::isNotBlank)
                             ?: return@attachment
@@ -120,6 +126,7 @@ internal class MessagePayloadBuilder {
                             storage = attachment.storage.transferForSend(),
                             sandboxPath = sandboxPath,
                             fileSize = attachment.fileSize,
+                            sha256 = attachment.sha256,
                         )
                     } else {
                         val sourcePath = attachment.localPath
@@ -133,6 +140,8 @@ internal class MessagePayloadBuilder {
                             mimeType = attachment.mimeType,
                             textContent = text,
                             fileSize = attachment.fileSize,
+                            sandboxPath = attachment.sandboxPath,
+                            sha256 = attachment.sha256,
                         )
                     }
                 }

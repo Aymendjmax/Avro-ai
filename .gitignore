@@ -19,3 +19,9 @@ debug.keystore
 .build-outputs/
 debug.keystore*
 .aistudio/
+docs/avro_work_agent_roadmap_v2.md
+public/assets/
+*.jks
+!my-upload-key.jks
+*.keystore
+DEV_WORKFLOW_KEYS.md

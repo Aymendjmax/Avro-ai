@@ -105,6 +105,8 @@ internal val MCP_SERVERS_JSON = stringPreferencesKey("mcp_servers_json")
 internal val SANDBOX_ENABLED = booleanPreferencesKey("sandbox_enabled")
 internal val SANDBOX_SHARED_STORAGE_ENABLED =
     booleanPreferencesKey("sandbox_shared_storage_enabled")
+internal val DEFAULT_CONVERSATION_MODE = stringPreferencesKey("default_conversation_mode")
+internal val REQUEST_WORK_TOOL_ENABLED = booleanPreferencesKey("request_work_tool_enabled")
 internal const val DEFAULT_COLOR_SCHEME = "AVRO_MN"
 internal const val DEFAULT_SCHEME_STYLE = "TONAL_SPOT"
 internal const val DEFAULT_DYNAMIC_COLOR = false

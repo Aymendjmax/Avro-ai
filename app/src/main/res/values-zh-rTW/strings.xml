@@ -284,7 +284,7 @@
     <string name="arguments_label">參數：</string>
     <string name="result_label">結果：</string>
 
-    <!-- Cost & Tokens -->
+    <!-- Cost &amp; Tokens -->
     <string name="cost_tokens">消耗 %1$d Tokens</string>
     <string name="token_usage_with_label">Token 用量：%1$d</string>
     <string name="input_tokens_with_label">輸入：%1$s</string>
@@ -500,7 +500,7 @@
     <string name="select_all">全選</string>
     <string name="deselect_all">取消全選</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d / %2$d 則訊息尚未快取。</string>
     <string name="cache_now">立即快取</string>
     <string name="no_messages_to_cache">沒有需要快取的訊息。</string>
@@ -615,6 +615,11 @@
     <string name="ask_user_next">下一題</string>
     <string name="interaction_ask_user">詢問</string>
     <string name="interaction_approval">審批</string>
+    <string name="interaction_work_mode">工作模式請求</string>
+    <string name="work_mode_enable_and_continue">啟用工作模式並繼續</string>
+    <string name="work_mode_stay_in_ask">留在提問模式</string>
+    <string name="work_mode_sandbox_needed">工作模式需要 Alpine Linux 沙箱（約 50MB）。</string>
+    <string name="work_mode_installing_sandbox">正在安裝 Alpine Linux 沙箱…</string>
     <string name="interaction_minimize">最小化</string>
     <string name="interaction_expand">展開</string>
     <string name="ask_user_custom_answer">用自己的話回答</string>
@@ -818,4 +823,36 @@
     <string name="message_source_loop">循環</string>
     <string name="message_source_ask_user">詢問</string>
     <string name="message_source_unanswered">未回答</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">標準對話、聯網搜尋、附件與 MCP 工具</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">自主智能體：沙箱、Shell 終端機與檔案操作</string>
+    <string name="conversation_mode_title">模式</string>
+    <string name="skills_row_label">Skills 技能</string>
+    <string name="mcp_row_label">MCP 服務</string>
+    <string name="work_mode_chip_desc">Work 模式已啟用：輕觸可切換</string>
+    <string name="work_mode_chip_warning_cd">工作模式已啟用：終端機工具無法使用，點按以變更</string>
+    <string name="work_mode_sandbox_unavailable_warning">終端機工具或本機沙盒無法使用，執行已停用。</string>
+    <string name="work_mode_prompt_section_title">Avro 工作模式指令</string>
+    <string name="work_mode_managed_badge">自動託管</string>
+    <string name="work_mode_prompt_section_desc">當工作模式處於活動狀態時，Avro 會自動將沙箱環境路徑和自主執行規則注入系統提示詞中。您也可以在上方範本中顯式放置 {work_environment} 或 {work_rules}。</string>
+    <string name="var_work_environment">工作環境</string>
+    <string name="var_work_rules">工作指令</string>
+    <string name="mention_no_skills_found">未找到相符的 Skill 技能</string>
+    <string name="mention_no_mcp_found">未找到相符的 MCP 服務</string>
+    <string name="tool_present_files">交付檔案</string>
+    <string name="tool_present_files_single">已交付 %1$s</string>
+    <string name="tool_present_files_count">已交付 %1$d 個檔案</string>
+    <string name="present_files_open">開啟</string>
+    <string name="present_files_save">儲存</string>
+    <string name="present_files_share">分享</string>
+    <string name="present_files_saved_to_downloads">已儲存至 下載/Avro</string>
+    <string name="present_files_save_failed">儲存檔案失敗</string>
+    <string name="present_files_not_found">找不到檔案</string>
+    <string name="present_files_copy">複製</string>
+    <string name="present_files_copied">已複製到剪貼簿</string>
+    <string name="present_files_preview">預覽</string>
+    <string name="present_files_view_code">檢視代碼</string>
+    <string name="present_files_binary_notice">二進位檔案無法作為文字顯示</string>
+    <string name="present_files_download">下載</string>
 </resources>

@@ -48,6 +48,7 @@ internal enum class ToolKind {
     LOOP_START,
     LOOP_STOP,
     ASK_USER,
+    PRESENT_FILES,
     MCP,
     UNKNOWN,
 }
@@ -297,6 +298,7 @@ internal object ToolPresentationResolver {
         "start_loop" -> ToolKind.LOOP_START
         "stop_loop" -> ToolKind.LOOP_STOP
         "ask_user" -> ToolKind.ASK_USER
+        "present_files" -> ToolKind.PRESENT_FILES
         else -> if (name.startsWith("mcp_")) ToolKind.MCP else ToolKind.UNKNOWN
     }
 
@@ -333,6 +335,7 @@ internal object ToolPresentationResolver {
         ToolKind.TASK_LIST -> result.arraySize("tasks")
         ToolKind.ASK_USER -> result.arraySize("answers") ?: result.int("questions")
             ?: result.boolean("answered")?.let { 1 }
+        ToolKind.PRESENT_FILES -> result.int("count") ?: result.arraySize("files")
         else -> null
     }
 
@@ -404,6 +407,8 @@ internal object ToolPresentationResolver {
         ToolKind.TASK_DELETE -> arguments.string("id_or_name")
             ?: arguments.string("name")
             ?: arguments.string("task_id")
+        ToolKind.PRESENT_FILES -> ((result.array("files")?.firstOrNull() as? JsonObject)?.string("name"))
+            ?: arguments.string("path")
         else -> null
     }
 

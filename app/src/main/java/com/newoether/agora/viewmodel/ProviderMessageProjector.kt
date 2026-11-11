@@ -72,7 +72,7 @@ internal fun projectProviderMessages(
         }
         val attachmentText = attachmentMeta?.items?.mapNotNull { item ->
             when {
-                item.storage.isLocalSandbox && !item.sandboxPath.isNullOrBlank() ->
+                !item.sandboxPath.isNullOrBlank() ->
                     sandboxAttachmentInstruction(item)
                 item.textContent != null -> {
                     val label = item.fileName ?: "file"
@@ -122,10 +122,19 @@ internal fun projectProviderMessages(
 }
 
 internal fun sandboxAttachmentInstruction(item: AttachmentItem): String {
-    val label = item.fileName ?: "file"
+    val path = item.sandboxPath ?: item.fileName ?: "attachment"
     val mimeType = item.mimeType ?: "unknown"
-    val size = item.fileSize?.let { "$it bytes" } ?: "unknown"
-    return "\n\nAttached file $label is available in Local Sandbox at " +
-        "${item.sandboxPath}. MIME type: $mimeType. Size: $size. " +
-        "Use the Local Sandbox file tools (for example file_read) to inspect it before answering."
+    val size = item.fileSize?.let { "$it bytes" } ?: "unknown size"
+    val extra = when (item.type) {
+        "video" -> item.pageCount?.let { " | Keyframes: $it" } ?: ""
+        "pdf" -> item.pageCount?.let { " | Pages: $it" } ?: ""
+        else -> ""
+    }
+    val descriptor = "[Attachment: $path | Type: $mimeType | Size: $size$extra]"
+    val readInstruction = "Use the Local Sandbox file tools (for example file_read) to inspect it before answering."
+    return if (item.textContent != null) {
+        "\n\n$descriptor\n$readInstruction\n--- Content ---\n${item.textContent}"
+    } else {
+        "\n\n$descriptor\n$readInstruction"
+    }
 }

@@ -505,7 +505,7 @@ internal class ConversationComposerController(
         val outputOwner = currentCoroutineContext()[Job]!!
         try {
             processingQueue.withProcessingPermit(ownerId, source.localId, generation) {
-                when (val staged = processor.stage(source, outputOwner)) {
+                when (val staged = processor.stage(source, outputOwner, ownerId)) {
                     is AttachmentImportProcessor.StageResult.Success -> {
                         val durable = persistReplacement(
                             ownerId = ownerId,

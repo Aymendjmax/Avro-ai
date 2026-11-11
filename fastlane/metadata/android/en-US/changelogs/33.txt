@@ -1,0 +1,5 @@
+* Operating modes: Ask (conversational) and Work (autonomous agent).
+* Shell execution behavior: shell and terminal tools are now disabled across all Ask conversations (including legacy chats) to prevent unexpected command execution.
+* Work mode enables local PRoot Alpine Linux sandbox, terminal commands, and FileStore workspace.
+* Enhanced attachment management with per-conversation upload isolation and Unicode file naming.
+* Requires Android 8.0 or later.

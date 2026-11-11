@@ -167,7 +167,11 @@ class McpRegistry(
         }
     }
 
-    suspend fun execute(publicName: String, arguments: String): ToolExecutionResult {
+    suspend fun execute(
+        publicName: String,
+        arguments: String,
+        conversationId: String? = null,
+    ): ToolExecutionResult {
         val descriptor = descriptor(publicName)
             ?: return ToolExecutionResult("Unknown or disabled MCP tool: $publicName", isError = true)
         val runtime = synchronized(lock) { runtimes[descriptor.serverId] }
@@ -175,7 +179,11 @@ class McpRegistry(
                 "MCP server '${descriptor.serverName}' is not enabled",
                 isError = true,
             )
-        val args = runCatching { json.parseToJsonElement(arguments).asObjectOrNull() }
+
+        // Bridge input file references (file:<path>)
+        val transformedArguments = McpFileBridge.transformInputArguments(context, arguments, conversationId)
+
+        val args = runCatching { json.parseToJsonElement(transformedArguments).asObjectOrNull() }
             .getOrNull()
             ?: return ToolExecutionResult(
                 "MCP tool '$publicName' requires a complete JSON object",
@@ -226,12 +234,21 @@ class McpRegistry(
                 if (isEmpty()) append(if (payload.isError) "MCP tool failed" else "MCP tool completed")
             }
             updateConnected(runtime, keepTools = true)
-            ToolExecutionResult(
+            val rawResult = ToolExecutionResult(
                 text = resultText,
                 images = attachments,
                 structuredContent = structured,
                 displayText = displayText,
                 isError = payload.isError,
+            )
+
+            // Bridge output files to the sandbox outputs directory
+            McpFileBridge.bridgeOutputFiles(
+                context = context,
+                serverName = descriptor.serverName,
+                toolName = descriptor.remote.name,
+                result = rawResult,
+                conversationId = conversationId,
             )
         } catch (e: CancellationException) {
             throw e

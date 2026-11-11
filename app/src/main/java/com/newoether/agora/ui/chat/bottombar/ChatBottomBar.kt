@@ -19,12 +19,17 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.*
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -124,6 +129,14 @@ internal fun ChatBottomBar(
     onWebSearchToggle: (Boolean) -> Unit = {},
     onShellToggle: (Boolean) -> Unit = {},
     onLowContextModeToggle: (Boolean) -> Unit = {},
+    conversationMode: com.newoether.agora.model.ConversationMode = com.newoether.agora.model.ConversationMode.DEFAULT,
+    shellReady: Boolean = true,
+    onConversationModeChange: (com.newoether.agora.model.ConversationMode) -> Unit = {},
+    onSkillsClick: (() -> Unit)? = null,
+    onMcpClick: (() -> Unit)? = null,
+    onWorkSettingsClick: (() -> Unit)? = null,
+    availableSkills: List<com.newoether.agora.data.SkillManager.SkillFileInfo> = emptyList(),
+    availableMcpServers: List<com.newoether.agora.data.McpServerConfig> = emptyList(),
     onModelSelect: (String) -> Unit,
     onAllMediaClick: ((urls: List<String>, index: Int) -> Unit)? = null,
     onFileContentClick: ((fileName: String, content: String) -> Unit)? = null,
@@ -383,6 +396,14 @@ internal fun ChatBottomBar(
             cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
     }
+    var mentionDismissedKey by remember { mutableStateOf<String?>(null) }
+    val activeMentionQuery = remember(textFieldState.text, textFieldState.selection) {
+        val query = com.newoether.agora.data.MentionParser.detectActiveQuery(
+            text = textFieldState.text.toString(),
+            selectionEnd = textFieldState.selection.end,
+        )
+        if (query != null && "${query.type}:${query.query}" == mentionDismissedKey) null else query
+    }
     ChatComposerLayout(
         textFieldState = textFieldState,
         focusRequester = focusRequester,
@@ -402,6 +423,82 @@ internal fun ChatBottomBar(
             )
         },
         attachmentContent = {
+        val detectedSkillTokens = remember(textFieldState.text) {
+            com.newoether.agora.data.MentionParser.extractSkillMentions(textFieldState.text.toString())
+        }
+        val detectedMcpTokens = remember(textFieldState.text) {
+            com.newoether.agora.data.MentionParser.extractMcpMentions(textFieldState.text.toString())
+        }
+        val activeDetectedSkills = remember(detectedSkillTokens, availableSkills) {
+            availableSkills.filter { s ->
+                val base = s.name.removeSuffix(".md").lowercase()
+                detectedSkillTokens.contains(base) || detectedSkillTokens.contains(s.name.lowercase())
+            }
+        }
+        val activeDetectedMcp = remember(detectedMcpTokens, availableMcpServers) {
+            availableMcpServers.filter { s ->
+                detectedMcpTokens.contains(s.name.lowercase()) || detectedMcpTokens.contains(s.id.lowercase())
+            }
+        }
+
+        if (activeDetectedSkills.isNotEmpty() || activeDetectedMcp.isNotEmpty()) {
+            androidx.compose.foundation.lazy.LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp, vertical = 4.dp),
+            ) {
+                items(activeDetectedSkills, key = { "skill:${it.name}" }) { skill ->
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.85f),
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Extension,
+                                contentDescription = null,
+                                modifier = Modifier.size(14.dp),
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "/${skill.name.removeSuffix(".md")}",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                        }
+                    }
+                }
+                items(activeDetectedMcp, key = { "mcp:${it.id}" }) { server ->
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.85f),
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_mcp),
+                                contentDescription = null,
+                                modifier = Modifier.size(14.dp),
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "@${server.name}",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         if (composerSnapshot.attachments.isNotEmpty()) {
             AttachmentPreviewRow(
                 attachments = composerSnapshot.attachments,
@@ -414,10 +511,42 @@ internal fun ChatBottomBar(
             )
         }
         },
+        popupContent = {
+            MentionPickerPopup(
+                activeQuery = activeMentionQuery,
+                availableSkills = availableSkills,
+                availableMcpServers = availableMcpServers,
+                textFieldState = textFieldState,
+                onDismiss = {
+                    activeMentionQuery?.let {
+                        mentionDismissedKey = "${it.type}:${it.query}"
+                    }
+                },
+            )
+        },
     ) {
             ComposerControlGroup {
+                var showAttachmentSheet by remember { mutableStateOf(false) }
                 AttachmentAddMenu(
                     enabled = !submission.isFrozen,
+                    conversationMode = conversationMode,
+                    shellReady = shellReady,
+                    onConversationModeChange = onConversationModeChange,
+                    onSkillsClick = {
+                        val currentText = textFieldState.text.toString()
+                        val prefix = if (currentText.isNotEmpty() && !currentText.last().isWhitespace()) " /" else "/"
+                        textFieldState.edit { append(prefix) }
+                        focusRequester.requestFocus()
+                    },
+                    onMcpClick = {
+                        val currentText = textFieldState.text.toString()
+                        val prefix = if (currentText.isNotEmpty() && !currentText.last().isWhitespace()) " @" else "@"
+                        textFieldState.edit { append(prefix) }
+                        focusRequester.requestFocus()
+                    },
+                    onWorkSettingsClick = onWorkSettingsClick,
+                    sheetVisible = showAttachmentSheet,
+                    onSheetVisibleChange = { showAttachmentSheet = it },
                     onCamera = {
                         activityLaunchScope.launch {
                             val target = composer.createCameraCaptureTarget()
@@ -459,6 +588,19 @@ internal fun ChatBottomBar(
                     },
                     onFiles = { pendingFileOwnerId = composerOwnerId; fileLauncher.launch("*/*") },
                 )
+                if (conversationMode == com.newoether.agora.model.ConversationMode.WORK) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    ComposerWorkModeChip(
+                        onClick = {
+                            if (!shellReady && onWorkSettingsClick != null) {
+                                onWorkSettingsClick()
+                            } else {
+                                showAttachmentSheet = true
+                            }
+                        },
+                        isWarning = !shellReady,
+                    )
+                }
                 val activeMenuState = remember { mutableStateOf<String?>(null) }
                 var activeMenu by activeMenuState
                 var lastModelDismissTime by remember { mutableLongStateOf(0L) }

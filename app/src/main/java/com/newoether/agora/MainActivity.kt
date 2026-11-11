@@ -314,6 +314,7 @@ fun MainNavigation(
         }
     }
     var showTasks by rememberSaveable { mutableStateOf(false) }
+    var settingsCategoryToOpen by rememberSaveable { mutableStateOf<String?>(null) }
     var showRemote by rememberSaveable { mutableStateOf(false) }
     val topLevelPresentation = remember {
         TopLevelPresentationState(
@@ -480,7 +481,8 @@ fun MainNavigation(
                 drawerEnabled = taskHistoryPreview.backTaskId(currentConversationId, isNewChatMode) == null,
                 openDrawerOnStart = screenshotDestination == "drawer",
                 initialScrollToTop = screenshotDestination == "chat",
-                onOpenSettings = {
+                onOpenSettings = { category ->
+                    settingsCategoryToOpen = category
                     topLevelPresentation.present(TopLevelPresentation.SETTINGS)
                     showSettings = true
                 },
@@ -542,10 +544,12 @@ fun MainNavigation(
                     viewModel = viewModel,
                     onBack = {
                         showSettings = false
+                        settingsCategoryToOpen = null
                     },
-                    initialCategory = screenshotDestination
-                        ?.substringAfter("settings:", "")
-                        ?.ifBlank { null },
+                    initialCategory = settingsCategoryToOpen
+                        ?: screenshotDestination
+                            ?.substringAfter("settings:", "")
+                            ?.ifBlank { null },
                 )
             }
 

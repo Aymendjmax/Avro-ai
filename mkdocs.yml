@@ -50,6 +50,7 @@ plugins:
             System Prompts: 系统提示词
             Agentic Tools: 代理工具
             Overview: 概述
+            Work Mode: 工作模式
             Web Search: 网络搜索
             Remote Shell (Conch): 远程 Shell (Conch)
             Knowledge Management: 知识管理
@@ -89,6 +90,7 @@ plugins:
             System Prompts: 系統提示詞
             Agentic Tools: 代理工具
             Overview: 概述
+            Work Mode: 工作模式
             Web Search: 網路搜尋
             Remote Shell (Conch): 遠端 Shell (Conch)
             Knowledge Management: 知識管理
@@ -128,6 +130,7 @@ plugins:
             System Prompts: Prompts del Sistema
             Agentic Tools: Herramientas Agentes
             Overview: Descripción General
+            Work Mode: Modo de Trabajo
             Web Search: Búsqueda Web
             Remote Shell (Conch): Shell Remoto (Conch)
             Knowledge Management: Gestión de Conocimiento
@@ -166,6 +169,7 @@ plugins:
             System Prompts: Prompts Système
             Agentic Tools: Outils Agentiques
             Overview: Aperçu
+            Work Mode: Mode Travail
             Web Search: Recherche Web
             Remote Shell (Conch): Shell Distant (Conch)
             Knowledge Management: Gestion des Connaissances
@@ -204,6 +208,7 @@ plugins:
             System Prompts: System-Prompts
             Agentic Tools: Agenten-Tools
             Overview: Übersicht
+            Work Mode: Arbeitsmodus
             Web Search: Websuche
             Remote Shell (Conch): Remote Shell (Conch)
             Knowledge Management: Wissensverwaltung
@@ -242,6 +247,7 @@ plugins:
             System Prompts: Системные Подсказки
             Agentic Tools: Агентные Инструменты
             Overview: Обзор
+            Work Mode: Режим Работы
             Web Search: Веб-Поиск
             Remote Shell (Conch): Удалённый Shell (Conch)
             Knowledge Management: Управление Знаниями
@@ -356,6 +362,7 @@ plugins:
             System Prompts: 시스템 프롬프트
             Agentic Tools: 에이전트 도구
             Overview: 개요
+            Work Mode: 작업 모드
             Web Search: 웹 검색
             Remote Shell (Conch): 원격 셸 (Conch)
             Knowledge Management: 지식 관리
@@ -397,6 +404,7 @@ plugins:
             System Prompts: توجيهات النظام
             Agentic Tools: أدوات الوكيل
             Overview: نظرة عامة
+            Work Mode: وضع العمل
             Web Search: بحث الويب
             Remote Shell (Conch): الصدفة البعيدة (Conch)
             Knowledge Management: إدارة المعرفة
@@ -453,6 +461,7 @@ nav:
   - System Prompts: system-prompts.md
   - Agentic Tools:
       - Overview: tools.md
+      - Work Mode: work.md
       - MCP: mcp.md
       - Automation: automation.md
       - Web Search: web-search.md

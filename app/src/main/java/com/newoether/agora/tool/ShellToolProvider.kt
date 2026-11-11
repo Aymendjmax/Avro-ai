@@ -511,6 +511,24 @@ class ShellToolProvider(
                 ),
                 isError = true,
             )
+        val isLocal = serverName.equals("Local Sandbox", ignoreCase = true) ||
+            (serverName.isBlank() && ctx.sandboxEnabled && resolveConchDevice("", ctx) == null)
+
+        if (isLocal) {
+            val resolvedServer = if (serverName.isNotBlank()) serverName else "Local Sandbox"
+            return LocalImageReader.executeLocalViewImage(
+                path = path,
+                serverName = resolvedServer,
+                focus = arg(args, "focus").takeIf { it.isNotBlank() },
+                preset = arg(args, "preset").takeIf { it.isNotBlank() },
+                instructions = arg(args, "instructions").takeIf { it.isNotBlank() },
+                crop = arg(args, "crop").takeIf { it.isNotBlank() },
+                sandbox = sandbox,
+                imageStore = store,
+                ctx = ctx,
+            )
+        }
+
         val backend = getConchBackend(serverName, ctx)
             ?: return ToolExecutionResult(
                 text = jsonError(

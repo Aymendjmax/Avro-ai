@@ -461,7 +461,7 @@
     <string name="pdf_render_failed">فشل عرض ملف PDF</string>
     <string name="pdf_selected">محدد</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d من %2$d رسالة غير مخزّنة مؤقتًا.</string>
     <string name="cache_now">التخزين المؤقت الآن</string>
     <string name="no_messages_to_cache">لا توجد رسائل للتخزين المؤقت.</string>
@@ -573,6 +573,11 @@
     <string name="ask_user_next">التالي</string>
     <string name="interaction_ask_user">سؤال</string>
     <string name="interaction_approval">موافقة</string>
+    <string name="interaction_work_mode">طلب وضع العمل</string>
+    <string name="work_mode_enable_and_continue">تفعيل Work والمتابعة</string>
+    <string name="work_mode_stay_in_ask">البقاء في وضع Ask</string>
+    <string name="work_mode_sandbox_needed">يتطلب وضع العمل ساندبوكس Alpine Linux (~50 ميجابايت).</string>
+    <string name="work_mode_installing_sandbox">جاري تثبيت ساندبوكس Alpine…</string>
     <string name="interaction_minimize">تصغير</string>
     <string name="interaction_expand">توسيع</string>
     <string name="ask_user_custom_answer">أجب بكلماتك</string>
@@ -815,4 +820,75 @@
     <string name="message_source_loop">حلقة</string>
     <string name="message_source_ask_user">سؤال</string>
     <string name="message_source_unanswered">بلا إجابة</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">الدردشة، البحث، المرفقات وأدوات MCP</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">بيئة الوكيل: ساندبوكس، شيل، تيرمينال وملفات</string>
+    <string name="conversation_mode_title">الوضع</string>
+    <string name="skills_row_label">المهارات (Skills)</string>
+    <string name="mcp_row_label">خوادم MCP</string>
+    <string name="work_mode_chip_desc">وضع Work مفعّل: انقر للتغيير</string>
+    <string name="work_mode_chip_warning_cd">وضع العمل نشط: أدوات الشيل غير متاحة، انقر للتغيير</string>
+    <string name="work_mode_sandbox_unavailable_warning">أدوات الشيل أو الساندبوكس المحلي غير متاحة. التنفيذ معطّل.</string>
+    <string name="work_mode_prompt_section_title">توجيهات وضع العمل (Work Mode)</string>
+    <string name="work_mode_managed_badge">مُدار تلقائياً</string>
+    <string name="work_mode_prompt_section_desc">عند تفعيل وضع العمل، يقوم Avro تلقائياً بحقن مسارات بيئة الساندبوكس وقواعد التنفيذ الذاتي داخل الموجّه الأساسي. يمكنك أيضاً وضع {work_environment} أو {work_rules} في أي موضع داخل القالب أعلاه لتحديد مكانهما يدوياً.</string>
+    <string name="var_work_environment">بيئة العمل</string>
+    <string name="var_work_rules">توجيهات العمل</string>
+    <string name="mention_no_skills_found">لم يتم العثور على مهارات مطابقة</string>
+    <string name="mention_no_mcp_found">لم يتم العثور على خوادم MCP مطابقة</string>
+    <string name="tool_present_files">تسليم الملفات</string>
+    <string name="tool_present_files_single">تم تسليم %1$s</string>
+    <string name="tool_present_files_count">تم تسليم %1$d ملفات</string>
+    <string name="present_files_open">فتح</string>
+    <string name="present_files_save">حفظ</string>
+    <string name="present_files_share">مشاركة</string>
+    <string name="present_files_saved_to_downloads">تم الحفظ في التنزيلات/Avro</string>
+    <string name="present_files_save_failed">تعذر حفظ الملف</string>
+    <string name="present_files_not_found">الملف غير موجود</string>
+    <string name="present_files_copy">نسخ</string>
+    <string name="present_files_copied">تم النسخ إلى الحافظة</string>
+    <string name="present_files_preview">معاينة</string>
+    <string name="present_files_view_code">عرض الكود</string>
+    <string name="present_files_binary_notice">ملف غير قابل للعرض كنص مباشر</string>
+    <string name="present_files_download">تنزيل</string>
+
+    <!-- Settings - Work Mode -->
+    <string name="settings_work_title">وضع العمل (Work)</string>
+    <string name="settings_work_desc">الوكيل المستقل، الساندبوكس، الأدوات وإدارة التخزين</string>
+    <string name="work_group_mode">نمط المحادثة والسلوك</string>
+    <string name="work_default_mode">النمط الافتراضي للمحادثات الجديدة</string>
+    <string name="work_default_mode_desc">تحديد النمط الأولي عند إنشاء محادثة جديدة</string>
+    <string name="work_request_tool">طلب الانتقال إلى وضع العمل تلقائياً</string>
+    <string name="work_request_tool_desc">إتاحة أداة request_work ليقترح النموذج التبديل إلى Work عند الحاجة لتشغيل أوامر شيل أو إنشاء ملفات</string>
+    <string name="work_directives_title">مسارات البيئة وتوجيهات التنفيذ</string>
+    <string name="work_directives_desc">يتم حقن مسارات العمل /home وقواعد apk وإرشادات التنفيذ التلقائي ديناميكياً داخل التوجيهات</string>
+    <string name="work_group_environment">الساندبوكس وبيئة التنفيذ</string>
+    <string name="work_sandbox_status_ready">مثبت وجاهز (Alpine Linux 3.21)</string>
+    <string name="work_sandbox_status_not_installed">غير مثبت (انقر للإعداد والتثبيت)</string>
+    <string name="work_sandbox_manage">إدارة</string>
+    <string name="work_group_tools">الأدوات والتسليم</string>
+    <string name="work_view_image_title">فحص الصور محلياً (view_image)</string>
+    <string name="work_view_image_desc">فحص ومعاينة الصور والمخططات في مخرجات ومرفقات الساندبوكس مباشرة أو عبر قارئ الصور</string>
+    <string name="work_active_badge">مفعّل</string>
+    <string name="work_mcp_bridge_title">جسر ملفات MCP (file:&lt;path&gt;)</string>
+    <string name="work_mcp_bridge_desc">يمكّن تمرير ملفات الساندبوكس لأدوات MCP وحفظ مخرجات الأدوات تلقائياً في outputs</string>
+    <string name="work_deliverables_title">بطاقات تسليم المخرجات التفاعلية</string>
+    <string name="work_deliverables_desc">تسليم المستندات والكود وملفات HTML في بطاقات تفاعلية وعارض كامل الشاشة</string>
+    <string name="work_group_storage">إدارة مساحة العمل والتخزين</string>
+    <string name="work_storage_total">مساحة العمل</string>
+    <string name="work_storage_breakdown">المرفقات: %1$s · المخرجات: %2$s · المشاريع: %3$s</string>
+    <string name="work_clean_outputs">تنظيف المخرجات المؤقتة</string>
+    <string name="work_clean_outputs_desc">حذف الملفات والمخرجات المولدة في /home/outputs مع الاحتفاظ بالمشاريع والملاحظات</string>
+    <string name="work_clean_uploads">تنظيف المرفقات السابقة</string>
+    <string name="work_clean_uploads_desc">حذف جميع ملفات المرفقات المخزنة في /home/uploads</string>
+    <string name="work_reset_workspace">إعادة ضبط مساحة العمل بالكامل</string>
+    <string name="work_reset_workspace_desc">مسح وإعادة تهيئة كافة مجلدات مساحة العمل (/home/uploads, outputs, projects)</string>
+    <string name="work_clean_outputs_confirm_title">تنظيف المخرجات؟</string>
+    <string name="work_clean_outputs_confirm_msg">هل أنت متأكد من رغبتك في حذف جميع الملفات الموجودة في /home/outputs؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="work_clean_uploads_confirm_title">تنظيف المرفقات؟</string>
+    <string name="work_clean_uploads_confirm_msg">هل أنت متأكد من حذف كافة المرفقات في /home/uploads؟ قد تصبح مرفقات المحادثات السابقة غير متاحة محلياً.</string>
+    <string name="work_reset_workspace_confirm_title">إعادة ضبط مساحة العمل؟</string>
+    <string name="work_reset_workspace_confirm_msg">هل أنت متأكد من إعادة ضبط مساحة العمل بالكامل؟ سيتم مسح كافة المرفقات والمخرجات والمشاريع وإعادة تهيئتها.</string>
+    <string name="work_storage_cleaned">تم التنظيف بنجاح</string>
 </resources>

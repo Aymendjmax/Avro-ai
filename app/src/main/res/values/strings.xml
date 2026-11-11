@@ -504,7 +504,7 @@
     <string name="pdf_render_failed">Failed to render PDF</string>
     <string name="pdf_selected">Selected</string>
 
-    <!-- Caching & Sync -->
+    <!-- Caching &amp; Sync -->
     <string name="messages_not_cached">%1$d of %2$d messages not cached.</string>
     <string name="cache_now">Cache Now</string>
     <string name="no_messages_to_cache">No messages to cache.</string>
@@ -620,6 +620,11 @@
     <string name="ask_user_next">Next</string>
     <string name="interaction_ask_user">Ask User</string>
     <string name="interaction_approval">Approval</string>
+    <string name="interaction_work_mode">Work Mode Request</string>
+    <string name="work_mode_enable_and_continue">Enable Work &amp; Continue</string>
+    <string name="work_mode_stay_in_ask">Stay in Ask</string>
+    <string name="work_mode_sandbox_needed">Work mode requires the Alpine Linux sandbox (~50MB).</string>
+    <string name="work_mode_installing_sandbox">Installing Alpine Linux sandbox…</string>
     <string name="interaction_minimize">Minimize</string>
     <string name="interaction_expand">Expand</string>
     <string name="ask_user_custom_answer">Answer in your own words</string>
@@ -799,4 +804,78 @@
     <string name="message_source_loop">Loop</string>
     <string name="message_source_ask_user">Ask User</string>
     <string name="message_source_unanswered">Unanswered</string>
+    <string name="conversation_mode_ask">Ask</string>
+    <string name="conversation_mode_ask_desc">Standard chat, search, attachments &amp; MCP tools</string>
+    <string name="conversation_mode_work">Work</string>
+    <string name="conversation_mode_work_desc">Autonomous agent: sandbox, shell, terminal &amp; files</string>
+    <string name="conversation_mode_title">Mode</string>
+    <string name="skills_row_label">Skills</string>
+    <string name="mcp_row_label">MCP Servers</string>
+    <string name="work_mode_chip_desc">Work Mode active: tap to change</string>
+    <string name="work_mode_chip_warning_cd">Work Mode active: shell tools unavailable, tap to change</string>
+    <string name="work_mode_sandbox_unavailable_warning">Shell tools or local sandbox are unavailable. Execution is disabled.</string>
+    <string name="work_mode_prompt_section_title">Avro Work Mode Directives</string>
+    <string name="work_mode_managed_badge">Managed</string>
+    <string name="work_mode_prompt_section_desc">When Work Mode is active, Avro automatically injects sandbox environment paths and autonomous execution rules into the system prompt. You can also place {work_environment} or {work_rules} anywhere in your template above to position them explicitly.</string>
+    <string name="var_work_environment">Work Environment</string>
+    <string name="var_work_rules">Work Directives</string>
+    <string name="mention_no_skills_found">No matching skills found</string>
+    <string name="mention_no_mcp_found">No matching MCP servers found</string>
+    <string name="tool_present_files">Present Files</string>
+    <string name="tool_present_files_single">Presented %1$s</string>
+    <string name="tool_present_files_count">Presented %1$d files</string>
+    <string name="present_files_open">Open</string>
+    <string name="present_files_save">Save</string>
+    <string name="present_files_share">Share</string>
+    <string name="present_files_saved_to_downloads">Saved to Downloads/Avro</string>
+    <string name="present_files_save_failed">Failed to save file</string>
+    <string name="present_files_not_found">File not found</string>
+    <string name="present_files_copy">Copy</string>
+    <string name="present_files_copied">Copied to clipboard</string>
+    <string name="present_files_preview">Preview</string>
+    <string name="present_files_view_code">View Code</string>
+    <string name="present_files_binary_notice">Binary file cannot be displayed as text</string>
+    <string name="present_files_download">Download</string>
+
+    <string name="refresh_action">Refresh</string>
+    <string name="close_action">Close</string>
+
+    <!-- Settings - Work Mode -->
+    <string name="settings_work_title">Work Mode</string>
+    <string name="settings_work_desc">Autonomous agent, sandbox, tools &amp; storage</string>
+    <string name="work_group_mode">Operating Mode &amp; Behavior</string>
+    <string name="work_default_mode">Default Mode for New Chats</string>
+    <string name="work_default_mode_desc">Select the initial mode for newly created conversations</string>
+    <string name="work_request_tool">Allow Request Work in Ask Mode</string>
+    <string name="work_request_tool_desc">Enables request_work tool so the agent can propose switching to Work mode when tasks require terminal or filesystem access</string>
+    <string name="work_directives_title">Environment Paths &amp; Directives</string>
+    <string name="work_directives_desc">System prompts dynamically include /home paths, apk package manager rules, and autonomous execution guidelines</string>
+    <string name="work_group_environment">Sandbox &amp; Execution</string>
+    <string name="work_sandbox_status_ready">Installed &amp; Ready (Alpine Linux 3.21)</string>
+    <string name="work_sandbox_status_not_installed">Not installed (Tap to set up)</string>
+    <string name="work_sandbox_manage">Manage</string>
+    <string name="work_group_tools">Tools &amp; Deliverables</string>
+    <string name="work_view_image_title">Visual Inspection (view_image)</string>
+    <string name="work_view_image_desc">Inspect images and diagrams from sandbox outputs and uploads directly or with secondary transcription</string>
+    <string name="work_active_badge">Active</string>
+    <string name="work_mcp_bridge_title">MCP File Bridge (file:&lt;path&gt;)</string>
+    <string name="work_mcp_bridge_desc">Allows passing sandbox files to MCP tools and saves MCP outputs to /home/outputs</string>
+    <string name="work_deliverables_title">Interactive Deliverable Cards (present_files)</string>
+    <string name="work_deliverables_desc">Delivers documents, code, and HTML in full-screen interactive preview and action cards</string>
+    <string name="work_group_storage">Storage &amp; Workspace Management</string>
+    <string name="work_storage_total">Workspace Storage</string>
+    <string name="work_storage_breakdown">Uploads: %1$s · Outputs: %2$s · Projects &amp; Notes: %3$s</string>
+    <string name="work_clean_outputs">Clean Temporary Outputs</string>
+    <string name="work_clean_outputs_desc">Delete generated files in /home/outputs while keeping projects and notes</string>
+    <string name="work_clean_uploads">Clean Uploaded Attachments</string>
+    <string name="work_clean_uploads_desc">Delete stored attachment files in /home/uploads</string>
+    <string name="work_reset_workspace">Reset Workspace</string>
+    <string name="work_reset_workspace_desc">Wipe and recreate all workspace directories (/home/uploads, outputs, projects)</string>
+    <string name="work_clean_outputs_confirm_title">Clean Outputs?</string>
+    <string name="work_clean_outputs_confirm_msg">Are you sure you want to delete all files in /home/outputs? This action cannot be undone.</string>
+    <string name="work_clean_uploads_confirm_title">Clean Uploads?</string>
+    <string name="work_clean_uploads_confirm_msg">Are you sure you want to delete all stored uploads in /home/uploads? Past conversation attachments may become unavailable.</string>
+    <string name="work_reset_workspace_confirm_title">Reset Entire Workspace?</string>
+    <string name="work_reset_workspace_confirm_msg">Are you sure you want to reset the workspace? All uploads, outputs, and projects will be permanently deleted.</string>
+    <string name="work_storage_cleaned">Cleaned successfully</string>
 </resources>

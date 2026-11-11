@@ -9,8 +9,21 @@ import kotlinx.coroutines.flow.flow
 class McpToolProvider(
     private val registry: McpRegistry,
 ) : ToolProvider {
-    override fun definitions(ctx: GenerationContext): List<ToolDefinition> =
-        registry.enabledTools().map { it.asToolDefinition() }
+    override fun definitions(ctx: GenerationContext): List<ToolDefinition> {
+        val allTools = registry.enabledTools()
+        if (ctx.mentionedMcpServers.isNotEmpty()) {
+            val filtered = allTools.filter { tool ->
+                ctx.mentionedMcpServers.any { mentioned ->
+                    tool.serverName.equals(mentioned, ignoreCase = true) ||
+                        tool.serverId.equals(mentioned, ignoreCase = true)
+                }
+            }
+            if (filtered.isNotEmpty()) {
+                return filtered.map { it.asToolDefinition() }
+            }
+        }
+        return allTools.map { it.asToolDefinition() }
+    }
 
     override fun handles(name: String): Boolean = registry.descriptor(name) != null
 
@@ -26,7 +39,7 @@ class McpToolProvider(
         name: String,
         arguments: String,
         ctx: GenerationContext,
-    ): String = registry.execute(name, arguments).text
+    ): String = registry.execute(name, arguments, ctx.conversationId).text
 
     override fun executeEvents(
         name: String,
@@ -37,6 +50,6 @@ class McpToolProvider(
             emit(ToolExecutionEvent.TargetResolved(target))
         }
         emit(ToolExecutionEvent.Progress("Calling MCP tool"))
-        emit(ToolExecutionEvent.Completed(registry.execute(name, arguments)))
+        emit(ToolExecutionEvent.Completed(registry.execute(name, arguments, ctx.conversationId)))
     }
 }

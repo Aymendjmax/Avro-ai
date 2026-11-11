@@ -212,6 +212,10 @@ class SettingsManager(private val context: Context) {
     val sandboxEnabled: Flow<Boolean> = context.dataStore.data.map { it[SANDBOX_ENABLED] ?: false }
     val sandboxSharedStorageEnabled: Flow<Boolean> =
         context.dataStore.data.map { it[SANDBOX_SHARED_STORAGE_ENABLED] ?: false }
+    val defaultConversationMode: Flow<String> =
+        context.dataStore.data.map { it[DEFAULT_CONVERSATION_MODE] ?: "ask" }
+    val requestWorkToolEnabled: Flow<Boolean> =
+        context.dataStore.data.map { it[REQUEST_WORK_TOOL_ENABLED] ?: true }
 
     val themeMode: Flow<String> = context.dataStore.data.map { it[THEME_MODE] ?: "FOLLOW_DEVICE" }
     val amoledEnabled: Flow<Boolean> = context.dataStore.data.map { it[AMOLED_ENABLED] ?: false }
@@ -652,6 +656,12 @@ class SettingsManager(private val context: Context) {
     }
     suspend fun saveSandboxSharedStorageEnabled(enabled: Boolean) {
         context.dataStore.edit { it[SANDBOX_SHARED_STORAGE_ENABLED] = enabled }
+    }
+    suspend fun saveDefaultConversationMode(mode: String) {
+        context.dataStore.edit { it[DEFAULT_CONVERSATION_MODE] = mode }
+    }
+    suspend fun saveRequestWorkToolEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[REQUEST_WORK_TOOL_ENABLED] = enabled }
     }
     suspend fun saveThemeMode(mode: String) {
         context.dataStore.edit { it[THEME_MODE] = mode }

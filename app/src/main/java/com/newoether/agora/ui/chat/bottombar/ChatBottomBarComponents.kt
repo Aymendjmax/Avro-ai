@@ -25,6 +25,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -360,3 +362,58 @@ internal fun contextUsagePercent(estimatedTokens: Int, tokenBudget: Int): Int =
 
 internal fun contextUsageAtCapacity(estimatedTokens: Int, tokenBudget: Int): Boolean =
     tokenBudget > 0 && estimatedTokens >= tokenBudget
+
+@Composable
+internal fun ComposerWorkModeChip(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isWarning: Boolean = false,
+) {
+    val containerColor = if (isWarning) {
+        MaterialTheme.colorScheme.errorContainer
+    } else {
+        MaterialTheme.colorScheme.primaryContainer
+    }
+    val contentColor = if (isWarning) {
+        MaterialTheme.colorScheme.onErrorContainer
+    } else {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    }
+    val desc = if (isWarning) {
+        stringResource(R.string.work_mode_chip_warning_cd)
+    } else {
+        stringResource(R.string.work_mode_chip_desc)
+    }
+
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(100),
+        color = containerColor,
+        contentColor = contentColor,
+        modifier = modifier
+            .height(28.dp)
+            .semantics {
+                contentDescription = desc
+            },
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(horizontal = 8.dp),
+        ) {
+            Icon(
+                imageVector = if (isWarning) Icons.Default.Warning else Icons.Default.Terminal,
+                contentDescription = null,
+                modifier = Modifier.size(13.dp),
+                tint = contentColor,
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = stringResource(R.string.conversation_mode_work),
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+                color = contentColor,
+            )
+        }
+    }
+}

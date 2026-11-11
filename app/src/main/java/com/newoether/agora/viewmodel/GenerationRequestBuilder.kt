@@ -39,13 +39,12 @@ internal fun buildPromptRuntimeValues(
     modelId: String,
     activeMemory: String,
     skillCatalog: String,
+    workEnvironment: String = "",
+    workRules: String = "",
 ): Map<String, String> {
     val timeFormat = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.US)
     val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
-    val sentDateFormat = java.text.SimpleDateFormat(
-        PredefinedVariables.SENT_DATE_PATTERN,
-        java.util.Locale.US,
-    )
+    val sentDateFormat = java.text.SimpleDateFormat(PredefinedVariables.SENT_DATE_PATTERN, java.util.Locale.US)
     return mapOf(
         PredefinedVariables.TIME to timeFormat.format(now),
         PredefinedVariables.DATE to dateFormat.format(now),
@@ -56,6 +55,8 @@ internal fun buildPromptRuntimeValues(
         PredefinedVariables.MODEL_ID to modelId,
         PredefinedVariables.ACTIVE_MEMORY to activeMemory,
         PredefinedVariables.SKILL_CATALOG to skillCatalog,
+        PredefinedVariables.WORK_ENVIRONMENT to workEnvironment,
+        PredefinedVariables.WORK_RULES to workRules,
     )
 }
 
@@ -71,6 +72,7 @@ class GenerationRequestBuilder(
     private val providerRegistry: ProviderRegistry,
     private val ragManager: RagManager,
     private val appContext: Context,
+    private val isSandboxReady: () -> Boolean = { false },
 ) {
     data class ProviderKey(val providerName: String, val apiKey: String)
 
@@ -155,6 +157,7 @@ class GenerationRequestBuilder(
             modelId = target.modelId,
             conversationOverride = conversationSnapshot,
             conversationSettingsOverride = settingsOverride,
+            mentionedMcpServers = com.newoether.agora.data.MentionParser.extractMcpMentions(composer.text),
         )
         markStage("serialize-admission")
         return ForegroundSendAdmission(
@@ -248,9 +251,14 @@ class GenerationRequestBuilder(
                 overrides.openAiServiceTier ?: settings.openAiServiceTier.value,
             ),
             webSearchEnabled = if (settings.webSearchEnabled.value) (overrides.webSearchEnabled ?: true) else false,
-            shellEnabled = if (settings.shellEnabled.value) (overrides.shellEnabled ?: true) else false,
+            shellEnabled = if (com.newoether.agora.model.ConversationMode.fromId(overrides.conversationMode) == com.newoether.agora.model.ConversationMode.WORK) {
+                overrides.shellEnabled ?: true
+            } else {
+                false
+            },
             lowContextModeEnabled =
                 overrides.lowContextModeEnabled ?: settings.localLowContextModeEnabled.value,
+            conversationMode = overrides.conversationMode,
         )
     }
 
@@ -268,6 +276,7 @@ class GenerationRequestBuilder(
         conversationOverride: ChatEntity? = null,
         resolvedPromptOverride: ResolvedPrompt? = null,
         conversationSettingsOverride: ConversationSettings? = null,
+        mentionedMcpServers: Set<String> = emptySet(),
     ): GenerationAdmissionSnapshot {
         providerRegistry.awaitInitialSync()
         val selectedModelId = providerRegistry.canonicalModelId(modelId)
@@ -383,6 +392,7 @@ class GenerationRequestBuilder(
                 currentId = conversationId,
                 conversationOverride = conversationOverride,
                 promptSettings = capturePromptSettings(),
+                conversationMode = com.newoether.agora.model.ConversationMode.fromId(effectiveSettings.conversationMode),
             )
             baseConfig.copy(
                 effectiveSystemPrompt = null,
@@ -402,6 +412,7 @@ class GenerationRequestBuilder(
             context = context.copy(
                 webSearchApiKeys = context.webSearchApiKeys.toMap(),
                 shellDevices = context.shellDevices.toList(),
+                mentionedMcpServers = mentionedMcpServers,
             ),
             providerInstances = providerInstances,
             automaticCompact = automaticCompact,
@@ -456,6 +467,7 @@ class GenerationRequestBuilder(
             conversationOverride = null,
             promptSettings = capturePromptSettings(),
             systemPromptIdOverride = systemPromptIdOverride,
+            conversationMode = com.newoether.agora.model.ConversationMode.fromId(effectiveSettings.conversationMode),
         )
         val resolved = resolvePromptTemplate(promptTemplate, selectedModelId)
         return GenerationContextProjectionSnapshot(
@@ -548,6 +560,7 @@ class GenerationRequestBuilder(
         )
         val genCtx = GenerationContext(
             conversationId = currentId,
+            conversationMode = com.newoether.agora.model.ConversationMode.fromId(effectiveSettings.conversationMode ?: settings.defaultConversationMode.value),
             accessSavedMemories = settings.accessSavedMemories.value,
             accessActiveMemory = settings.accessActiveMemory.value,
             skillReadAccess = skillReadAccess,
@@ -572,10 +585,11 @@ class GenerationRequestBuilder(
             imageGenModel = resolveImageGenModelId(imageGenModel),
             imageGenSize = settings.imageGenSize.value,
             automationToolsEnabled = settings.automationToolsEnabled.value,
-            shellEnabled = effectiveSettings.shellEnabled ?: settings.shellEnabled.value,
+            shellEnabled = effectiveSettings.shellEnabled == true,
             shellDevices = settings.shellDevices.value,
             sandboxEnabled = settings.sandboxEnabled.value,
             sandboxSharedStorageEnabled = settings.sandboxSharedStorageEnabled.value,
+            requestWorkToolEnabled = settings.requestWorkToolEnabled.value,
             // Keyed on THIS generation's model, not the UI's currently-selected one — a queued
             // or parallel-conversation generation must not inherit another conversation's model.
             imageTranscriptionEnabled =
@@ -640,6 +654,7 @@ class GenerationRequestBuilder(
         conversationOverride: ChatEntity?,
         promptSettings: PromptSettingsSnapshot,
         systemPromptIdOverride: String? = null,
+        conversationMode: com.newoether.agora.model.ConversationMode = com.newoether.agora.model.ConversationMode.DEFAULT,
     ): GenerationPromptTemplate = withContext(Dispatchers.Default) {
         val conversation = conversationOverride ?: convRepo.getConversation(currentId)
         val targetPromptId = systemPromptIdOverride
@@ -657,6 +672,8 @@ class GenerationRequestBuilder(
             assistantItems = entry?.resolvedAssistantItems?.toList()
                 ?: PredefinedVariables.normalizeMessageTemplate(emptyList()),
             activeMemory = activeMemory,
+            conversationMode = conversationMode,
+            conversationId = currentId,
         )
     }
 
@@ -700,16 +717,21 @@ class GenerationRequestBuilder(
             val skillCatalogDeferred = async {
                 if (includeSkillCatalog) skillManager.catalog() else ""
             }
-            val modelId = ModelId.parse(
-                providerRegistry.canonicalModelId(activeModel),
-            ).modelName
+            val parsedModel = ModelId.parse(providerRegistry.canonicalModelId(activeModel))
+            val isWork = promptTemplate.conversationMode == com.newoether.agora.model.ConversationMode.WORK
+            val shellAvailable = if (isWork) (isSandboxReady() || settings.shellDevices.value.isNotEmpty()) else false
+            val isCompact = settings.localLowContextModeEnabled.value || parsedModel.providerName == Constants.PROVIDER_LOCAL
+            val hasExplicitEnv = promptTemplate.systemItems.any { it.value.contains("{${PredefinedVariables.WORK_ENVIRONMENT}}", ignoreCase = true) }
+            val hasExplicitRules = promptTemplate.systemItems.any { it.value.contains("{${PredefinedVariables.WORK_RULES}}", ignoreCase = true) }
+            val workEnv = if (isWork) OperatingModeContextBuilder.buildEnvironmentInstructions(promptTemplate.conversationId, shellAvailable, isCompact) else ""
+            val workRules = if (isWork) OperatingModeContextBuilder.buildDirectivesInstructions(promptTemplate.conversationId, isCompact) else ""
             val runtimeValues = buildPromptRuntimeValues(
                 now = java.util.Date(),
-                modelId = modelId,
+                modelId = parsedModel.modelName,
                 activeMemory = promptTemplate.activeMemory,
-                skillCatalog = skillCatalogDeferred.await()
-                    .takeIf { includeSkillCatalog }
-                    .orEmpty(),
+                skillCatalog = skillCatalogDeferred.await().takeIf { includeSkillCatalog }.orEmpty(),
+                workEnvironment = workEnv,
+                workRules = workRules,
             )
             val perMessageValues = runtimeValues.filterKeys {
                 it !in PredefinedVariables.PER_MESSAGE_VARS
@@ -732,12 +754,22 @@ class GenerationRequestBuilder(
 
             val userTemplate = resolveMessageTemplate(promptTemplate.userItems)
             val assistantTemplate = resolveMessageTemplate(promptTemplate.assistantItems)
+            val rawSystemPrompt = PredefinedVariables.compile(
+                promptTemplate.systemItems,
+                runtimeValues,
+                emptyMap(),
+            ).takeIf(String::isNotEmpty)
+            val effectiveSystemPrompt = OperatingModeContextBuilder.buildModeSystemContext(
+                basePrompt = rawSystemPrompt,
+                mode = promptTemplate.conversationMode,
+                conversationId = promptTemplate.conversationId,
+                shellAvailable = shellAvailable,
+                isCompact = isCompact,
+                hasExplicitEnvironmentVar = hasExplicitEnv,
+                hasExplicitRulesVar = hasExplicitRules,
+            )
             ResolvedPrompt(
-                systemPrompt = PredefinedVariables.compile(
-                    promptTemplate.systemItems,
-                    runtimeValues,
-                    emptyMap(),
-                ).takeIf(String::isNotEmpty),
+                systemPrompt = effectiveSystemPrompt,
                 userPrepend = userTemplate.first,
                 userPostpend = userTemplate.second,
                 assistantPrepend = assistantTemplate.first,

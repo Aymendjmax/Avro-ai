@@ -86,7 +86,11 @@ internal class AttachmentImportProcessor(
         data class Failure(val cause: Throwable? = null) : ProcessResult
     }
 
-    suspend fun stage(attachment: SelectedAttachment, outputOwner: Any? = null): StageResult = withContext(Dispatchers.IO) {
+    suspend fun stage(
+        attachment: SelectedAttachment,
+        outputOwner: Any? = null,
+        ownerId: String? = null,
+    ): StageResult = withContext(Dispatchers.IO) {
         val source = attachment.localPath ?: attachment.uri
         val directory = File(File(app.filesDir, "attachments/staged"), attachment.localId)
         val extension = sourceExtension(attachment)
@@ -125,6 +129,28 @@ internal class AttachmentImportProcessor(
                             IllegalStateException("Unable to promote staged attachment"),
                         )
                     }
+                    val fileStoreMeta = try {
+                        target.inputStream().use { stream ->
+                            com.newoether.agora.sandbox.FileStore.storeUpload(
+                                context = app,
+                                chatId = ownerId ?: attachment.localId,
+                                originalFileName = attachment.fileName ?: target.name,
+                                inputStream = stream,
+                                mimeType = attachment.mimeType,
+                                sourceUri = attachment.uri,
+                                maxBytes = maxAttachmentBytes,
+                            )
+                        }
+                    } catch (cancelled: CancellationException) {
+                        throw cancelled
+                    } catch (failure: Exception) {
+                        return@withContext metadataFailure(
+                            attachment = attachment,
+                            target = target,
+                            fileSize = copy.bytesCopied,
+                            message = failure.message ?: "FileStore upload copy failed",
+                        )
+                    }
                     val obsoletePaths = attachment.localPath
                         ?.takeUnless { it == target.absolutePath }
                         ?.let(::listOf)
@@ -152,6 +178,8 @@ internal class AttachmentImportProcessor(
                             processedFrames = null,
                             preRenderedPaths = null,
                             localPath = target.absolutePath,
+                            sandboxPath = fileStoreMeta?.sandboxPath ?: attachment.sandboxPath,
+                            sha256 = fileStoreMeta?.sha256 ?: attachment.sha256,
                             pageCount = pageCount,
                             videoDurationMs = videoDurationMs,
                             importState = AttachmentImportState.PROCESSING,
@@ -341,7 +369,9 @@ internal class AttachmentImportProcessor(
         stagedPath: String,
     ): ProcessResult {
         val text = readText(stagedPath, Constants.MAX_FILE_CONTENT_READ_LENGTH)
-            ?: return ProcessResult.Failure(IllegalStateException("File text read failed"))
+        if (text == null && attachment.sandboxPath.isNullOrBlank()) {
+            return ProcessResult.Failure(IllegalStateException("File text read failed"))
+        }
         return ProcessResult.Ready(
             attachment.copy(
                 importState = AttachmentImportState.READY,

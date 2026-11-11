@@ -1680,3 +1680,9 @@ the `style.css` -> `material.css` -> `theme.css` order, the determinate track co
 indeterminate turn/step/arc durations, one stop dot per integer step with the handle band skipped and no
 trailing dot at the maximum, the window entrance duration and easing, and the
 `1 / 2 / 3 / 4 / 5 / 10` layer order with the top bar above the composer gradient on both Compose and WebUI.
+
+## 15. Composer Work Mode Chip and Shell Readiness Indication
+
+The message composer features an interactive `ComposerWorkModeChip` toggling between Ask and Work operating modes:
+- Content description is strictly localized across all supported languages (Arabic, Chinese, English, French, Spanish, German, Japanese, Korean, Portuguese, Russian, Vietnamese, Traditional Chinese).
+- When Work mode is active but shell execution is unavailable (due to being disabled in settings or the local sandbox rootfs not being ready/installed), the chip presents a prominent warning state and explanation bottom sheet rather than silently failing or misleading the model.

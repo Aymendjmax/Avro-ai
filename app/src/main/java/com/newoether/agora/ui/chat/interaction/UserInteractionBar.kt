@@ -48,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import com.newoether.agora.util.NoAutoScrollSelectionContainer
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +66,7 @@ import com.newoether.agora.R
 import com.newoether.agora.ui.chat.message.ChatMarkdownCodeBlock
 import com.newoether.agora.ui.motion.LocalAgoraMotionPolicy
 import com.newoether.agora.viewmodel.AskUserController
+import com.newoether.agora.viewmodel.RequestWorkController
 import com.newoether.agora.viewmodel.ShellConfirmationController
 
 private val ContentMaxWidth = 840.dp
@@ -75,6 +77,10 @@ private const val PageDurationMs = 350
 /** One page of the interaction card. [key] identifies it across list changes. */
 private sealed interface DeckPage {
     val key: String
+
+    data class Work(val pending: RequestWorkController.PendingWorkRequest) : DeckPage {
+        override val key: String get() = "work:${pending.id}"
+    }
 
     data class Shell(val pending: ShellConfirmationController.PendingShellCommand) : DeckPage {
         override val key: String get() = "shell:${pending.id}"
@@ -120,6 +126,10 @@ internal fun UserInteractionBar(
     onSubmitQuestions: (List<Pair<Long, AskUserController.Answer>>) -> Unit,
     onSkipQuestion: (Long) -> Unit,
     onShellDecision: (Long, Boolean, Boolean) -> Unit,
+    onWorkDecision: (Long, Boolean) -> Unit = { _, _ -> },
+    isSandboxReady: Boolean = true,
+    isInstallingSandbox: Boolean = false,
+    sandboxInstallProgress: Float? = null,
     onHeightChanged: (Float) -> Unit,
     minimizedIn: Set<String>,
     onMinimizedChange: (String, Boolean) -> Unit,
@@ -186,6 +196,10 @@ internal fun UserInteractionBar(
                 onSubmitQuestions = onSubmitQuestions,
                 onSkipQuestion = onSkipQuestion,
                 onShellDecision = onShellDecision,
+                onWorkDecision = onWorkDecision,
+                isSandboxReady = isSandboxReady,
+                isInstallingSandbox = isInstallingSandbox,
+                sandboxInstallProgress = sandboxInstallProgress,
                 onCardMeasured = { height -> cardHeight = height },
                 minimized = owner in minimizedIn,
                 onMinimizedChange = { folded -> onMinimizedChange(owner, folded) },
@@ -204,6 +218,10 @@ private fun InteractionDeck(
     onSubmitQuestions: (List<Pair<Long, AskUserController.Answer>>) -> Unit,
     onSkipQuestion: (Long) -> Unit,
     onShellDecision: (Long, Boolean, Boolean) -> Unit,
+    onWorkDecision: (Long, Boolean) -> Unit,
+    isSandboxReady: Boolean,
+    isInstallingSandbox: Boolean,
+    sandboxInstallProgress: Float?,
     onCardMeasured: (Float) -> Unit,
     minimized: Boolean,
     onMinimizedChange: (Boolean) -> Unit,
@@ -211,10 +229,13 @@ private fun InteractionDeck(
     pageKey: String?,
     onPageChange: (String) -> Unit,
 ) {
+    val work = interactions.firstNotNullOfOrNull { (it as? UserInteraction.WorkTransition)?.pending }
     val shell = interactions.firstNotNullOfOrNull { (it as? UserInteraction.ShellCommand)?.pending }
     val questions = interactions.filterIsInstance<UserInteraction.Question>().flatMap { it.requests }
-    val pages = listOfNotNull<DeckPage>(shell?.let(DeckPage::Shell)) +
-        questions.map(DeckPage::Question)
+    val pages = listOfNotNull<DeckPage>(
+        work?.let(DeckPage::Work),
+        shell?.let(DeckPage::Shell),
+    ) + questions.map(DeckPage::Question)
     // The card holds on to every draft it has shown. The host forgets a draft as soon as its
     // request is answered, but a card on its way out must keep showing what was picked.
     val shownDrafts = remember { HashMap<Long, QuestionDraft>() }
@@ -243,13 +264,24 @@ private fun InteractionDeck(
     ) {
         Box(modifier = Modifier.widthIn(max = ContentMaxWidth).padding(horizontal = 12.dp)) {
             MorphingInteractionCard(
-                kind = if (current is DeckPage.Shell) InteractionKind.Approval else InteractionKind.Question,
+                kind = when (current) {
+                    is DeckPage.Work -> InteractionKind.WorkMode
+                    is DeckPage.Shell -> InteractionKind.Approval
+                    is DeckPage.Question -> InteractionKind.Question
+                },
                 minimized = minimized,
                 onMinimizedChange = onMinimizedChange,
             ) {
                 // The header and the buttons stay put and simply show the current page; only the
                 // content between them slides a full width, while the card follows its height.
                 when (current) {
+                    is DeckPage.Work -> CardHeader(
+                        icon = { tint ->
+                            Icon(InteractionKind.WorkMode.icon, null, modifier = Modifier.size(18.dp), tint = tint)
+                        },
+                        title = stringResource(InteractionKind.WorkMode.titleRes),
+                        position = position,
+                    )
                     is DeckPage.Shell -> CardHeader(
                         icon = { tint ->
                             Icon(InteractionKind.Approval.icon, null, modifier = Modifier.size(18.dp), tint = tint)
@@ -288,6 +320,12 @@ private fun InteractionDeck(
                 ) { page ->
                     Column(modifier = Modifier.fillMaxWidth()) {
                         when (page) {
+                            is DeckPage.Work -> WorkBody(
+                                pending = page.pending,
+                                isSandboxReady = isSandboxReady,
+                                isInstallingSandbox = isInstallingSandbox,
+                                sandboxInstallProgress = sandboxInstallProgress,
+                            )
                             is DeckPage.Shell -> ShellBody(
                                 pending = page.pending,
                                 autoWrapCodeBlocks = autoWrapCodeBlocks,
@@ -303,6 +341,11 @@ private fun InteractionDeck(
                 }
                 Spacer(Modifier.height(6.dp))
                 when (current) {
+                    is DeckPage.Work -> WorkActions(
+                        onNext = next,
+                        isInstalling = isInstallingSandbox,
+                        onDecision = { allow -> onWorkDecision(current.pending.id, allow) },
+                    )
                     is DeckPage.Shell -> ShellActions(
                         onNext = next,
                         onDecision = { allow ->
@@ -425,6 +468,84 @@ internal fun CardHeader(
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+    }
+}
+
+@Composable
+private fun WorkBody(
+    pending: RequestWorkController.PendingWorkRequest,
+    isSandboxReady: Boolean,
+    isInstallingSandbox: Boolean,
+    sandboxInstallProgress: Float?,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = ScrollableContentMaxHeight)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        NoAutoScrollSelectionContainer {
+            Text(
+                text = pending.reason,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+        if (!isSandboxReady) {
+            Spacer(Modifier.height(10.dp))
+            if (isInstallingSandbox) {
+                Text(
+                    text = stringResource(R.string.work_mode_installing_sandbox),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(Modifier.height(6.dp))
+                if (sandboxInstallProgress != null) {
+                    androidx.compose.material3.LinearProgressIndicator(
+                        progress = { sandboxInstallProgress },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                } else {
+                    androidx.compose.material3.LinearProgressIndicator(
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            } else {
+                Text(
+                    text = stringResource(R.string.work_mode_sandbox_needed),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WorkActions(
+    onNext: (() -> Unit)?,
+    isInstalling: Boolean,
+    onDecision: (Boolean) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        onNext?.let { TextButton(onClick = it) { Text(stringResource(R.string.ask_user_next)) } }
+        Spacer(Modifier.weight(1f))
+        TextButton(
+            onClick = { onDecision(false) },
+            enabled = !isInstalling,
+        ) {
+            Text(stringResource(R.string.work_mode_stay_in_ask))
+        }
+        Spacer(Modifier.width(4.dp))
+        Button(
+            onClick = { onDecision(true) },
+            enabled = !isInstalling,
+        ) {
+            Text(stringResource(R.string.work_mode_enable_and_continue))
         }
     }
 }

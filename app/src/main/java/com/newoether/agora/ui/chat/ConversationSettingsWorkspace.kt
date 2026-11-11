@@ -24,9 +24,11 @@ internal data class EffectiveConversationControls(
     val webSearchEnabled: Boolean,
     val shellAvailable: Boolean,
     val shellEnabled: Boolean,
+    val shellReady: Boolean = true,
     val showLowContextMode: Boolean,
     val lowContextModeEnabled: Boolean,
     val contextWindow: Int,
+    val conversationMode: com.newoether.agora.model.ConversationMode = com.newoether.agora.model.ConversationMode.DEFAULT,
 )
 
 /** New Chat owns its settings even while the previous conversation id remains under transition. */
@@ -45,6 +47,7 @@ internal fun ConversationSettings.withGenerationParameters(draft: ConversationSe
     topP = draft.topP,
     frequencyPenalty = draft.frequencyPenalty,
     presencePenalty = draft.presencePenalty,
+    conversationMode = draft.conversationMode,
 )
 
 internal fun validGenerationParameters(draft: ConversationSettings): Boolean =
@@ -83,6 +86,13 @@ internal fun effectiveConversationControls(
     val selectedProviderName = viewModel.getProviderForModel(selectedModel)
     val globalTierEnabled by viewModel.settings.openAiServiceTierEnabled.collectAsState()
     val globalTier by viewModel.settings.openAiServiceTier.collectAsState()
+    val globalSandboxEnabled by viewModel.settings.sandboxEnabled.collectAsState()
+    val globalShellDevices by viewModel.settings.shellDevices.collectAsState()
+    val isShellReady = globalShell && (
+        (globalSandboxEnabled && viewModel.isSandboxFlavor) ||
+        globalShellDevices.isNotEmpty()
+    )
+    val globalDefaultMode by viewModel.settings.defaultConversationMode.collectAsState()
     return resolveEffectiveConversationControls(
         settingsOwnerId, conversationOverride,
         ConversationSettings(
@@ -92,8 +102,10 @@ internal fun effectiveConversationControls(
             thinkingBudgetTokens = globalThinkingBudgetTokens, webSearchEnabled = globalWebSearch,
             shellEnabled = globalShell, lowContextModeEnabled = globalLocalLowContextModeEnabled,
             openAiServiceTierEnabled = globalTierEnabled, openAiServiceTier = globalTier,
+            conversationMode = globalDefaultMode,
         ),
         selectedProviderName, openAiResponsesApiEnabled, customProviders,
+        shellReady = isShellReady,
     )
 }
 
@@ -105,6 +117,7 @@ internal fun resolveEffectiveConversationControls(
     selectedProviderName: String,
     openAiResponsesApiEnabled: Boolean,
     customProviders: List<CustomProviderConfig>,
+    shellReady: Boolean = true,
 ): EffectiveConversationControls {
     val isEmbeddedLocalModel = selectedProviderName == Constants.PROVIDER_LOCAL
 
@@ -136,9 +149,11 @@ internal fun resolveEffectiveConversationControls(
         webSearchEnabled = requireNotNull(global.webSearchEnabled) && (conversationOverride?.webSearchEnabled ?: true),
         shellAvailable = requireNotNull(global.shellEnabled),
         shellEnabled = requireNotNull(global.shellEnabled) && (conversationOverride?.shellEnabled ?: true),
+        shellReady = shellReady && requireNotNull(global.shellEnabled),
         showLowContextMode = isEmbeddedLocalModel,
         lowContextModeEnabled = isEmbeddedLocalModel &&
             (conversationOverride?.lowContextModeEnabled ?: requireNotNull(global.lowContextModeEnabled)),
         contextWindow = ContextBudget.normalize(conversationOverride?.contextWindow ?: requireNotNull(global.contextWindow)),
+        conversationMode = com.newoether.agora.model.ConversationMode.fromId(conversationOverride?.conversationMode ?: global.conversationMode),
     )
 }

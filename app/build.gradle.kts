@@ -145,5 +145,8 @@ dependencies {
   testImplementation(libs.androidx.core)
   testImplementation(libs.kotlinx.coroutines.test)
   testImplementation(libs.robolectric)
+  testImplementation(libs.mockk)
+  testImplementation(libs.ktor.server.test.host)
+  testImplementation("androidx.compose.ui:ui-test-junit4")
   debugImplementation(libs.androidx.compose.ui.tooling)
 }

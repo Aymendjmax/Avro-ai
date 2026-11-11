@@ -14,8 +14,10 @@ import androidx.compose.ui.unit.dp
 import com.newoether.agora.R
 import com.newoether.agora.data.ConversationSettings
 import com.newoether.agora.model.ContextBudget
+import com.newoether.agora.model.ConversationMode
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdvancedSettingsDialog(
     overrides: ConversationSettings,
@@ -23,6 +25,7 @@ fun AdvancedSettingsDialog(
     onSave: (ConversationSettings) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var conversationMode by remember { mutableStateOf(ConversationMode.fromId(overrides.conversationMode)) }
     var contextWindow by remember { mutableStateOf(overrides.contextWindow?.let(ContextBudget::normalize)) }
     var temperature by remember { mutableStateOf(overrides.temperature) }
     var maxTokens by remember { mutableStateOf(overrides.maxTokens) }
@@ -36,7 +39,8 @@ fun AdvancedSettingsDialog(
         maxTokens = maxTokens,
         topP = topP,
         frequencyPenalty = frequencyPenalty,
-        presencePenalty = presencePenalty
+        presencePenalty = presencePenalty,
+        conversationMode = conversationMode.id,
     )
 
     AlertDialog(
@@ -47,6 +51,34 @@ fun AdvancedSettingsDialog(
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
+                // Conversation Mode Switcher
+                Text(
+                    text = stringResource(R.string.conversation_mode_title),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 6.dp),
+                )
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                ) {
+                    val modes = listOf(ConversationMode.ASK, ConversationMode.WORK)
+                    modes.forEachIndexed { index, mode ->
+                        SegmentedButton(
+                            selected = conversationMode == mode,
+                            onClick = { conversationMode = mode },
+                            shape = SegmentedButtonDefaults.itemShape(index = index, count = modes.size),
+                            icon = {
+                                SegmentedButtonDefaults.Icon(active = conversationMode == mode) {
+                                    Icon(imageVector = mode.icon, contentDescription = null, modifier = Modifier.size(SegmentedButtonDefaults.IconSize))
+                                }
+                            },
+                        ) {
+                            Text(stringResource(mode.titleRes))
+                        }
+                    }
+                }
+
                 val fmt2: (Float) -> String = { v -> String.format(Locale.US, "%.2f", v) }
                 val gDefaults = globalDefaults
 
