@@ -1,0 +1,4 @@
+* Avro 3.0.0: Ask Mode vs. autonomous Work Mode with dedicated Work Mode settings page.
+* Built-in Alpine Linux 3.21 PRoot sandbox with terminal execution, /home FileStore workspace, and optional shared storage.
+* Multimodal Work tools: request_work transition proposals, local view_image inspection, MCP file:<path> bridge, and present_files interactive deliverable cards.
+* Requires Android 8.0 or later.

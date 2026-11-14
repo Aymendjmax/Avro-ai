@@ -13,7 +13,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.newoether.agora.R
 import com.newoether.agora.model.ConversationMode
@@ -110,7 +112,13 @@ fun SettingsWorkPage(
                             add {
                                 val currentDefaultMode = ConversationMode.fromId(defaultModeId)
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_default_mode)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_default_mode),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = {
                                         Text(
                                             stringResource(
@@ -143,7 +151,13 @@ fun SettingsWorkPage(
                             // Allow Request Work tool in Ask Mode
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_request_tool)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_request_tool),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_request_tool_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -167,7 +181,13 @@ fun SettingsWorkPage(
                             // Work Mode Directives & Prompts
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_directives_title)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_directives_title),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_directives_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -196,7 +216,13 @@ fun SettingsWorkPage(
                             // Local Sandbox status & entry
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.sandbox_title)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.sandbox_title),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = {
                                         Text(
                                             if (isSandboxReady) {
@@ -208,7 +234,7 @@ fun SettingsWorkPage(
                                     },
                                     leadingContent = {
                                         Icon(
-                                            imageVector = Icons.Default.Terminal,
+                                            painter = painterResource(R.drawable.ic_alpine_linux),
                                             contentDescription = null,
                                             tint = MaterialTheme.colorScheme.primary,
                                         )
@@ -235,7 +261,13 @@ fun SettingsWorkPage(
                             // Remote command confirmation
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.shell_confirm_setting)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.shell_confirm_setting),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.shell_confirm_setting_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -259,7 +291,13 @@ fun SettingsWorkPage(
                             // Shared storage access
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.sandbox_shared_storage)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.sandbox_shared_storage),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.sandbox_shared_storage_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -289,7 +327,13 @@ fun SettingsWorkPage(
                             // Visual Inspection (view_image)
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_view_image_title)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_view_image_title),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_view_image_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -299,16 +343,11 @@ fun SettingsWorkPage(
                                         )
                                     },
                                     trailingContent = {
-                                        AssistChip(
-                                            onClick = {},
-                                            label = { Text(stringResource(R.string.work_active_badge)) },
-                                            leadingIcon = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(16.dp),
-                                                )
-                                            },
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = stringResource(R.string.work_active_badge),
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(22.dp),
                                         )
                                     },
                                 )
@@ -317,7 +356,13 @@ fun SettingsWorkPage(
                             // MCP File Bridge
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_mcp_bridge_title)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_mcp_bridge_title),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_mcp_bridge_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -327,16 +372,11 @@ fun SettingsWorkPage(
                                         )
                                     },
                                     trailingContent = {
-                                        AssistChip(
-                                            onClick = {},
-                                            label = { Text(stringResource(R.string.work_active_badge)) },
-                                            leadingIcon = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(16.dp),
-                                                )
-                                            },
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = stringResource(R.string.work_active_badge),
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(22.dp),
                                         )
                                     },
                                 )
@@ -345,7 +385,13 @@ fun SettingsWorkPage(
                             // Artifact Presentation Cards
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_deliverables_title)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_deliverables_title),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_deliverables_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -355,16 +401,11 @@ fun SettingsWorkPage(
                                         )
                                     },
                                     trailingContent = {
-                                        AssistChip(
-                                            onClick = {},
-                                            label = { Text(stringResource(R.string.work_active_badge)) },
-                                            leadingIcon = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(16.dp),
-                                                )
-                                            },
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = stringResource(R.string.work_active_badge),
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(22.dp),
                                         )
                                     },
                                 )
@@ -389,12 +430,17 @@ fun SettingsWorkPage(
                                 SettingsItem(
                                     headlineContent = {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Text(stringResource(R.string.work_storage_total))
+                                            Text(
+                                                text = stringResource(R.string.work_storage_total),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis,
+                                            )
                                             Spacer(Modifier.width(8.dp))
                                             Text(
                                                 text = totalStr,
                                                 style = MaterialTheme.typography.labelLarge,
                                                 color = MaterialTheme.colorScheme.primary,
+                                                maxLines = 1,
                                             )
                                         }
                                     },
@@ -433,7 +479,13 @@ fun SettingsWorkPage(
                             // Clean Outputs
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_clean_outputs)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_clean_outputs),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_clean_outputs_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -449,7 +501,13 @@ fun SettingsWorkPage(
                             // Clean Uploads
                             add {
                                 SettingsItem(
-                                    headlineContent = { Text(stringResource(R.string.work_clean_uploads)) },
+                                    headlineContent = {
+                                        Text(
+                                            text = stringResource(R.string.work_clean_uploads),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
+                                    },
                                     supportingContent = { Text(stringResource(R.string.work_clean_uploads_desc)) },
                                     leadingContent = {
                                         Icon(
@@ -469,6 +527,8 @@ fun SettingsWorkPage(
                                         Text(
                                             text = stringResource(R.string.work_reset_workspace),
                                             color = MaterialTheme.colorScheme.error,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
                                         )
                                     },
                                     supportingContent = { Text(stringResource(R.string.work_reset_workspace_desc)) },
